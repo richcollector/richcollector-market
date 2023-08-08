@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import ChargeModal from "../charge";
 
 const breakpoints = [768, 1024];
 
@@ -137,8 +138,12 @@ export default function FloatingMyPage(): JSX.Element {
         <Menu>
           <IconImg src="/icon/money.svg" />내 포인트
         </Menu>
+
         <Menu>
           <IconImg src="/icon/profile.svg" />내 프로필
+        </Menu>
+        <Menu>
+          <ChargeModal />
         </Menu>
       </MenuBox>
     </FloatingMenuBox>

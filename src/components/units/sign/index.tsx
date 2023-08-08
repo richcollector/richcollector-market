@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const breakpoints = [768, 1024];
 
@@ -24,7 +25,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const LoginBox = styled.div`
+const SignBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -52,14 +53,14 @@ const InputBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 
   gap: 10px;
 `;
 
 const InputCommon = styled.input`
   width: 384px;
-  height: 64px;
+  height: 50px;
   padding: 10px;
 
   font-size: 20px;
@@ -70,6 +71,7 @@ const InputCommon = styled.input`
 
 const ErrorCommon = styled.div`
   width: 384px;
+  height: 20px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -78,7 +80,7 @@ const ErrorCommon = styled.div`
   color: red;
 `;
 
-const LoginBtn = styled.button`
+const SignBtn = styled.button`
   width: 384px;
   height: 50px;
 
@@ -140,45 +142,86 @@ const XIcon = styled(CloseCircleOutlined)`
   color: white;
 `;
 
+const SignUpTitleBox = styled.div``;
+const Label = styled.div``;
+
+const CHANGE = ["/signup"];
+
 export default function Sign(): JSX.Element {
+  const router = useRouter();
+  console.log("router asPath::", router.asPath);
+  console.log("includes", CHANGE.includes(router.asPath));
+
+  const isChange = CHANGE.includes(router.asPath);
   return (
     <>
       <Wrapper>
-        <LoginBox>
-          <LogoBox>
-            <Logo src="/richcollector.png" />
-          </LogoBox>
+        <SignBox>
+          {isChange ? (
+            <>
+              <SignUpTitleBox>
+                <h1>회원가입</h1>
+              </SignUpTitleBox>
+              <InputBox>
+                <Label>이메일</Label>
+                <InputCommon />
+                <ErrorCommon></ErrorCommon>
+              </InputBox>
+              <InputBox>
+                <Label>이름</Label>
+                <InputCommon />
+                <ErrorCommon></ErrorCommon>
+              </InputBox>
+              <InputBox>
+                <Label>비밀번호</Label>
+                <InputCommon />
+                <ErrorCommon></ErrorCommon>
+              </InputBox>
+              <InputBox>
+                <Label>비밀번호 확인</Label>
+                <InputCommon />
+                <ErrorCommon></ErrorCommon>
+              </InputBox>
+              <SignBtn>회원가입하기</SignBtn>
+            </>
+          ) : (
+            <>
+              <LogoBox>
+                <Logo src="/richcollector.png" />
+              </LogoBox>
 
-          <InputBox>
-            <InputCommon type="text" placeholder="이메일을 입력해주세요." />
-            <ErrorCommon></ErrorCommon>
-            <InputCommon
-              type="password"
-              placeholder="비밀번호를 입력해주세요."
-            />
-            <ErrorCommon></ErrorCommon>
-            <LoginMaintainBox>
-              <Text>로그인 상태 유지</Text>
-            </LoginMaintainBox>
-            <LoginBtn>로그인하기</LoginBtn>
-          </InputBox>
+              <InputBox>
+                <InputCommon type="text" placeholder="이메일을 입력해주세요." />
+                <ErrorCommon></ErrorCommon>
+                <InputCommon
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요."
+                />
+                <ErrorCommon></ErrorCommon>
+                <LoginMaintainBox>
+                  <Text>로그인 상태 유지</Text>
+                </LoginMaintainBox>
+                <SignBtn>로그인하기</SignBtn>
+              </InputBox>
 
-          <LineBox />
+              <LineBox />
 
-          <TextBox>
-            <Link href="/">
-              <TextLink>이메일찾기</TextLink>
-            </Link>
-            <DivisionLine />
-            <Link href="">
-              <TextLink>비밀번호찾기</TextLink>
-            </Link>
-            <DivisionLine />
-            <Link href="">
-              <TextLink>회원가입</TextLink>
-            </Link>
-          </TextBox>
-        </LoginBox>
+              <TextBox>
+                <Link href="/">
+                  <TextLink>이메일찾기</TextLink>
+                </Link>
+                <DivisionLine />
+                <Link href="">
+                  <TextLink>비밀번호찾기</TextLink>
+                </Link>
+                <DivisionLine />
+                <Link href="">
+                  <TextLink>회원가입</TextLink>
+                </Link>
+              </TextBox>
+            </>
+          )}
+        </SignBox>
 
         <Link href="/">
           <TextLink>

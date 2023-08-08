@@ -22,7 +22,6 @@ const Wrapper = styled.div`
 
 const SliderItem = styled.img`
   width: 1320px;
-  min-width: 1320px;
   height: 500px;
   margin: auto;
 
