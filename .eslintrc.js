@@ -17,5 +17,7 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "off", // HOF를 배우고 나서 wrapAsync 함수로 해결 가능 (그 전까지는 off 할 것) // Promise<void>
     "spaced-comment": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/array-type": "off",
   },
 };
