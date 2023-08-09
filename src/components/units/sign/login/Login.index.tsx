@@ -3,12 +3,15 @@ import * as S from "./Login.styles";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./Login.validation";
+import { useLogin } from "../../../commons/hooks/customs/useLogin";
 
 export default function Sign() {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+
+  const { onClickSubmit } = useLogin();
 
   return (
     <S.Wrapper>
@@ -18,13 +21,18 @@ export default function Sign() {
         </S.LogoBox>
 
         <S.InputBox>
-          <S.InputCommon type="text" placeholder="이메일을 입력해주세요." />
-          <S.ErrorCommon></S.ErrorCommon>
+          <S.InputCommon
+            type="text"
+            placeholder="이메일을 입력해주세요."
+            {...register("email")}
+          />
+          <S.ErrorCommon>{formState.errors.email?.message}</S.ErrorCommon>
           <S.InputCommon
             type="password"
             placeholder="비밀번호를 입력해주세요."
+            {...register("password")}
           />
-          <S.ErrorCommon></S.ErrorCommon>
+          <S.ErrorCommon>{formState.errors.password?.message}</S.ErrorCommon>
         </S.InputBox>
 
         <S.LoginBox>
@@ -34,7 +42,13 @@ export default function Sign() {
               <S.Text>로그인 상태 유지</S.Text>
             </label>
           </S.LoginMaintainBox>
-          <S.SignBtn>로그인하기</S.SignBtn>
+          <S.SignBtn
+            onClick={handleSubmit(onClickSubmit)}
+            style={{ backgroundColor: formState.isValid ? "yellow" : "" }}
+            disabled={!formState.isValid}
+          >
+            로그인하기
+          </S.SignBtn>
         </S.LoginBox>
 
         <S.LineBox />
