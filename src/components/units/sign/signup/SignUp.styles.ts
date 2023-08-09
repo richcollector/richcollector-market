@@ -24,6 +24,7 @@ export const Wrapper = styled.div`
 
 export const SignBox = styled.div`
   display: flex;
+  position: absolute;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
@@ -129,13 +130,11 @@ export const Text = styled.span`
   font-size: 20px;
 `;
 
-export const XIcon = styled.div`
+export const XIcon = styled.img`
   font-size: 30px;
-  position: fixed;
-  top: 30px;
-  right: 30px;
-
-  color: white;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 `;
 
 export const Form = styled.form``;
