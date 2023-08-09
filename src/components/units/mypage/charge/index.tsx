@@ -58,7 +58,7 @@ export default function ChargeModal(): JSX.Element {
       <ModalBtn onClick={showModal}>포인트 충전하기</ModalBtn>
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
         <ChargeBox>
-          <img src="/icon/charge.svg" />
+          {/* <img src="/icon/charge.svg" /> */}
           <h2>충전하실 금액을 선택해주세요!</h2>
           <Select>
             <Option defaultChecked disabled>
