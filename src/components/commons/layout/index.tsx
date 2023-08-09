@@ -1,5 +1,5 @@
 import LayoutFooter from "./footer/Footer.container";
-import LayoutHeader from "./header/Header.container";
+import LayoutHeader from "./header/Header.index";
 import LayoutNavigation from "./navigation/Navigation.container";
 import LayoutBannerUI from "./ad";
 import FlotiongItem from "../../units/main/flotingItem";
