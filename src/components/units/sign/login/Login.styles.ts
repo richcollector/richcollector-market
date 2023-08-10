@@ -116,24 +116,9 @@ export const LoginBox = styled.div`
   border-radius: 16px;
 `;
 
-export const LoginMaintainBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-export const InputCheck = styled.input`
-  margin-right: 10px;
-`;
-
 export const TextLink = styled.a`
   text-decoration: none;
   cursor: pointer;
-`;
-
-export const DivisionLine = styled.div`
-  border: 1px solid #bdbdbd;
 `;
 
 export const Text = styled.span`
