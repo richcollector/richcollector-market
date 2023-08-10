@@ -36,12 +36,6 @@ export default function Sign() {
         </S.InputBox>
 
         <S.LoginBox>
-          <S.LoginMaintainBox>
-            <label>
-              <S.InputCheck type="checkbox" />
-              <S.Text>로그인 상태 유지</S.Text>
-            </label>
-          </S.LoginMaintainBox>
           <S.SignBtn
             onClick={handleSubmit(onClickSubmit)}
             style={{ backgroundColor: formState.isValid ? "yellow" : "" }}
@@ -49,19 +43,10 @@ export default function Sign() {
           >
             로그인하기
           </S.SignBtn>
+          <S.LineBox />
         </S.LoginBox>
 
-        <S.LineBox />
-
         <S.TextBox>
-          <Link href="/">
-            <S.TextLink>이메일찾기</S.TextLink>
-          </Link>
-          <S.DivisionLine />
-          <Link href="">
-            <S.TextLink>비밀번호찾기</S.TextLink>
-          </Link>
-          <S.DivisionLine />
           <Link href="/signup">
             <S.TextLink>회원가입</S.TextLink>
           </Link>

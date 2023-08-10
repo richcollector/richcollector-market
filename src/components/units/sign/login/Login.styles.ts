@@ -60,7 +60,7 @@ export const InputBox = styled.div`
 
 export const InputCommon = styled.input`
   width: 384px;
-  height: 40px;
+  height: 50px;
   padding: 10px;
 
   font-size: 18px;
@@ -100,7 +100,7 @@ export const LineBox = styled.div`
 export const TextBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-end;
 
   width: 384px;
   border-radius: 16px;
