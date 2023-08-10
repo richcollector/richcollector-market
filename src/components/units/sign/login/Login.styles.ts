@@ -89,10 +89,6 @@ export const SignBtn = styled.button`
   background-color: #bdbdbd;
   border: none;
   cursor: pointer;
-
-  :hover {
-    background-color: #2f4e7c;
-  }
 `;
 
 export const LineBox = styled.div`

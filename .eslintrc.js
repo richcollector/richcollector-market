@@ -20,5 +20,7 @@ module.exports = {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/explicit-function-return-type": "off", // return 타입 X
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
   },
 };
