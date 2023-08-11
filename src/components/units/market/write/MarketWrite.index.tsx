@@ -7,33 +7,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./MarketWrite.validation";
 import Link from "next/link";
 import "react-quill/dist/quill.snow.css";
+import Uploads from "../../../commons/uploads/Uploads.index";
+import { v4 as uuidv4 } from "uuid";
+import { useCreateUsedItem } from "../../../commons/hooks/customs/useCreateUsedItem";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,
 });
-
-interface UseditemAddressInput {
-  zipcode?: string;
-  address?: string;
-  addressDetail?: string;
-  lat?: number;
-  lng?: number;
-}
-
-interface IFormData {
-  name: string;
-  remarks: string;
-  contents: string;
-  price: number;
-  tags: string;
-  // images: string;
-  // useditemAddress?: UseditemAddressInput;
-  zipcode?: string;
-  address?: string;
-  addressDetail?: string;
-  lat?: number;
-  lng?: number;
-}
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -43,14 +23,13 @@ export default function MarketWrite() {
   const [input, setInput] = useState({
     address: "",
     addressDetail: "",
-    lat: null,
-    lng: null,
+    lat: 0,
+    lng: 0,
   });
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src =
-      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=9c57afbf9b5e6dec0c9339b7158113b4";
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
     document.head.appendChild(script);
     script.onload = () => {
       window.kakao.maps.load(function () {
@@ -58,8 +37,8 @@ export default function MarketWrite() {
         const options = {
           //지도를 생성할 때 필요한 기본 옵션
           center: new window.kakao.maps.LatLng(
-            input.lng === null ? 37.4485371374725 : input.lng,
-            input.lat === null ? 127.055036215823 : input.lat,
+            input.lat === 0 ? 37.4485371374725 : input.lat,
+            input.lng === 0 ? 127.055036215823 : input.lng,
           ), //지도의 중심좌표.
           level: 3, //지도의 레벨(확대, 축소 정도)
         };
@@ -67,8 +46,8 @@ export default function MarketWrite() {
         const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
         // 마커가 표시될 위치입니다
         const markerPosition = new window.kakao.maps.LatLng(
-          input.lng === null ? 37.4485371374725 : input.lng,
-          input.lat === null ? 127.055036215823 : input.lat,
+          input.lat === 0 ? 37.4485371374725 : input.lat,
+          input.lng === 0 ? 127.055036215823 : input.lng,
         );
         // 마커를 생성합니다
         const marker = new window.kakao.maps.Marker({
@@ -84,19 +63,16 @@ export default function MarketWrite() {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
-  const onClickSubmit = (data: IFormData) => {
-    console.log("data::", data);
-  };
-  const onChangeContents = (value: string): void => {
-    setValue("contents", value === "<p><br></p>" ? "" : value);
 
-    void trigger("contents");
-  };
-
-  const onChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
-    const { type, value } = event.target;
-    setInput((prev) => ({ ...prev, [type]: value }));
-  };
+  const {
+    files,
+    setFiles,
+    fileUrls,
+    setFileUrls,
+    onChangeAddress,
+    onChangeContents,
+    onClickSubmit,
+  } = useCreateUsedItem({ setValue, trigger, setInput });
 
   return (
     <>
@@ -117,7 +93,11 @@ export default function MarketWrite() {
         </S.InputBox>
         <S.ExplainBox>
           <S.Label placeholder="상품을 설명해주세요.">상품설명</S.Label>
-          <ReactQuill onChange={onChangeContents} style={{ height: "850px" }} />
+          <ReactQuill
+            onChange={onChangeContents}
+            placeholder="상품을 자세히 설명해주세요."
+            style={{ height: "850px", fontSize: "20px" }}
+          />
         </S.ExplainBox>
         <S.InputBox>
           <S.Label>판매가격</S.Label>
@@ -144,14 +124,14 @@ export default function MarketWrite() {
               <S.InputMap
                 disabled={true}
                 placeholder="위도(LAT)"
-                value={input.lat}
+                value={input.lat === 0 ? "" : input.lat}
                 onChange={onChangeAddress}
               />
               <S.IconImg src="/icon/location.svg" />
               <S.InputMap
                 disabled={true}
                 placeholder="경도(LNG)"
-                value={input.lng}
+                value={input.lng === 0 ? "" : input.lng}
                 onChange={onChangeAddress}
               />
             </S.GpsBox>
@@ -180,29 +160,22 @@ export default function MarketWrite() {
         <S.ImgUploadBox>
           <S.Label>사진첨부</S.Label>
           <S.ImgDivideBox>
-            <S.ImgUpload>
-              <S.Close>x</S.Close>
-              <S.Img src="/taewan.jpg" />
-            </S.ImgUpload>
-            <S.ImgUpload style={{ backgroundColor: "#bdbdbd" }}>
-              <span>x</span>
-              <span>Upload</span>
-            </S.ImgUpload>
+            {fileUrls.map((el, index) => (
+              <Uploads
+                key={uuidv4()}
+                index={index}
+                fileUrl={el}
+                fileUrls={fileUrls}
+                setFileUrls={setFileUrls}
+                files={files}
+                setFiles={setFiles}
+                register={register("image")}
+                trigger={trigger}
+                setValue={setValue}
+              />
+            ))}
           </S.ImgDivideBox>
         </S.ImgUploadBox>
-        <S.InputBox>
-          <S.Label>메인 사진 설정</S.Label>
-          <S.RadioBox>
-            <label>
-              <S.InputRadio name="pic" type="radio" />
-              <S.RadioSpan>사진1</S.RadioSpan>
-            </label>
-            <label>
-              <S.InputRadio name="pic" type="radio" />
-              <S.RadioSpan>사진2</S.RadioSpan>
-            </label>
-          </S.RadioBox>
-        </S.InputBox>
         <S.BtnBox>
           <S.Btn
             onClick={handleSubmit(onClickSubmit)}

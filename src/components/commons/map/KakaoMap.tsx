@@ -7,8 +7,7 @@ declare const window: typeof globalThis & {
 export default function KakaoMapPage() {
   useEffect(() => {
     const script = document.createElement("script"); //<script></script>
-    script.src =
-      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=9c57afbf9b5e6dec0c9339b7158113b4";
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
     document.head.appendChild(script);
     script.onload = () => {
       window.kakao.maps.load(function () {
@@ -25,12 +24,10 @@ export default function KakaoMapPage() {
           37.448831,
           127.055047,
         );
-
         // 마커를 생성합니다
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
         });
-
         // 마커가 지도 위에 표시되도록 설정합니다
         marker.setMap(map);
       });

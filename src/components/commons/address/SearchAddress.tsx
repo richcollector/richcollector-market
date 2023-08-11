@@ -1,7 +1,6 @@
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import type { Address } from "react-daum-postcode";
 import axios from "axios";
-import { type Dispatch, type SetStateAction, useState } from "react";
 import styled from "@emotion/styled";
 
 interface IProps {
@@ -34,7 +33,6 @@ export default function SearchAddress(props: IProps) {
   const open = useDaumPostcodePopup(scriptUrl);
 
   const handleComplete = (data: Address) => {
-    const searchTxt = data.address; // 검색한 주소
     const config = {
       headers: {
         Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAO_RESTAPI}`,
@@ -54,8 +52,8 @@ export default function SearchAddress(props: IProps) {
           props.setInput({
             address: result.data.documents[0].address.address_name,
             addressDetail: result.data.documents[0].address.region_2depth_name,
-            lat: result.data.documents[0].x,
-            lng: result.data.documents[0].y,
+            lat: result.data.documents[0].y,
+            lng: result.data.documents[0].x,
           });
         }
       }

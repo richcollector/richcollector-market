@@ -4,7 +4,7 @@ import * as S from "./Header.styles";
 import { accessTokenState } from "../../../../commons/store";
 import { useRecoilState } from "recoil";
 import { useQueryFetchUser } from "../../hooks/queries/useQueryFetchUser";
-import { useMutationLogoutUser } from "../../hooks/mutation/useLogoutUser";
+import { useMutationLogoutUser } from "../../hooks/mutation/useMutationLogoutUser";
 
 const LOGOUT_HEADER_LIST = [
   { name: "리치컬렉터가 처음이신가요?", page: "" },
@@ -30,8 +30,6 @@ export default function LayoutHeader() {
       void Router.push(event.currentTarget.id);
     }
   };
-
-  console.log(userInfo);
 
   return (
     <>

@@ -2,7 +2,6 @@ import {
   ApolloClient,
   ApolloLink,
   ApolloProvider,
-  HttpLink,
   InMemoryCache,
   fromPromise,
 } from "@apollo/client";
@@ -14,10 +13,13 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken } from "../../../commons/libraries/getAccessToken";
 import { useEffect } from "react";
+import { createUploadLink } from "apollo-upload-client";
 
 interface IAplloSettingProps {
   children: JSX.Element;
 }
+
+const GLOBAL_STATE = new InMemoryCache();
 
 export default function ApolloSetting(props: IAplloSettingProps): JSX.Element {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
@@ -29,9 +31,11 @@ export default function ApolloSetting(props: IAplloSettingProps): JSX.Element {
     });
   }, []);
 
-  const httpLink = new HttpLink({
-    uri: `https://backend-practice.codebootcamp.co.kr/graphql`,
-    headers: { Authorization: `Bearer ${accessToken}` },
+  const uploadLink = createUploadLink({
+    uri: `${process.env.NEXT_PUBLIC_BASE_API}`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     credentials: "include",
   });
 
@@ -56,9 +60,10 @@ export default function ApolloSetting(props: IAplloSettingProps): JSX.Element {
   });
 
   const client = new ApolloClient({
-    link: ApolloLink.from([errorLink, httpLink]),
-    cache: new InMemoryCache(),
+    link: ApolloLink.from([errorLink, uploadLink]),
+    cache: GLOBAL_STATE,
   });
+
   return (
     <>
       <ApolloProvider client={client}>{props.children}</ApolloProvider>
