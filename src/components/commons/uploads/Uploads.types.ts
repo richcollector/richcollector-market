@@ -21,6 +21,7 @@ export interface IUploadsProps {
     remarks: string;
     contents: string;
     price: number;
+    pickedCount: string | undefined;
     tags: string;
     image: string;
     address: string | undefined;
@@ -33,6 +34,7 @@ export interface IUploadsProps {
     remarks: string;
     contents: string;
     price: number;
+    pickedCount: string | undefined;
     tags: string;
     image: string;
     address: string | undefined;

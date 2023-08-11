@@ -23,5 +23,6 @@ module.exports = {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/consistent-indexed-object-style": "off",
   },
 };

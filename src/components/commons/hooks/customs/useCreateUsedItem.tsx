@@ -6,19 +6,9 @@ import {
 } from "react";
 import { useMutationUploadFile } from "../mutation/useMutationUploadFile";
 import { Modal } from "antd";
-import type {
-  UseFormRegisterReturn,
-  UseFormTrigger,
-  UseFormSetValue,
-} from "react-hook-form";
-
-interface UseditemAddressInput {
-  zipcode?: string;
-  address?: string;
-  addressDetail?: string;
-  lat?: number;
-  lng?: number;
-}
+import type { UseFormTrigger, UseFormSetValue } from "react-hook-form";
+import { useMutationCreateUsedItem } from "../mutation/useMutationCreateUsedItem";
+import { useRouter } from "next/router";
 
 interface IFormData {
   name: string;
@@ -26,9 +16,7 @@ interface IFormData {
   contents: string;
   price: number;
   tags: string;
-  // images: string;
-  // useditemAddress?: UseditemAddressInput;
-  zipcode?: string;
+  image: string;
   address?: string;
   addressDetail?: string;
   lat?: number;
@@ -42,6 +30,7 @@ interface IProps {
     contents: string;
     price: number;
     tags: string;
+    pickedCount: string | undefined;
     image: string;
     address: string | undefined;
     addressDetail: string | undefined;
@@ -54,6 +43,7 @@ interface IProps {
     contents: string;
     price: number;
     tags: string;
+    pickedCount: string | undefined;
     image: string;
     address: string | undefined;
     addressDetail: string | undefined;
@@ -68,6 +58,12 @@ interface IProps {
       lng: number;
     }>
   >;
+  input: {
+    address: string;
+    addressDetail: string;
+    lat: number;
+    lng: number;
+  };
 }
 
 export function useCreateUsedItem(props: IProps) {
@@ -75,25 +71,54 @@ export function useCreateUsedItem(props: IProps) {
   const [fileRealUrls, setFileRealUrls] = useState(["", "", ""]);
   const [files, setFiles] = useState<File[]>([]);
   const [uploadFile] = useMutationUploadFile();
+  const [createUsedItem] = useMutationCreateUsedItem();
+  const router = useRouter();
 
   const onClickSubmit = async (data: IFormData) => {
     console.log("data::", data);
-
-    //파일 업로드
+    const newFileRealUrls = [...fileRealUrls];
+    // 파일 업로드
     for (let i = 0; i < files.length; i++) {
-      if (files[i]) {
-        try {
-          const result = await uploadFile({ variables: { file: files[i] } });
-          if (result.data?.uploadFile.url) {
-            const newFileUrls = [...fileUrls];
-            newFileUrls[i] = result.data?.uploadFile.url;
-            setFileRealUrls(newFileUrls);
-            console.log(newFileUrls);
-          }
-        } catch (error) {
-          if (error instanceof Error) Modal.error({ content: error.message });
-        }
+      console.log(...fileRealUrls);
+      try {
+        const result = await uploadFile({ variables: { file: files[i] } });
+        if (result.data?.uploadFile.url)
+          newFileRealUrls[i] = result.data?.uploadFile.url;
+        console.log(
+          "result.data?.uploadFile.url::",
+          result.data?.uploadFile.url,
+        );
+        console.log("newFileRealUrls::", newFileRealUrls);
+      } catch (error) {
+        if (error instanceof Error) Modal.error({ content: error.message });
       }
+    }
+
+    //게시글 작성
+    const newTags = data.tags.split("#");
+    try {
+      const result = await createUsedItem({
+        variables: {
+          createUseditemInput: {
+            name: data.name,
+            remarks: data.remarks,
+            contents: data.contents,
+            price: data.price,
+            tags: newTags.filter((el) => el !== ""),
+            useditemAddress: {
+              address: props.input.address,
+              addressDetail: props.input.addressDetail,
+              lat: parseFloat(String(props.input.lat)),
+              lng: parseFloat(String(props.input.lng)),
+            },
+            images: newFileRealUrls,
+          },
+        },
+      });
+      void router.push("/");
+      console.log("????", result.data?.createUseditem);
+    } catch (error) {
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 

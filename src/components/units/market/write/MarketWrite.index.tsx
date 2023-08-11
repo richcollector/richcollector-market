@@ -72,7 +72,7 @@ export default function MarketWrite() {
     onChangeAddress,
     onChangeContents,
     onClickSubmit,
-  } = useCreateUsedItem({ setValue, trigger, setInput });
+  } = useCreateUsedItem({ setValue, trigger, setInput, input });
 
   return (
     <>
@@ -176,6 +176,20 @@ export default function MarketWrite() {
             ))}
           </S.ImgDivideBox>
         </S.ImgUploadBox>
+        <S.InputBox>
+          <S.Label>메인 사진 설정</S.Label>
+          <S.RadioBox>
+            {fileUrls.map(
+              (el, index) =>
+                el && (
+                  <label key={uuidv4()}>
+                    <S.InputRadio type="radio" {...register("pickedCount")} />
+                    <S.RadioSpan>사진 {index + 1}</S.RadioSpan>
+                  </label>
+                ),
+            )}
+          </S.RadioBox>
+        </S.InputBox>
         <S.BtnBox>
           <S.Btn
             onClick={handleSubmit(onClickSubmit)}

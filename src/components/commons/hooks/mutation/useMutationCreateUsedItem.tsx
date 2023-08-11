@@ -5,17 +5,17 @@ import type {
 } from "../../../../commons/types/generated/types";
 
 const CREATE_USED_ITEM = gql`
-  mutation createUsedItem($createUseditemInput: CreateUseditemInput!) {
-    createUsedItem(createUseditemInput: $createUseditemInput) {
-      _id
+  mutation createUseditem($createUseditemInput: CreateUseditemInput!) {
+    createUseditem(createUseditemInput: $createUseditemInput) {
       name
       remarks
       contents
       price
       tags
       images
-      pickedCount
-      useditemAddress
+      useditemAddress {
+        address
+      }
     }
   }
 `;
