@@ -7,7 +7,7 @@ export const [Phone, Monitor] = breakpoints;
 export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 90px 150px 150px 1000px 150px 150px 450px 400px 100px 90px;
+  grid-template-rows: 90px 150px 150px 1000px 150px 150px 450px 400px 90px;
 
   width: 1320px;
   height: 100%;

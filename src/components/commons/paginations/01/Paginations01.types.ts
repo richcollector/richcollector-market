@@ -1,14 +1,14 @@
-import { ApolloQueryResult } from "@apollo/client";
-import { MouseEvent } from "react";
+import { type ApolloQueryResult } from "@apollo/client";
+import { type MouseEvent } from "react";
 import {
-  IQuery,
-  IQueryFetchBoardsArgs,
+  type IQuery,
+  type IQueryFetchBoardsArgs,
 } from "../../../../commons/types/generated/types";
 
 export interface IPaginations01Props {
   count?: number;
   refetch: (
-    variables: Partial<IQueryFetchBoardsArgs>
+    variables: Partial<IQueryFetchBoardsArgs>,
   ) => Promise<ApolloQueryResult<Pick<IQuery, "fetchBoards">>>;
 }
 

@@ -64,10 +64,11 @@ interface IProps {
     lat: number;
     lng: number;
   };
+  tags: string[];
 }
 
 export function useCreateUsedItem(props: IProps) {
-  const [fileUrls, setFileUrls] = useState(["", "", ""]);
+  const [fileUrls, setFileUrls] = useState([""]);
   const [fileRealUrls, setFileRealUrls] = useState(["", "", ""]);
   const [files, setFiles] = useState<File[]>([]);
   const [uploadFile] = useMutationUploadFile();
@@ -95,7 +96,6 @@ export function useCreateUsedItem(props: IProps) {
     }
 
     //게시글 작성
-    const newTags = data.tags.split("#");
     try {
       const result = await createUsedItem({
         variables: {
@@ -104,7 +104,7 @@ export function useCreateUsedItem(props: IProps) {
             remarks: data.remarks,
             contents: data.contents,
             price: data.price,
-            tags: newTags.filter((el) => el !== ""),
+            tags: props.tags,
             useditemAddress: {
               address: props.input.address,
               addressDetail: props.input.addressDetail,
@@ -116,7 +116,6 @@ export function useCreateUsedItem(props: IProps) {
         },
       });
       void router.push("/");
-      console.log("????", result.data?.createUseditem);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }

@@ -15,6 +15,7 @@ export function useFileUpload(props: IProps) {
   const onChangeFileUrls = (fileUrl: string, index: number) => {
     const newFileUrls = [...props.props.fileUrls];
     newFileUrls[index] = fileUrl;
+    if (index < 2) newFileUrls[index + 1] = "";
     props.props.setFileUrls(newFileUrls);
   };
 
@@ -33,6 +34,7 @@ export function useFileUpload(props: IProps) {
     if (event.target.files?.[0] === undefined) return;
     newFiles[props.props.index] = event.target.files?.[0];
     props.props.setFiles(newFiles);
+    console.log("fie::", JSON.stringify(event.target.files?.[0]));
   };
   return { onClickUpload, onChangeFile };
 }

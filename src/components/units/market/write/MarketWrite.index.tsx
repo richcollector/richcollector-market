@@ -8,8 +8,10 @@ import { schema } from "./MarketWrite.validation";
 import Link from "next/link";
 import "react-quill/dist/quill.snow.css";
 import Uploads from "../../../commons/uploads/Uploads.index";
+import Tags from "../../../commons/tag/Tag.index";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateUsedItem } from "../../../commons/hooks/customs/useCreateUsedItem";
+import styled from "@emotion/styled";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,
@@ -19,6 +21,10 @@ declare const window: typeof globalThis & {
   kakao: any;
 };
 
+const TagsBox = styled.div`
+  display: flex;
+`;
+
 export default function MarketWrite() {
   const [input, setInput] = useState({
     address: "",
@@ -26,6 +32,7 @@ export default function MarketWrite() {
     lat: 0,
     lng: 0,
   });
+  const [tags, setTags] = useState([""]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -72,8 +79,9 @@ export default function MarketWrite() {
     onChangeAddress,
     onChangeContents,
     onClickSubmit,
-  } = useCreateUsedItem({ setValue, trigger, setInput, input });
+  } = useCreateUsedItem({ setValue, trigger, setInput, input, tags });
 
+  console.log("files::", files);
   return (
     <>
       <S.Wrapper>
@@ -108,10 +116,21 @@ export default function MarketWrite() {
         </S.InputBox>
         <S.InputBox>
           <S.Label>태그입력</S.Label>
-          <S.Input
-            placeholder="상품의 태그를 입력해주세요."
-            {...register("tags")}
-          />
+          <TagsBox>
+            {tags.map((el, index) => (
+              <>
+                <Tags
+                  tag={el}
+                  index={index}
+                  register={register("tags")}
+                  tags={tags}
+                  setTags={setTags}
+                  trigger={trigger}
+                  setValue={setValue}
+                />
+              </>
+            ))}
+          </TagsBox>
         </S.InputBox>
         <S.LocationBox>
           <S.AreaBox>
@@ -158,7 +177,7 @@ export default function MarketWrite() {
           </S.DivideBox>
         </S.LocationBox>
         <S.ImgUploadBox>
-          <S.Label>사진첨부</S.Label>
+          <S.Label>사진첨부 (3장)</S.Label>
           <S.ImgDivideBox>
             {fileUrls.map((el, index) => (
               <Uploads
@@ -176,20 +195,6 @@ export default function MarketWrite() {
             ))}
           </S.ImgDivideBox>
         </S.ImgUploadBox>
-        <S.InputBox>
-          <S.Label>메인 사진 설정</S.Label>
-          <S.RadioBox>
-            {fileUrls.map(
-              (el, index) =>
-                el && (
-                  <label key={uuidv4()}>
-                    <S.InputRadio type="radio" {...register("pickedCount")} />
-                    <S.RadioSpan>사진 {index + 1}</S.RadioSpan>
-                  </label>
-                ),
-            )}
-          </S.RadioBox>
-        </S.InputBox>
         <S.BtnBox>
           <S.Btn
             onClick={handleSubmit(onClickSubmit)}

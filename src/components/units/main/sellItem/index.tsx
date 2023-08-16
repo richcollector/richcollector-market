@@ -3,6 +3,12 @@ import { Fragment, type MouseEvent } from "react";
 import { HeartFilled, SearchOutlined, DollarOutlined } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
+import { gql, useQuery } from "@apollo/client";
+import {
+  type IQuery,
+  type IQueryFetchUseditemsArgs,
+} from "../../../../commons/types/generated/types";
+import InfiniteScroll from "react-infinite-scroller";
 
 const SellTitleBox = styled.div`
   display: flex;
@@ -64,7 +70,7 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 40px;
   border-top: 1px solid #bdbdbd;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -124,10 +130,18 @@ const ItemBox = styled.div`
   }
 `;
 
-const ImageBox = styled.img`
+const ImageBox = styled.div`
   width: 100%;
   height: 100%;
 
+  border-radius: 10px;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
   border-radius: 10px;
 `;
 
@@ -233,10 +247,16 @@ const ContentsTitle = styled.p`
   color: black;
   font-weight: 600;
 `;
-const ContentsEx = styled.p`
+const ContentsEx = styled.div`
+  width: 800px;
   font-size: 18px;
   color: #4f4f4f;
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 const ContentsHash = styled.p`
   font: 15px;
@@ -257,12 +277,62 @@ const IconText = styled.div`
   padding: 0;
 `;
 
+const FETCH_USED_ITEMS = gql`
+  query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {
+    fetchUseditems(isSoldout: $isSoldout, search: $search, page: $page) {
+      _id
+      name
+      remarks
+      contents
+      price
+      tags
+      images
+      pickedCount
+      seller {
+        name
+        picture
+      }
+    }
+  }
+`;
+
 export default function SellItem(): JSX.Element {
   const router = useRouter();
   const onClickRegister = (event: MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     void router.push("/market/new");
   };
+  const { data, fetchMore } = useQuery<
+    Pick<IQuery, "fetchUseditems">,
+    IQueryFetchUseditemsArgs
+  >(FETCH_USED_ITEMS, {
+    variables: {
+      isSoldout: false,
+      search: "",
+      // page: ,
+    },
+  });
+
+  const onLoadMore = (): void => {
+    if (data === undefined) return;
+    void fetchMore({
+      variables: {
+        page: Math.ceil(data?.fetchUseditems.length ?? 10 / 10) + 1,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (fetchMoreResult.fetchUseditems === undefined)
+          return { fetchUseditems: [...prev.fetchUseditems] };
+
+        return {
+          fetchUseditems: [
+            ...prev.fetchUseditems,
+            ...fetchMoreResult.fetchUseditems,
+          ],
+        };
+      },
+    });
+  };
+  console.log("data::", data);
   return (
     <>
       <SellTitleBox>
@@ -281,28 +351,42 @@ export default function SellItem(): JSX.Element {
         </SellSearch>
       </SellTitleBox>
       <Wrapper>
-        {new Array(10).fill("").map((el) => (
-          <Fragment key={uuidv4()}>
-            <ItemBox>
-              <ImageBox src="/taewan.jpg" />
-              <ContentsBox>
-                <ContentsTitle>리치컬렉터 김태완 엣지 1</ContentsTitle>
-                <ContentsEx>2019 edition</ContentsEx>
-                <ContentsHash>#삼성전자 #갤럭시 #가성비</ContentsHash>
-                <IconBox>
-                  <UserImg src="/icon/User.svg" />
-                  <IconText>판매자</IconText>
-                  <Heart />
-                  <IconText>20</IconText>
-                </IconBox>
-              </ContentsBox>
-              <PriceBox>
-                <h2>28,370원</h2>
-              </PriceBox>
-            </ItemBox>
-          </Fragment>
-        ))}
+        {data?.fetchUseditems && (
+          <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true}>
+            {data?.fetchUseditems.map((el) => (
+              <ItemBox key={uuidv4()}>
+                <ImageBox>
+                  <Image
+                    src={`http://storage.googleapis.com/${el.images?.[0]}`}
+                    onError={(e) => {
+                      e.currentTarget.src = "/no_image.png";
+                    }}
+                  />
+                </ImageBox>
+                <ContentsBox>
+                  <ContentsTitle>{el.name}</ContentsTitle>
+
+                  <ContentsEx
+                    dangerouslySetInnerHTML={{ __html: `${el.contents}` }}
+                  />
+
+                  <ContentsHash>{el.tags}</ContentsHash>
+                  <IconBox>
+                    <UserImg src="/icon/User.svg" />
+                    <IconText>{el.seller?.name}</IconText>
+                    <Heart />
+                    <IconText>{el.pickedCount}</IconText>
+                  </IconBox>
+                </ContentsBox>
+                <PriceBox>
+                  <h2>{el.price}원</h2>
+                </PriceBox>
+              </ItemBox>
+            ))}
+          </InfiniteScroll>
+        )}
       </Wrapper>
+
       <ButtonBox>
         <ItemBtn onClick={onClickRegister}>상품등록하기</ItemBtn>
       </ButtonBox>

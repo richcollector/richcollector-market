@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { Fragment } from "react";
 import { HeartFilled } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
+import { gql, useQuery } from "@apollo/client";
+import { type IQuery } from "../../../../commons/types/generated/types";
 
 const breakpoints = [768, 1024];
 
@@ -13,18 +15,18 @@ const Wrapper = styled.div`
   max-width: 1320px;
   border-radius: 10px;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 400px);
+  grid-template-rows: 400px;
   grid-gap: 20px;
   padding: 5px;
   margin-bottom: 10px;
 
   @media screen and (max-width: ${Phone - 1}px) {
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(8, 400px);
+    grid-template-rows: repeat(4, 200px);
   }
   @media screen and (min-width: ${Phone}px) and (max-width: ${Monitor - 1}px) {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 400px);
+    grid-template-rows: 400px 400px;
   }
   @media screen and (min-width: ${Monitor}) {
   }
@@ -104,15 +106,29 @@ const TextBox = styled.div`
 `;
 
 const TextTitle = styled.p`
+  width: 200px;
+  height: 25px;
   font-size: 20px;
   color: black;
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 const TextContents = styled.p`
+  width: 200px;
+  height: 25px;
   font-size: 18px;
   color: #4f4f4f;
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
 
 const TextPrice = styled.p`
@@ -143,28 +159,50 @@ const HeartNum = styled.span`
   /* text-align: center; */
 `;
 
+const FETCH_USED_ITEM_BEST = gql`
+  query {
+    fetchUseditemsOfTheBest {
+      name
+      contents
+      price
+      pickedCount
+    }
+  }
+`;
+
 export default function BestItem(): JSX.Element {
+  const { data } =
+    useQuery<Pick<IQuery, "fetchUseditemsOfTheBest">>(FETCH_USED_ITEM_BEST);
+
+  console.log("data::", data?.fetchUseditemsOfTheBest);
   return (
     <>
       <TitleBox>
         <Title>Best Item</Title>
       </TitleBox>
       <Wrapper>
-        {new Array(8).fill("").map((el) => (
+        {data?.fetchUseditemsOfTheBest.map((el) => (
           <Fragment key={uuidv4()}>
             <Item>
               <ImageBox>
-                <Image src="/taewan.jpg" />
+                <Image
+                  src={`http://storage.googleapis.com/${el.images?.[0]}`}
+                  onError={(e) => {
+                    e.currentTarget.src = "/no_image.png";
+                  }}
+                />
               </ImageBox>
               <TextWrapper>
                 <TextBox>
-                  <TextTitle>김태완</TextTitle>
-                  <TextContents>이것보다 좋은건?</TextContents>
-                  <TextPrice>000,000원</TextPrice>
+                  <TextTitle>{el.name}</TextTitle>
+                  <TextContents
+                    dangerouslySetInnerHTML={{ __html: `${el.contents}` }}
+                  />
+                  <TextPrice>{el.price}원</TextPrice>
                 </TextBox>
                 <HeartBox>
                   <Heart />
-                  <HeartNum>0</HeartNum>
+                  <HeartNum>{el.pickedCount}</HeartNum>
                 </HeartBox>
               </TextWrapper>
             </Item>
