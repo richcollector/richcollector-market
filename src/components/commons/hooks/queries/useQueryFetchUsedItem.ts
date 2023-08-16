@@ -9,16 +9,16 @@ const FETCH_USED_ITEM = gql`
     fetchUseditem(useditemId: $useditemId) {
       _id
       createdAt
-      seller {
-        name
-        picture
-      }
       name
       remarks
       contents
       tags
       pickedCount
       images
+      seller {
+        name
+        picture
+      }
       useditemAddress {
         lat
         lng

@@ -20,8 +20,8 @@ export function useFileUpload(props: IProps) {
   };
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("fie1111::", JSON.stringify(event.target.files));
     const file = event.target.files?.[0];
+
     const isValid = checkValidationImage(event.target.files?.[0]);
     if (!isValid) return;
 
@@ -31,11 +31,10 @@ export function useFileUpload(props: IProps) {
 
     props.props.setValue("image", result);
     void props.props.trigger("image");
-    console.log("여긴온다니??");
+
     const newFiles = [...props.props.files];
     newFiles[props.props.index] = file;
     props.props.setFiles(newFiles);
-    console.log("fie1111::", JSON.stringify(file));
   };
   return { onClickUpload, onChangeFile };
 }

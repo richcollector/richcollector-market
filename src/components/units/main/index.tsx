@@ -1,5 +1,5 @@
-import BestItem from "./bestItem";
-import SellItem from "./sellItem";
+import BestItem from "./bestItem/BestItem.index";
+import SellItem from "./sellItem/SellItem.index";
 
 export default function MarketMain(): JSX.Element {
   return (

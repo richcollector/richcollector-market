@@ -14,3 +14,8 @@ export const restoreAccessTokenLoadable = selector({
     return newAccessToken;
   },
 });
+
+export const userInfomation = atom({
+  key: "userInfomation",
+  default: "",
+});

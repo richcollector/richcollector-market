@@ -2,7 +2,7 @@ import LayoutFooter from "./footer/Footer.container";
 import LayoutHeader from "./header/Header.index";
 import LayoutNavigation from "./navigation/Navigation.container";
 import LayoutBannerUI from "./ad";
-import FlotiongItem from "../../units/main/flotingItem";
+import FlotiongItem from "../../units/main/flotingItem/Floting.index";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 

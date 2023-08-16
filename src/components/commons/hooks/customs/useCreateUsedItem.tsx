@@ -11,6 +11,7 @@ import type { UseFormTrigger, UseFormSetValue } from "react-hook-form";
 import { useMutationCreateUsedItem } from "../mutation/useMutationCreateUsedItem";
 import { useRouter } from "next/router";
 import { useMutationUpdateUsedItem } from "../mutation/useMutaionUpdateUsedItem";
+import { useMutationFetchUsedItem } from "../queries/useQueryFetchUsedItem";
 
 interface IFormData {
   name: string;
@@ -76,10 +77,11 @@ export function useCreateUsedItem(props: IProps) {
   const [updateUsedITem] = useMutationUpdateUsedItem();
   const router = useRouter();
 
-  const onClickSubmit = async (data: IFormData) => {
-    console.log("왜안와?");
-    console.log("length::", files.length);
+  const { data } = useMutationFetchUsedItem({
+    useditemId: String(router.query.board_id),
+  });
 
+  const onClickSubmit = async (data: IFormData) => {
     const newFileRealUrls = [...fileRealUrls];
     // 파일 업로드
     for (let i = 0; i < files.length; i++) {
@@ -109,7 +111,7 @@ export function useCreateUsedItem(props: IProps) {
               remarks: data.remarks,
               contents: data.contents,
               price: data.price,
-              tags: props.tags,
+              tags: props.tags.filter((el) => el !== ""),
               useditemAddress: {
                 address: props.input.address,
                 addressDetail: props.input.addressDetail,
@@ -120,7 +122,6 @@ export function useCreateUsedItem(props: IProps) {
             },
           },
         });
-        console.log("result:::", result);
         void router.push("/");
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
@@ -134,7 +135,7 @@ export function useCreateUsedItem(props: IProps) {
               remarks: data.remarks,
               contents: data.contents,
               price: data.price,
-              tags: props.tags,
+              tags: props.tags.filter((el) => el !== ""),
               useditemAddress: {
                 address: props.input.address,
                 addressDetail: props.input.addressDetail,
@@ -146,7 +147,6 @@ export function useCreateUsedItem(props: IProps) {
             useditemId: String(router.query.board_id),
           },
         });
-        console.log("result:::", result);
         void router.push("/");
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
@@ -165,6 +165,7 @@ export function useCreateUsedItem(props: IProps) {
     props.setInput((prev) => ({ ...prev, [type]: value }));
   };
   return {
+    data,
     fileUrls,
     setFileUrls,
     files,

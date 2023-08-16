@@ -161,3 +161,7 @@ export const Img = styled.img`
 
   object-fit: cover;
 `;
+
+export const TagsBox = styled.div`
+  display: flex;
+`;

@@ -1,7 +1,7 @@
-import { Fragment, type MouseEvent } from "react";
+import { Fragment, useEffect, type MouseEvent } from "react";
 import { useRouter } from "next/router";
 import * as S from "./Header.styles";
-import { accessTokenState } from "../../../../commons/store";
+import { accessTokenState, userInfomation } from "../../../../commons/store";
 import { useRecoilState } from "recoil";
 import { useQueryFetchUser } from "../../hooks/queries/useQueryFetchUser";
 import { useMutationLogoutUser } from "../../hooks/mutation/useMutationLogoutUser";
@@ -18,6 +18,7 @@ const LOGIN_HEADER_LIST = [
 ];
 
 export default function LayoutHeader() {
+  const [info, setinfo] = useRecoilState(userInfomation);
   const Router = useRouter();
   const { data: userInfo } = useQueryFetchUser();
   const [logoutUser] = useMutationLogoutUser();
@@ -30,6 +31,10 @@ export default function LayoutHeader() {
       void Router.push(event.currentTarget.id);
     }
   };
+
+  useEffect(() => {
+    setinfo(String(userInfo?.fetchUserLoggedIn.name));
+  }, [userInfo]);
 
   return (
     <>

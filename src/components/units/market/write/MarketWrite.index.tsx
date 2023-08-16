@@ -23,10 +23,6 @@ declare const window: typeof globalThis & {
   kakao: any;
 };
 
-const TagsBox = styled.div`
-  display: flex;
-`;
-
 export default function MarketWrite() {
   const [input, setInput] = useState({
     address: "",
@@ -36,6 +32,7 @@ export default function MarketWrite() {
   });
   const [tags, setTags] = useState([""]);
   const [update, setUpdate] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -75,6 +72,7 @@ export default function MarketWrite() {
   });
 
   const {
+    data,
     files,
     setFiles,
     fileUrls,
@@ -85,7 +83,6 @@ export default function MarketWrite() {
   } = useCreateUsedItem({ setValue, trigger, setInput, input, tags });
 
   useEffect(() => {
-    console.log("오지요");
     if (router.asPath.includes("/edit")) {
       setUpdate(true);
       if (data?.fetchUseditem.name) {
@@ -126,18 +123,6 @@ export default function MarketWrite() {
     }
   }, []);
 
-  console.log("files::", files);
-
-  const router = useRouter();
-  console.log(router.query.board_id);
-
-  console.log("edit::", router.asPath.includes("/edit"));
-
-  const { data } = useMutationFetchUsedItem({
-    useditemId: String(router.query.board_id),
-  });
-  console.log(data);
-
   return (
     <>
       <S.Wrapper>
@@ -172,7 +157,7 @@ export default function MarketWrite() {
         </S.InputBox>
         <S.InputBox>
           <S.Label>태그입력</S.Label>
-          <TagsBox>
+          <S.TagsBox>
             {tags.map((el, index) => (
               <>
                 <Tags
@@ -186,7 +171,7 @@ export default function MarketWrite() {
                 />
               </>
             ))}
-          </TagsBox>
+          </S.TagsBox>
         </S.InputBox>
         <S.LocationBox>
           <S.AreaBox>
