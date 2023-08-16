@@ -12,6 +12,8 @@ import Tags from "../../../commons/tag/Tag.index";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateUsedItem } from "../../../commons/hooks/customs/useCreateUsedItem";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useMutationFetchUsedItem } from "../../../commons/hooks/queries/useQueryFetchUsedItem";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,
@@ -33,6 +35,7 @@ export default function MarketWrite() {
     lng: 0,
   });
   const [tags, setTags] = useState([""]);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -81,12 +84,65 @@ export default function MarketWrite() {
     onClickSubmit,
   } = useCreateUsedItem({ setValue, trigger, setInput, input, tags });
 
+  useEffect(() => {
+    console.log("오지요");
+    if (router.asPath.includes("/edit")) {
+      setUpdate(true);
+      if (data?.fetchUseditem.name) {
+        setValue("name", String(data?.fetchUseditem.name));
+        trigger("name");
+      }
+
+      if (data?.fetchUseditem.remarks) {
+        setValue("remarks", String(data?.fetchUseditem.remarks));
+        trigger("remarks");
+      }
+
+      if (data?.fetchUseditem.contents) {
+        setValue("contents", String(data?.fetchUseditem.contents));
+        trigger("contents");
+      }
+
+      if (data?.fetchUseditem.price) {
+        setValue("price", Number(data?.fetchUseditem.price));
+        trigger("price");
+      }
+
+      if (data?.fetchUseditem.tags) {
+        setTags((prev) =>
+          data?.fetchUseditem.tags ? [...data?.fetchUseditem.tags] : [...prev],
+        );
+        setValue("tags", String(data?.fetchUseditem.tags));
+        trigger("tags");
+      }
+
+      setInput((prev) => ({
+        ...prev,
+        address: data?.fetchUseditem.useditemAddress?.address ?? "",
+        addressDetail: data?.fetchUseditem.useditemAddress?.addressDetail ?? "",
+        lat: Number(data?.fetchUseditem.useditemAddress?.lat ?? null),
+        lng: Number(data?.fetchUseditem.useditemAddress?.lng ?? null),
+      }));
+    }
+  }, []);
+
   console.log("files::", files);
+
+  const router = useRouter();
+  console.log(router.query.board_id);
+
+  console.log("edit::", router.asPath.includes("/edit"));
+
+  const { data } = useMutationFetchUsedItem({
+    useditemId: String(router.query.board_id),
+  });
+  console.log(data);
+
   return (
     <>
       <S.Wrapper>
         <S.TitleBox>
-          <h2>상품 등록하기</h2>
+          <h2>{update ? "상품 수정하기" : "상품 등록하기"}</h2>
         </S.TitleBox>
         <S.InputBox>
           <S.Label>상품명</S.Label>
@@ -200,7 +256,7 @@ export default function MarketWrite() {
             onClick={handleSubmit(onClickSubmit)}
             style={{ backgroundColor: formState.isValid ? "yellow" : "" }}
           >
-            상품등록하기
+            {update ? "상품수정하기" : "상품등록하기"}
           </S.Btn>
           <Link href={"/"}>
             <S.Btn>취소</S.Btn>

@@ -4,6 +4,7 @@ import { HeartFilled } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 import { gql, useQuery } from "@apollo/client";
 import { type IQuery } from "../../../../commons/types/generated/types";
+import { useRouter } from "next/router";
 
 const breakpoints = [768, 1024];
 
@@ -162,6 +163,7 @@ const HeartNum = styled.span`
 const FETCH_USED_ITEM_BEST = gql`
   query {
     fetchUseditemsOfTheBest {
+      _id
       name
       contents
       price
@@ -171,10 +173,15 @@ const FETCH_USED_ITEM_BEST = gql`
 `;
 
 export default function BestItem(): JSX.Element {
+  const router = useRouter();
   const { data } =
     useQuery<Pick<IQuery, "fetchUseditemsOfTheBest">>(FETCH_USED_ITEM_BEST);
 
   console.log("data::", data?.fetchUseditemsOfTheBest);
+  const onClickMoved = (useditemId: string) => () => {
+    void router.push(`/market/${useditemId}`);
+  };
+
   return (
     <>
       <TitleBox>
@@ -183,7 +190,7 @@ export default function BestItem(): JSX.Element {
       <Wrapper>
         {data?.fetchUseditemsOfTheBest.map((el) => (
           <Fragment key={uuidv4()}>
-            <Item>
+            <Item onClick={onClickMoved(el._id)}>
               <ImageBox>
                 <Image
                   src={`http://storage.googleapis.com/${el.images?.[0]}`}

@@ -95,7 +95,7 @@ export default function BoardCommentListUIItem(): JSX.Element {
           </MainWrapper>
           <OptionWrapper>
             <UpdateIcon src="/icon/update.svg" />
-            <DeleteIcon src="/icon/clear.svg" />
+            <DeleteIcon src="/icon/close.svg" />
           </OptionWrapper>
         </FlexWrapper>
         {/* <DateString>11</DateString> */}

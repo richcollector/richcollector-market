@@ -3,12 +3,14 @@ import {
   useState,
   type Dispatch,
   type SetStateAction,
+  type MouseEvent,
 } from "react";
 import { useMutationUploadFile } from "../mutation/useMutationUploadFile";
 import { Modal } from "antd";
 import type { UseFormTrigger, UseFormSetValue } from "react-hook-form";
 import { useMutationCreateUsedItem } from "../mutation/useMutationCreateUsedItem";
 import { useRouter } from "next/router";
+import { useMutationUpdateUsedItem } from "../mutation/useMutaionUpdateUsedItem";
 
 interface IFormData {
   name: string;
@@ -30,7 +32,6 @@ interface IProps {
     contents: string;
     price: number;
     tags: string;
-    pickedCount: string | undefined;
     image: string;
     address: string | undefined;
     addressDetail: string | undefined;
@@ -43,7 +44,6 @@ interface IProps {
     contents: string;
     price: number;
     tags: string;
-    pickedCount: string | undefined;
     image: string;
     address: string | undefined;
     addressDetail: string | undefined;
@@ -73,10 +73,13 @@ export function useCreateUsedItem(props: IProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [uploadFile] = useMutationUploadFile();
   const [createUsedItem] = useMutationCreateUsedItem();
+  const [updateUsedITem] = useMutationUpdateUsedItem();
   const router = useRouter();
 
   const onClickSubmit = async (data: IFormData) => {
-    console.log("data::", data);
+    console.log("왜안와?");
+    console.log("length::", files.length);
+
     const newFileRealUrls = [...fileRealUrls];
     // 파일 업로드
     for (let i = 0; i < files.length; i++) {
@@ -95,29 +98,59 @@ export function useCreateUsedItem(props: IProps) {
       }
     }
 
-    //게시글 작성
-    try {
-      const result = await createUsedItem({
-        variables: {
-          createUseditemInput: {
-            name: data.name,
-            remarks: data.remarks,
-            contents: data.contents,
-            price: data.price,
-            tags: props.tags,
-            useditemAddress: {
-              address: props.input.address,
-              addressDetail: props.input.addressDetail,
-              lat: parseFloat(String(props.input.lat)),
-              lng: parseFloat(String(props.input.lng)),
+    if (!router.asPath.includes("/edit")) {
+      console.log("data::", data);
+      //게시글 작성
+      try {
+        const result = await createUsedItem({
+          variables: {
+            createUseditemInput: {
+              name: data.name,
+              remarks: data.remarks,
+              contents: data.contents,
+              price: data.price,
+              tags: props.tags,
+              useditemAddress: {
+                address: props.input.address,
+                addressDetail: props.input.addressDetail,
+                lat: parseFloat(String(props.input.lat)),
+                lng: parseFloat(String(props.input.lng)),
+              },
+              images: newFileRealUrls.filter((el) => el !== ""),
             },
-            images: newFileRealUrls,
           },
-        },
-      });
-      void router.push("/");
-    } catch (error) {
-      if (error instanceof Error) Modal.error({ content: error.message });
+        });
+        console.log("result:::", result);
+        void router.push("/");
+      } catch (error) {
+        if (error instanceof Error) Modal.error({ content: error.message });
+      }
+    } else if (router.asPath.includes("/edit")) {
+      try {
+        const result = await updateUsedITem({
+          variables: {
+            updateUseditemInput: {
+              name: data.name,
+              remarks: data.remarks,
+              contents: data.contents,
+              price: data.price,
+              tags: props.tags,
+              useditemAddress: {
+                address: props.input.address,
+                addressDetail: props.input.addressDetail,
+                lat: parseFloat(String(props.input.lat)),
+                lng: parseFloat(String(props.input.lng)),
+              },
+              images: newFileRealUrls.filter((el) => el !== ""),
+            },
+            useditemId: String(router.query.board_id),
+          },
+        });
+        console.log("result:::", result);
+        void router.push("/");
+      } catch (error) {
+        if (error instanceof Error) Modal.error({ content: error.message });
+      }
     }
   };
 

@@ -10,7 +10,6 @@ export const schema = yup.object({
   contents: yup.string().required("상품설명은 필수 입력입니다."),
   price: yup.number().required("가격은 필수 입력입니다."),
   tags: yup.string().required("태그는 필수 입력입니다."),
-  pickedCount: yup.string(),
   image: yup
     .string()
     .required("이미지는 필수 등록입니다.")

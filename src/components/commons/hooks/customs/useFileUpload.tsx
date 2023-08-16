@@ -20,21 +20,22 @@ export function useFileUpload(props: IProps) {
   };
 
   const onChangeFile = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("fie1111::", JSON.stringify(event.target.files));
+    const file = event.target.files?.[0];
     const isValid = checkValidationImage(event.target.files?.[0]);
     if (!isValid) return;
 
-    if (event.target.files?.[0] === undefined) return;
-    const result = URL.createObjectURL(event.target.files?.[0]);
+    if (file === undefined) return;
+    const result = URL.createObjectURL(file);
     onChangeFileUrls(result, props.props.index);
 
     props.props.setValue("image", result);
     void props.props.trigger("image");
-
+    console.log("여긴온다니??");
     const newFiles = [...props.props.files];
-    if (event.target.files?.[0] === undefined) return;
-    newFiles[props.props.index] = event.target.files?.[0];
+    newFiles[props.props.index] = file;
     props.props.setFiles(newFiles);
-    console.log("fie::", JSON.stringify(event.target.files?.[0]));
+    console.log("fie1111::", JSON.stringify(file));
   };
   return { onClickUpload, onChangeFile };
 }

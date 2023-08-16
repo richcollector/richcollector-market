@@ -17,7 +17,6 @@ export interface IProps {
     contents: string;
     price: number;
     tags: string;
-    pickedCount: string | undefined;
     image: string;
     address: string | undefined;
     addressDetail: string | undefined;
@@ -29,7 +28,6 @@ export interface IProps {
     remarks: string;
     contents: string;
     price: number;
-    pickedCount: string | undefined;
     tags: string;
     image: string;
     address: string | undefined;

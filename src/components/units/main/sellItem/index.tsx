@@ -332,6 +332,10 @@ export default function SellItem(): JSX.Element {
       },
     });
   };
+
+  const onClickMoved = (useditemId: string) => () => {
+    void router.push(`/market/${useditemId}`);
+  };
   console.log("data::", data);
   return (
     <>
@@ -354,7 +358,7 @@ export default function SellItem(): JSX.Element {
         {data?.fetchUseditems && (
           <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true}>
             {data?.fetchUseditems.map((el) => (
-              <ItemBox key={uuidv4()}>
+              <ItemBox onClick={onClickMoved(el._id)} key={uuidv4()}>
                 <ImageBox>
                   <Image
                     src={`http://storage.googleapis.com/${el.images?.[0]}`}
