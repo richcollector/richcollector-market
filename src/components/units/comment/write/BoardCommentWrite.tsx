@@ -1,18 +1,23 @@
 import styled from "@emotion/styled";
 import { Modal, Rate } from "antd";
-import { gql, useMutation } from "@apollo/client";
+import { type ApolloQueryResult, gql, useMutation } from "@apollo/client";
 import type {
   IMutation,
   IMutationCreateUseditemQuestionArgs,
+  IQuery,
+  IQueryFetchUseditemQuestionAnswersArgs,
+  IQueryFetchUseditemQuestionsArgs,
 } from "../../../../commons/types/generated/types";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./BoardCommentWrite.validation";
+import { useRecoilState } from "recoil";
+import { userInfomation } from "../../../../commons/store";
 
 export const Wrapper = styled.div`
   width: 1320px;
   height: 100%;
-  margin: 0px 100px;
+  margin-bottom: 50px;
 `;
 
 export const PencilIcon = styled.img``;
@@ -98,9 +103,13 @@ const CREATE_USED_ITEM_QUESTION = gql`
 `;
 interface IProps {
   useditemId: string | undefined;
+  refetch: (
+    variables?: Partial<IQueryFetchUseditemQuestionsArgs> | undefined,
+  ) => Promise<ApolloQueryResult<Pick<IQuery, "fetchUseditemQuestions">>>;
 }
 
 export default function BoardCommentWriteUI(props: IProps): JSX.Element {
+  const [info] = useRecoilState(userInfomation);
   const { handleSubmit, register, setValue, trigger, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -121,6 +130,7 @@ export default function BoardCommentWriteUI(props: IProps): JSX.Element {
           useditemId: props.useditemId ?? "",
         },
       });
+      props.refetch();
     } catch (error) {
       if (error instanceof Error) console.log("error::", error.message);
     }
@@ -130,12 +140,10 @@ export default function BoardCommentWriteUI(props: IProps): JSX.Element {
     <Wrapper>
       <>
         <PencilIcon />
-        <span>댓글</span>
+        <span>문의하기</span>
       </>
       <InputWrapper>
-        <Input placeholder="작성자" />
-        <Input type="password" placeholder="비밀번호" />
-        <Star />
+        <Input disabled defaultValue={info} />
       </InputWrapper>
       <ContentsWrapper>
         <Contents
