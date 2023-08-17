@@ -11,9 +11,7 @@ import Uploads from "../../../commons/uploads/Uploads.index";
 import Tags from "../../../commons/tag/Tag.index";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateUsedItem } from "../../../commons/hooks/customs/useCreateUsedItem";
-import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useMutationFetchUsedItem } from "../../../commons/hooks/queries/useQueryFetchUsedItem";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,

@@ -11,10 +11,8 @@ import {
   type IQuery,
   type IQueryFetchUseditemsArgs,
 } from "../../../../commons/types/generated/types";
-import InfiniteScroll from "react-infinite-scroller";
 import * as S from "./SellITem.styles";
 import _ from "lodash";
-import Dompurify from "dompurify";
 
 const FETCH_USED_ITEMS = gql`
   query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {

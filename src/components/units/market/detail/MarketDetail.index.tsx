@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
 import { useDetailUsedItem } from "../../../commons/hooks/customs/useDetailUsedItem";
+import { Tooltip } from "antd";
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -84,7 +85,11 @@ export default function MarketDetail(): JSX.Element {
           </S.InfoNameBox>
           <S.EtcIconBox>
             <S.IconImg src="/icon/link.svg" />
-            <S.IconImg src="/icon/location.svg" />
+            <Tooltip
+              title={`${data?.fetchUseditem.useditemAddress?.address ?? ""}`}
+            >
+              <S.IconImg src="/icon/location.svg" />
+            </Tooltip>
           </S.EtcIconBox>
         </S.InfoBox>
         <S.ProductBox>
@@ -140,7 +145,7 @@ export default function MarketDetail(): JSX.Element {
             />
             <S.HashBox>
               {data?.fetchUseditem.tags?.map((el) => (
-                <S.Hash key={uuidv4()}># {el}</S.Hash>
+                <S.Hash key={uuidv4()}>{el}</S.Hash>
               ))}
             </S.HashBox>
           </S.ProductContentBox>
@@ -165,7 +170,7 @@ export default function MarketDetail(): JSX.Element {
           )}
         </S.BtnBox>
       </S.Wrapper>
-      <BoardCommentListUIItem />
+      <BoardCommentListUIItem useditemId={data?.fetchUseditem._id} />
     </>
   );
 }
