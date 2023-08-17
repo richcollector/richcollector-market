@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
-import { Modal, Rate } from "antd";
 import { type ApolloQueryResult, gql, useMutation } from "@apollo/client";
 import type {
   IMutation,
   IMutationCreateUseditemQuestionArgs,
   IQuery,
-  IQueryFetchUseditemQuestionAnswersArgs,
   IQueryFetchUseditemQuestionsArgs,
 } from "../../../../commons/types/generated/types";
 import { useForm } from "react-hook-form";
@@ -79,8 +77,6 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Star = styled(Rate)``;
-
 const CREATE_USED_ITEM_QUESTION = gql`
   mutation createUseditemQuestion(
     $createUseditemQuestionInput: CreateUseditemQuestionInput!
@@ -130,6 +126,7 @@ export default function BoardCommentWriteUI(props: IProps): JSX.Element {
           useditemId: props.useditemId ?? "",
         },
       });
+      setValue("contents", "");
       props.refetch();
     } catch (error) {
       if (error instanceof Error) console.log("error::", error.message);

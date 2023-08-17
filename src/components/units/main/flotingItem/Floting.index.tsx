@@ -39,7 +39,7 @@ export default function FlotiongItem() {
               <S.Item key={uuidv4()} onClick={onClickMoved(el?._id)}>
                 <S.Image
                   src={
-                    el?.images?.[0].includes("codecamp-file-storage")
+                    el?.images?.[0]?.includes("codecamp-file-storage")
                       ? `http://storage.googleapis.com/${el.images?.[0]}`
                       : "/no_image.png"
                   }

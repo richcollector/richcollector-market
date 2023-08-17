@@ -70,8 +70,6 @@ export default function MarketDetail(): JSX.Element {
     localStorage.setItem("todayItem", JSON.stringify(todayItem));
   }, [data]);
 
-  console.log(data?.fetchUseditem.images);
-
   return (
     <>
       <S.Wrapper>
@@ -170,7 +168,10 @@ export default function MarketDetail(): JSX.Element {
           )}
         </S.BtnBox>
       </S.Wrapper>
-      <BoardCommentListUIItem useditemId={data?.fetchUseditem._id} />
+      <BoardCommentListUIItem
+        useditemId={data?.fetchUseditem._id}
+        writerId={data?.fetchUseditem.seller?.email}
+      />
     </>
   );
 }

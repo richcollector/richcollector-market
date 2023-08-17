@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "./BoardCommentList.validation";
 import styled from "@emotion/styled";
-import { Rate, Modal } from "antd";
 import BoardCommentWriteUI from "../write/BoardCommentWrite";
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import type {
-  IQueryFetchUseditemQuestionAnswersArgs,
   IQuery,
   IQueryFetchUseditemQuestionsArgs,
   IMutation,
@@ -12,14 +13,10 @@ import type {
   IMutationUpdateUseditemQuestionArgs,
 } from "../../../../commons/types/generated/types";
 import { v4 as uuidv4 } from "uuid";
-import { useForm } from "antd/es/form/Form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "./BoardCommentList.validation";
 import InfiniteScroll from "react-infinite-scroller";
 import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
 import BoardReCommentList from "./BoardReCommentList";
-import BoardReCommentWrite from "../write/BoardReCommentWrite";
 
 const ItemWrapper = styled.div`
   width: 1320px;
@@ -63,6 +60,7 @@ const WriterWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 `;
+
 const Writer = styled.div`
   font-size: 30px;
   font-weight: bold;
@@ -80,24 +78,14 @@ const OptionWrapper = styled.div`
 const Icon = styled.img`
   width: 24px;
   height: 24px;
+
+  margin-left: 10px;
   cursor: pointer;
 `;
 
 const DateString = styled.div`
   color: lightgray;
   padding-top: 15px;
-  padding-left: 60px;
-`;
-
-const Star = styled(Rate)`
-  padding-left: 20px;
-`;
-
-const PasswordModal = styled(Modal)``;
-
-const PasswordInput = styled.input`
-  width: 100%;
-  margin-top: 10px;
 `;
 
 export const ContentsWrapper = styled.div`
@@ -180,17 +168,17 @@ const UPDATE_USED_ITEM_QUESTION = gql`
 
 interface IProps {
   useditemId: string | undefined;
-}
-
-interface IAnswerData {
-  useditemQuestionId?: string | undefined;
-  answer: object;
+  writerId: string | undefined;
 }
 
 export default function BoardCommentListUIItem(props: IProps) {
   const [info] = useRecoilState(userInfomation);
   const [update, setUpdate] = useState("");
   const [answerWrite, setAnswerWrite] = useState("");
+  const { handleSubmit, register, setValue, trigger, formState } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onChange",
+  });
 
   const {
     data: questions,
@@ -274,6 +262,18 @@ export default function BoardCommentListUIItem(props: IProps) {
     });
   };
 
+  useEffect(() => {
+    if (update === "") {
+      setValue("contents", "");
+    } else if (update) {
+      const choose = questions?.fetchUseditemQuestions.filter(
+        (el) => el._id === update,
+      );
+      setValue("contents", String(choose?.[0].contents));
+      trigger("contents");
+    }
+  }, [update]);
+
   console.log("Questions::", questions);
 
   return (
@@ -295,7 +295,7 @@ export default function BoardCommentListUIItem(props: IProps) {
                         <ContentsInput
                           maxLength={100}
                           placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
-                          // {...register("contents")}
+                          {...register("contents")}
                         />
                         <BottomWrapper>
                           <ContentsLength>/100</ContentsLength>
@@ -314,19 +314,11 @@ export default function BoardCommentListUIItem(props: IProps) {
                     ) : (
                       <Contents>{el.contents}</Contents>
                     )}
+                    <DateString>{el.createdAt}</DateString>
                   </MainWrapper>
                   {update === el._id ? (
                     ""
                   ) : info === el.user.email ? (
-                    <OptionWrapper>
-                      <Icon
-                        src="/icon/question.svg"
-                        onClick={() => {
-                          setAnswerWrite(el._id);
-                        }}
-                      />
-                    </OptionWrapper>
-                  ) : (
                     <OptionWrapper>
                       <Icon
                         onClick={() => {
@@ -339,12 +331,22 @@ export default function BoardCommentListUIItem(props: IProps) {
                         src="/icon/close.svg"
                       />
                     </OptionWrapper>
+                  ) : info === props.writerId ? (
+                    <Icon
+                      src="/icon/question.svg"
+                      onClick={() => {
+                        setAnswerWrite(el._id);
+                      }}
+                    />
+                  ) : (
+                    ""
                   )}
                 </QuestionAnswerBox>
                 <BoardReCommentList
                   useditemQuestionId={el._id}
                   answerWrite={answerWrite}
                   setAnswerWrite={setAnswerWrite}
+                  writerId={props.writerId}
                 />
               </>
             ))}

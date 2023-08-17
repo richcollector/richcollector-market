@@ -1,24 +1,22 @@
 import styled from "@emotion/styled";
-import { Modal, Rate } from "antd";
 import { type ApolloQueryResult, gql, useMutation } from "@apollo/client";
 import type {
   IMutation,
   IMutationCreateUseditemQuestionAnswerArgs,
-  IMutationCreateUseditemQuestionArgs,
   IQuery,
   IQueryFetchUseditemQuestionAnswersArgs,
-  IQueryFetchUseditemQuestionsArgs,
 } from "../../../../commons/types/generated/types";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./BoardCommentWrite.validation";
 import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
-import type { Dispatch, SetStateAction } from "react";
+import type { SetStateAction } from "react";
 
 export const Wrapper = styled.div`
-  width: 1320px;
+  width: 1220px;
   height: 100%;
+  margin-left: 100px;
   margin-bottom: 50px;
 `;
 
@@ -81,8 +79,6 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Star = styled(Rate)``;
-
 const CREATE_USED_ITEM_QUESTION_ANSWER = gql`
   mutation createUseditemQuestionAnswer(
     $createUseditemQuestionAnswerInput: CreateUseditemQuestionAnswerInput!
@@ -133,8 +129,8 @@ export default function BoardReCommentWrite(props: IProps): JSX.Element {
           useditemQuestionId: props.useditemQuestionId ?? "",
         },
       });
-      console.log("useditemQuestionId::", props.useditemQuestionId);
-      console.log("result::", result);
+      setValue("contents", "");
+      props.setAnswerWrite("");
       props.refetch();
     } catch (error) {
       if (error instanceof Error) console.log("error::", error.message);

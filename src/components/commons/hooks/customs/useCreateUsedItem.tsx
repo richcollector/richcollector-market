@@ -77,7 +77,7 @@ export function useCreateUsedItem(props: IProps) {
   const [updateUsedITem] = useMutationUpdateUsedItem();
   const router = useRouter();
 
-  const { data } = useMutationFetchUsedItem({
+  const { data, refetch } = useMutationFetchUsedItem({
     useditemId: String(router.query.board_id),
   });
 
@@ -122,6 +122,7 @@ export function useCreateUsedItem(props: IProps) {
             },
           },
         });
+        refetch();
         void router.push("/");
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
@@ -147,6 +148,7 @@ export function useCreateUsedItem(props: IProps) {
             useditemId: String(router.query.board_id),
           },
         });
+        refetch();
         void router.push("/");
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });

@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import * as S from "./MarketWrite.styles";
 import SearchAddress from "../../../commons/address/SearchAddress";

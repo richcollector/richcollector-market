@@ -8,7 +8,7 @@ export function useDetailUsedItem() {
   const router = useRouter();
   const [deleteUsedItem] = useMutationDeleteUsedItem();
   const [usedItemPick] = useMutationToggleUsedItemPick();
-  const { data } = useMutationFetchUsedItem({
+  const { data, refetch } = useMutationFetchUsedItem({
     useditemId: String(router.query.board_id),
   });
 
@@ -18,6 +18,7 @@ export function useDetailUsedItem() {
         variables: { useditemId: String(router.query.board_id) },
       });
       console.log(result);
+      refetch();
       void router.push("/");
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
@@ -29,6 +30,7 @@ export function useDetailUsedItem() {
       const result = await usedItemPick({
         variables: { useditemId: String(router.query.board_id) },
       });
+      refetch();
       console.log("result::", result);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
