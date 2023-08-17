@@ -33,7 +33,7 @@ export default function LayoutHeader() {
   };
 
   useEffect(() => {
-    setinfo(String(userInfo?.fetchUserLoggedIn.name));
+    setinfo(String(userInfo?.fetchUserLoggedIn.email));
   }, [userInfo]);
 
   return (

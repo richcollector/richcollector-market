@@ -17,6 +17,7 @@ const FETCH_USED_ITEM = gql`
       images
       seller {
         name
+        email
         picture
       }
       useditemAddress {

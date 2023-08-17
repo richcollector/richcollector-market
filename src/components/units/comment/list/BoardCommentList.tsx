@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Rate, Modal } from "antd";
 import BoardCommentWriteUI from "../write/BoardCommentWrite";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
 import type {
   IQueryFetchUseditemQuestionAnswersArgs,
   IQuery,
@@ -16,10 +16,13 @@ import { useForm } from "antd/es/form/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./BoardCommentList.validation";
 import InfiniteScroll from "react-infinite-scroller";
+import { useRecoilState } from "recoil";
+import { userInfomation } from "../../../../commons/store";
+import BoardReCommentList from "./BoardReCommentList";
+import BoardReCommentWrite from "../write/BoardReCommentWrite";
 
 const ItemWrapper = styled.div`
   width: 1320px;
-  margin: 0px 100px;
   padding-top: 20px;
   height: 100%;
   border-bottom: 1px solid lightgray;
@@ -74,12 +77,7 @@ const OptionWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const UpdateIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-`;
-const DeleteIcon = styled.img`
+const Icon = styled.img`
   width: 24px;
   height: 24px;
   cursor: pointer;
@@ -160,28 +158,6 @@ const FETCH_USED_ITEM_QUESTIONS = gql`
   }
 `;
 
-const FETCH_USED_ITEM_QUESTION_ANSWER = gql`
-  query fetchUseditemQuestionAnswers($page: Int, $useditemQuestionId: ID!) {
-    fetchUseditemQuestionAnswers(
-      page: $page
-      useditemQuestionId: $useditemQuestionId
-    ) {
-      _id
-      contents
-      useditemQuestion {
-        _id
-        contents
-        useditem
-      }
-      user {
-        _id
-        email
-        name
-      }
-    }
-  }
-`;
-
 const DELETE_USED_ITEM_QUESTION = gql`
   mutation deleteUseditemQuestion($useditemQuestionId: ID!) {
     deleteUseditemQuestion(useditemQuestionId: $useditemQuestionId)
@@ -206,8 +182,16 @@ interface IProps {
   useditemId: string | undefined;
 }
 
+interface IAnswerData {
+  useditemQuestionId?: string | undefined;
+  answer: object;
+}
+
 export default function BoardCommentListUIItem(props: IProps) {
+  const [info] = useRecoilState(userInfomation);
   const [update, setUpdate] = useState("");
+  const [answerWrite, setAnswerWrite] = useState("");
+
   const {
     data: questions,
     refetch,
@@ -219,16 +203,6 @@ export default function BoardCommentListUIItem(props: IProps) {
     variables: {
       page: 1,
       useditemId: props.useditemId ?? "",
-    },
-  });
-
-  const { data: answer } = useQuery<
-    Pick<IQuery, "fetchUseditemQuestionAnswers">,
-    IQueryFetchUseditemQuestionAnswersArgs
-  >(FETCH_USED_ITEM_QUESTION_ANSWER, {
-    variables: {
-      page: 1,
-      useditemQuestionId: "",
     },
   });
 
@@ -301,7 +275,6 @@ export default function BoardCommentListUIItem(props: IProps) {
   };
 
   console.log("Questions::", questions);
-  console.log("Answer::", answer);
 
   return (
     <>
@@ -344,69 +317,35 @@ export default function BoardCommentListUIItem(props: IProps) {
                   </MainWrapper>
                   {update === el._id ? (
                     ""
+                  ) : info === el.user.email ? (
+                    <OptionWrapper>
+                      <Icon
+                        src="/icon/question.svg"
+                        onClick={() => {
+                          setAnswerWrite(el._id);
+                        }}
+                      />
+                    </OptionWrapper>
                   ) : (
                     <OptionWrapper>
-                      <UpdateIcon
+                      <Icon
                         onClick={() => {
                           setUpdate(el._id);
                         }}
                         src="/icon/update.svg"
                       />
-                      <DeleteIcon
+                      <Icon
                         onClick={onClickDelete(el._id)}
                         src="/icon/close.svg"
                       />
                     </OptionWrapper>
                   )}
                 </QuestionAnswerBox>
-                {/* <QuestionAnswerBox>
-                <Avatar src="/icon/user.svg" />
-                <MainWrapper>
-                  <WriterWrapper>
-                    <Writer>{el.user.name}</Writer>
-                  </WriterWrapper>
-                  {update === el._id ? (
-                    <ContentsWrapper>
-                      <ContentsInput
-                        maxLength={100}
-                        placeholder="개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
-                        // {...register("contents")}
-                      />
-                      <BottomWrapper>
-                        <ContentsLength>/100</ContentsLength>
-                        <Button onClick={onClickUpdate(el._id)}>
-                          수정하기
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setUpdate("");
-                          }}
-                        >
-                          취소
-                        </Button>
-                      </BottomWrapper>
-                    </ContentsWrapper>
-                  ) : (
-                    <Contents>{el.contents}</Contents>
-                  )}
-                </MainWrapper>
-                {update === el._id ? (
-                  ""
-                ) : (
-                  <OptionWrapper>
-                    <UpdateIcon
-                      onClick={() => {
-                        setUpdate(el._id);
-                      }}
-                      src="/icon/update.svg"
-                    />
-                    <DeleteIcon
-                      onClick={onClickDelete(el._id)}
-                      src="/icon/close.svg"
-                    />
-                  </OptionWrapper>
-                )}
-              </QuestionAnswerBox> */}
+                <BoardReCommentList
+                  useditemQuestionId={el._id}
+                  answerWrite={answerWrite}
+                  setAnswerWrite={setAnswerWrite}
+                />
               </>
             ))}
           </FlexWrapper>
