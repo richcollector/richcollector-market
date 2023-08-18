@@ -11,7 +11,6 @@ export const useLogin = () => {
   const [loginUser] = useMutationLoginUser();
 
   const onClickSubmit = async (data: IFormData) => {
-    console.log(data);
     try {
       const result = await loginUser({
         variables: {
@@ -19,7 +18,7 @@ export const useLogin = () => {
           password: data.password,
         },
       });
-      console.log(result.data?.loginUser.accessToken);
+      console.log("access:::", result.data?.loginUser.accessToken);
       setAccessToken(result.data?.loginUser.accessToken ?? "");
       void router.push("/");
     } catch (error) {

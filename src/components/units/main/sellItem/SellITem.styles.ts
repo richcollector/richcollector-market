@@ -1,10 +1,7 @@
 import styled from "@emotion/styled";
-import { Fragment, type MouseEvent } from "react";
 import { HeartFilled, SearchOutlined, DollarOutlined } from "@ant-design/icons";
-import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
 
-const SellTitleBox = styled.div`
+export const SellTitleBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,7 +14,7 @@ const SellTitleBox = styled.div`
   margin-bottom: 10px;
 `;
 
-const SellTitle = styled.div`
+export const SellTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -26,16 +23,16 @@ const SellTitle = styled.div`
   width: 400px;
 `;
 
-const SellSearch = styled.div`
+export const SellSearch = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
 
   width: calc(100% - 400px);
 `;
 
-const TitleText = styled.span`
+export const TitleText = styled.span`
   font-size: 22px;
   font-weight: 400;
   margin-left: 20px;
@@ -44,27 +41,25 @@ const TitleText = styled.span`
 
   :hover {
     font-weight: 800;
-    border-bottom: 2px solid orange;
-  }
-
-  :active {
-    font-weight: 800;
-    border-bottom: 2px solid orange;
+    border-bottom: 4px solid orange;
   }
 `;
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(5, 200px);
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-self: flex-start;
+
   width: 100%;
   max-width: 1320px;
+
   height: 1000px;
 
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 40px;
   border-top: 1px solid #bdbdbd;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -80,7 +75,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const ButtonBox = styled.div`
+export const ButtonBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -88,7 +83,7 @@ const ButtonBox = styled.div`
   align-items: end;
 `;
 
-const ItemBtn = styled.button`
+export const ItemBtn = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -106,7 +101,7 @@ const ItemBtn = styled.button`
   cursor: pointer;
 `;
 
-const ItemBox = styled.div`
+export const ItemBox = styled.div`
   display: grid;
   grid-template-columns: 1fr calc(100% - 400px) 1fr;
   grid-template-rows: 1fr;
@@ -124,14 +119,22 @@ const ItemBox = styled.div`
   }
 `;
 
-const ImageBox = styled.img`
+export const ImageBox = styled.div`
   width: 100%;
   height: 100%;
 
   border-radius: 10px;
 `;
 
-const ContentsBox = styled.div`
+export const Image = styled.img`
+  width: 100%;
+  height: 180px;
+
+  object-fit: cover;
+  border-radius: 10px;
+`;
+
+export const ContentsBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -140,7 +143,7 @@ const ContentsBox = styled.div`
   height: 100%;
 `;
 
-const PriceBox = styled.div`
+export const PriceBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,7 +153,7 @@ const PriceBox = styled.div`
   height: 100%;
 `;
 
-const Heart = styled(HeartFilled)`
+export const Heart = styled(HeartFilled)`
   font-size: 20px;
   color: red;
   margin: 0px 10px;
@@ -158,18 +161,18 @@ const Heart = styled(HeartFilled)`
   cursor: pointer;
 `;
 
-const UserImg = styled.img`
+export const UserImg = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 10px;
 `;
 
-const Searchbar = styled.div`
+export const Searchbar = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  width: 300px;
+  width: 800px;
   height: 50px;
 
   border-radius: 15px;
@@ -177,7 +180,7 @@ const Searchbar = styled.div`
   padding: 0px 20px;
 `;
 
-const Search = styled(SearchOutlined)`
+export const Search = styled(SearchOutlined)`
   color: #5729ff;
   font-size: 30px;
 
@@ -188,7 +191,7 @@ const Search = styled(SearchOutlined)`
   }
 `;
 
-const SearchbarInput = styled.input`
+export const SearchbarInput = styled.input`
   width: 100%;
   height: 100%;
   border: none;
@@ -200,7 +203,7 @@ const SearchbarInput = styled.input`
   margin: 0px 20px;
 `;
 
-const InputStartDay = styled.input`
+export const InputStartDay = styled.input`
   width: 150px;
   height: 50px;
   border: none;
@@ -210,7 +213,7 @@ const InputStartDay = styled.input`
   font-size: 20px;
 `;
 
-const InputEndDay = styled.input`
+export const InputEndDay = styled.input`
   width: 150px;
   height: 50px;
   border: none;
@@ -220,7 +223,7 @@ const InputEndDay = styled.input`
   font-size: 20px;
 `;
 
-const SearchBtn = styled.button`
+export const SearchBtn = styled.button`
   width: 100px;
   height: 50px;
   border: none;
@@ -228,84 +231,47 @@ const SearchBtn = styled.button`
   font-size: 20px;
 `;
 
-const ContentsTitle = styled.p`
+export const ContentsTitle = styled.div`
+  width: 800px;
   font-size: 20px;
   color: black;
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
-const ContentsEx = styled.p`
+export const ContentsEx = styled.div`
+  width: 800px;
   font-size: 18px;
   color: #4f4f4f;
   font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 `;
-const ContentsHash = styled.p`
+export const ContentsHash = styled.div``;
+
+export const Tag = styled.span`
+  width: 100px;
   font: 15px;
   color: #bdbdbd;
   font-weight: 800;
+  margin-right: 20px;
 `;
 
-const IconBox = styled.div`
+export const IconBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 `;
 
-const IconText = styled.div`
+export const IconText = styled.div`
   font-weight: 800;
   color: #4f4f4f;
   padding: 0;
 `;
-
-export default function SellItem(): JSX.Element {
-  const router = useRouter();
-  const onClickRegister = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
-    void router.push("/market/new");
-  };
-  return (
-    <>
-      <SellTitleBox>
-        <SellTitle>
-          <TitleText>판매중상품</TitleText>
-          <TitleText>판매된상품</TitleText>
-        </SellTitle>
-        <SellSearch>
-          <Searchbar>
-            <Search />
-            <SearchbarInput placeholder="검색어를 입력해 주세요." />
-          </Searchbar>
-          <InputStartDay type="date" />
-          <InputEndDay type="date" />
-          <SearchBtn>검색</SearchBtn>
-        </SellSearch>
-      </SellTitleBox>
-      <Wrapper>
-        {new Array(10).fill("").map((el) => (
-          <Fragment key={uuidv4()}>
-            <ItemBox>
-              <ImageBox src="/taewan.jpg" />
-              <ContentsBox>
-                <ContentsTitle>리치컬렉터 김태완 엣지 1</ContentsTitle>
-                <ContentsEx>2019 edition</ContentsEx>
-                <ContentsHash>#삼성전자 #갤럭시 #가성비</ContentsHash>
-                <IconBox>
-                  <UserImg src="/icon/User.svg" />
-                  <IconText>판매자</IconText>
-                  <Heart />
-                  <IconText>20</IconText>
-                </IconBox>
-              </ContentsBox>
-              <PriceBox>
-                <h2>28,370원</h2>
-              </PriceBox>
-            </ItemBox>
-          </Fragment>
-        ))}
-      </Wrapper>
-      <ButtonBox>
-        <ItemBtn onClick={onClickRegister}>상품등록하기</ItemBtn>
-      </ButtonBox>
-    </>
-  );
-}

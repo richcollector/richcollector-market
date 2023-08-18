@@ -1,10 +1,10 @@
-import { Fragment, type MouseEvent } from "react";
+import { Fragment, useEffect, type MouseEvent } from "react";
 import { useRouter } from "next/router";
 import * as S from "./Header.styles";
-import { accessTokenState } from "../../../../commons/store";
+import { accessTokenState, userInfomation } from "../../../../commons/store";
 import { useRecoilState } from "recoil";
 import { useQueryFetchUser } from "../../hooks/queries/useQueryFetchUser";
-import { useMutationLogoutUser } from "../../hooks/mutation/useLogoutUser";
+import { useMutationLogoutUser } from "../../hooks/mutation/useMutationLogoutUser";
 
 const LOGOUT_HEADER_LIST = [
   { name: "리치컬렉터가 처음이신가요?", page: "" },
@@ -18,6 +18,7 @@ const LOGIN_HEADER_LIST = [
 ];
 
 export default function LayoutHeader() {
+  const [info, setinfo] = useRecoilState(userInfomation);
   const Router = useRouter();
   const { data: userInfo } = useQueryFetchUser();
   const [logoutUser] = useMutationLogoutUser();
@@ -31,7 +32,9 @@ export default function LayoutHeader() {
     }
   };
 
-  console.log(userInfo);
+  useEffect(() => {
+    setinfo(String(userInfo?.fetchUserLoggedIn.email));
+  }, [userInfo]);
 
   return (
     <>
