@@ -1,4 +1,4 @@
-import { useMutationFetchUsedItem } from "../../../commons/hooks/queries/useQueryFetchUsedItem";
+import { useQueryFetchUsedItem } from "../../../commons/hooks/queries/useQueryFetchUsedItem";
 import { useMutationDeleteUsedItem } from "../../../commons/hooks/mutation/useMutationDeleteUsedItem";
 import { useMutationToggleUsedItemPick } from "../../../commons/hooks/mutation/useMutationToggleUsedItemPick";
 import { useRouter } from "next/router";
@@ -8,7 +8,7 @@ export function useDetailUsedItem() {
   const router = useRouter();
   const [deleteUsedItem] = useMutationDeleteUsedItem();
   const [usedItemPick] = useMutationToggleUsedItemPick();
-  const { data, refetch } = useMutationFetchUsedItem({
+  const { data, refetch } = useQueryFetchUsedItem({
     useditemId: String(router.query.board_id),
   });
 

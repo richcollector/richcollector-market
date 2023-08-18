@@ -7,6 +7,17 @@ export default function Tags(props: IProps) {
     if (event.key === "Enter") {
       console.log("??:", event.currentTarget.value);
       const newTags = [...props.tags];
+
+      const findTag = newTags.filter((el) => el === event.currentTarget.value);
+
+      if (findTag.length >= 1) {
+        props.setError("tags", {
+          type: "manual",
+          message: "이미 같은 태그가 존재합니다.",
+        });
+        return;
+      }
+
       newTags[props.index] = event.currentTarget.value;
 
       props.setTags(newTags);
@@ -15,7 +26,10 @@ export default function Tags(props: IProps) {
       props.setValue("tags", result);
       void props.trigger("tags");
 
-      if (props.index < 4) newTags[props.index + 1] = "";
+      if (props.index < 4) {
+        props.setValue("tags", "");
+        newTags[props.index + 1] = "";
+      }
     }
   };
 
@@ -33,7 +47,11 @@ export default function Tags(props: IProps) {
         </S.TagsBox>
       ) : (
         <S.TagsBox>
-          <S.Input placeholder="태그 입력" onKeyPress={onKeyPressEnter} />
+          <S.Input
+            {...props.register}
+            placeholder="태그 입력"
+            onKeyPress={onKeyPressEnter}
+          />
         </S.TagsBox>
       )}
     </>

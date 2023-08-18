@@ -3,15 +3,14 @@ import {
   useState,
   type Dispatch,
   type SetStateAction,
-  type MouseEvent,
 } from "react";
 import { useMutationUploadFile } from "../mutation/useMutationUploadFile";
 import { Modal } from "antd";
 import type { UseFormTrigger, UseFormSetValue } from "react-hook-form";
 import { useMutationCreateUsedItem } from "../mutation/useMutationCreateUsedItem";
 import { useRouter } from "next/router";
-import { useMutationUpdateUsedItem } from "../mutation/useMutaionUpdateUsedItem";
-import { useMutationFetchUsedItem } from "../queries/useQueryFetchUsedItem";
+import { useMutationUpdateUsedItem } from "../mutation/useMutationUpdateUsedItem";
+import { useQueryFetchUsedItem } from "../queries/useQueryFetchUsedItem";
 
 interface IFormData {
   name: string;
@@ -77,7 +76,7 @@ export function useCreateUsedItem(props: IProps) {
   const [updateUsedITem] = useMutationUpdateUsedItem();
   const router = useRouter();
 
-  const { data, refetch } = useMutationFetchUsedItem({
+  const { data, refetch } = useQueryFetchUsedItem({
     useditemId: String(router.query.board_id),
   });
 

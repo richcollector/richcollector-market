@@ -6,9 +6,9 @@ export const breakpoints = [768, 1024];
 export const [Phone, Monitor] = breakpoints;
 
 export const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 200px 1fr 1100px 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   width: 1320px;
   height: 100%;
@@ -26,8 +26,11 @@ export const Wrapper = styled.div`
 
 export const InfoBox = styled.div`
   display: flex;
+
   width: 100%;
-  height: 100%;
+  height: 250px;
+
+  padding: 50px 0;
 
   border-bottom: 1px solid #bdbdbd;
 `;
@@ -78,7 +81,6 @@ export const ProductBox = styled.div`
   flex-direction: column;
 
   width: 100%;
-  height: 100%;
 `;
 
 export const ProductInfoBox = styled.div`
@@ -172,6 +174,7 @@ export const ProductImages = styled.div`
 export const ImageBox = styled.img`
   width: 250px;
   height: 250px;
+  object-fit: cover;
 `;
 
 export const ProductContentBox = styled.div`
@@ -202,7 +205,7 @@ export const Hash = styled.span`
 export const LocationBox = styled.div`
   display: flex;
 
-  width: 100%;
+  width: 1320px;
   height: 1000px;
 
   margin-top: 50px;
@@ -214,8 +217,10 @@ export const BtnBox = styled.div`
   justify-content: space-around;
   align-items: center;
 
+  padding: 50px 0;
+
   width: 100%;
-  height: 100%;
+  height: 200px;
 `;
 
 export const ListBtn = styled.button`

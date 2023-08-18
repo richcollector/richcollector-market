@@ -30,7 +30,7 @@ const FETCH_USED_ITEM = gql`
   }
 `;
 
-export function useMutationFetchUsedItem(variables: IQueryFetchUseditemArgs) {
+export function useQueryFetchUsedItem(variables: IQueryFetchUseditemArgs) {
   const query = useQuery<
     Pick<IQuery, "fetchUseditem">,
     IQueryFetchUseditemArgs

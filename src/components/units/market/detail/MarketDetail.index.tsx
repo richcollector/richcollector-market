@@ -2,7 +2,7 @@ import * as S from "./MarketDetail.styles";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import BoardCommentListUIItem from "../../comment/list/BoardCommentList";
+import BoardCommentListUIItem from "../../comment/list/CommentList";
 import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
 import { useDetailUsedItem } from "../../../commons/hooks/customs/useDetailUsedItem";
 import { Tooltip } from "antd";
+import { getDate } from "../../../../commons/libraries/utils";
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -31,36 +32,38 @@ export default function MarketDetail(): JSX.Element {
     useDetailUsedItem();
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
-    document.head.appendChild(script);
-    script.onload = () => {
-      window.kakao.maps.load(function () {
-        const container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
-        const options = {
-          //지도를 생성할 때 필요한 기본 옵션
-          center: new window.kakao.maps.LatLng(
+    if (data?.fetchUseditem.useditemAddress?.lat) {
+      const script = document.createElement("script");
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
+      document.head.appendChild(script);
+      script.onload = () => {
+        window.kakao.maps.load(function () {
+          const container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
+          const options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new window.kakao.maps.LatLng(
+              data?.fetchUseditem.useditemAddress?.lat ?? 37.4485371374725,
+              data?.fetchUseditem.useditemAddress?.lng ?? 127.055036215823,
+            ), //지도의 중심좌표.
+            level: 3, //지도의 레벨(확대, 축소 정도)
+          };
+
+          const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+          // 마커가 표시될 위치입니다
+          const markerPosition = new window.kakao.maps.LatLng(
             data?.fetchUseditem.useditemAddress?.lat ?? 37.4485371374725,
             data?.fetchUseditem.useditemAddress?.lng ?? 127.055036215823,
-          ), //지도의 중심좌표.
-          level: 3, //지도의 레벨(확대, 축소 정도)
-        };
-
-        const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        // 마커가 표시될 위치입니다
-        const markerPosition = new window.kakao.maps.LatLng(
-          data?.fetchUseditem.useditemAddress?.lat ?? 37.4485371374725,
-          data?.fetchUseditem.useditemAddress?.lng ?? 127.055036215823,
-        );
-        // 마커를 생성합니다
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
+          );
+          // 마커를 생성합니다
+          const marker = new window.kakao.maps.Marker({
+            position: markerPosition,
+          });
+          // 마커가 지도 위에 표시되도록 설정합니다
+          marker.setMap(map);
         });
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map);
-      });
-    };
-  }, [data?.fetchUseditem]);
+      };
+    }
+  }, [data?.fetchUseditem.useditemAddress?.lat]);
 
   useEffect(() => {
     const todayItem: any[] = JSON.parse(
@@ -79,15 +82,18 @@ export default function MarketDetail(): JSX.Element {
           </S.InfoIconBox>
           <S.InfoNameBox>
             <S.UserName>{data?.fetchUseditem.seller?.name}</S.UserName>
-            <S.WriteDate>Date: {data?.fetchUseditem.createdAt}</S.WriteDate>
+            <S.WriteDate>
+              Date: {getDate(data?.fetchUseditem.createdAt)}
+            </S.WriteDate>
           </S.InfoNameBox>
           <S.EtcIconBox>
-            <S.IconImg src="/icon/link.svg" />
-            <Tooltip
-              title={`${data?.fetchUseditem.useditemAddress?.address ?? ""}`}
-            >
-              <S.IconImg src="/icon/location.svg" />
-            </Tooltip>
+            {data?.fetchUseditem.useditemAddress?.address && (
+              <Tooltip
+                title={`${data?.fetchUseditem.useditemAddress?.address}`}
+              >
+                <S.IconImg src="/icon/location.svg" />
+              </Tooltip>
+            )}
           </S.EtcIconBox>
         </S.InfoBox>
         <S.ProductBox>
@@ -148,7 +154,7 @@ export default function MarketDetail(): JSX.Element {
             </S.HashBox>
           </S.ProductContentBox>
         </S.ProductBox>
-        <S.LocationBox id="map" />
+        {data?.fetchUseditem.useditemAddress?.lat && <S.LocationBox id="map" />}
         <S.BtnBox>
           <Link href={"/"}>
             <S.ListBtn>목록으로</S.ListBtn>

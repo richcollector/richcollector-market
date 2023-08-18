@@ -1,104 +1,26 @@
-import {
-  useState,
-  type MouseEvent,
-  type ChangeEvent,
-  type UIEvent,
-} from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
-import { gql, useQuery } from "@apollo/client";
-import {
-  type IQuery,
-  type IQueryFetchUseditemsArgs,
-} from "../../../../commons/types/generated/types";
 import * as S from "./SellITem.styles";
-import _ from "lodash";
+import { useSellItem } from "../../../commons/hooks/customs/useSellItem";
 
-const FETCH_USED_ITEMS = gql`
-  query fetchUseditems($isSoldout: Boolean, $search: String, $page: Int) {
-    fetchUseditems(isSoldout: $isSoldout, search: $search, page: $page) {
-      _id
-      name
-      remarks
-      contents
-      price
-      tags
-      images
-      pickedCount
-      seller {
-        name
-        picture
-      }
-    }
-  }
-`;
+const activeStyle = {
+  fontWeight: 800,
+  borderBottom: "4px solid orange",
+};
 
 export default function SellItem(): JSX.Element {
-  const router = useRouter();
   const [menu, setMenu] = useState(false);
-  const onClickRegister = (event: MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
-    void router.push("/market/new");
-  };
-  const { data, refetch, fetchMore } = useQuery<
-    Pick<IQuery, "fetchUseditems">,
-    IQueryFetchUseditemsArgs
-  >(FETCH_USED_ITEMS, {
-    variables: {
-      isSoldout: menu,
-      search: "",
-      page: 1,
-    },
-  });
+  const {
+    data,
+    handleScroll,
+    onChangeSearch,
+    onClickMoved,
+    onClickRegister,
+    onLoadMore,
+    refetch,
+  } = useSellItem({ menu });
 
-  const handleScroll = (event: UIEvent<HTMLElement>) => {
-    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-    console.log("scrollTop:", scrollTop);
-    console.log("clientHeight:", clientHeight);
-    console.log("scrollHeight:", scrollHeight);
-
-    if (clientHeight + scrollTop >= scrollHeight) {
-      onLoadMore();
-    }
-  };
-
-  const onLoadMore = (): void => {
-    if (data === undefined) return;
-    void fetchMore({
-      variables: {
-        page: Math.ceil(data?.fetchUseditems.length ?? 10 / 10) + 1,
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (fetchMoreResult.fetchUseditems === undefined)
-          return { fetchUseditems: [...prev.fetchUseditems] };
-
-        return {
-          fetchUseditems: [
-            ...prev.fetchUseditems,
-            ...fetchMoreResult.fetchUseditems,
-          ],
-        };
-      },
-    });
-  };
-
-  const onClickMoved = (useditemId: string) => () => {
-    void router.push(`/market/${useditemId}`);
-  };
   console.log("data::", data);
-
-  const activeStyle = {
-    fontWeight: 800,
-    borderBottom: "4px solid orange",
-  };
-
-  const getDebounce = _.debounce((value) => {
-    void refetch({ search: value, page: 1 });
-  }, 500);
-
-  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>): void => {
-    getDebounce(event.currentTarget.value);
-  };
 
   return (
     <>

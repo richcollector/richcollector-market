@@ -50,6 +50,13 @@ export const Input = styled.input`
   font-size: 20px;
 `;
 
+export const ErrorBox = styled.div`
+  height: 30px;
+  width: 100%;
+
+  color: red;
+`;
+
 export const LocationBox = styled.div`
   display: grid;
   grid-template-columns: 500px auto;
