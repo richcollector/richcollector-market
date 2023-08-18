@@ -1,9 +1,9 @@
-import MyPageBoard from "../../src/components/units/mypage/board";
+import MyItem from "../../src/components/units/mypage/myItem/MyItem.index";
 
 export default function MyPage(): JSX.Element {
   return (
     <>
-      <MyPageBoard />
+      <MyItem />
     </>
   );
 }

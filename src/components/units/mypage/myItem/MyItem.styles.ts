@@ -1,14 +1,11 @@
 import styled from "@emotion/styled";
 import { SearchOutlined } from "@ant-design/icons";
-import { v4 as uuidv4 } from "uuid";
-import Paginations01 from "../../../commons/paginations/01/Paginations01.container";
-import FloatingMyPage from "../floating";
 
-const breakpoints = [768, 1024];
+export const breakpoints = [768, 1024];
 
-const [Phone, Monitor] = breakpoints;
+export const [Phone, Monitor] = breakpoints;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 0 1fr;
   grid-template-rows: 1fr;
@@ -30,7 +27,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const BoardBox = styled.div`
+export const BoardBox = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -38,7 +35,7 @@ const BoardBox = styled.div`
   height: 1000px;
 `;
 
-const PaginationBox = styled.div`
+export const PaginationBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -48,13 +45,13 @@ const PaginationBox = styled.div`
   height: 50px;
 `;
 
-const BoardMenu = styled.div`
+export const BoardMenu = styled.div`
   display: flex;
   width: 100%;
   height: 80px;
 `;
 
-const Boardcontents = styled.div`
+export const Boardcontents = styled.div`
   display: grid;
   width: 100%;
   height: 100%;
@@ -65,7 +62,7 @@ const Boardcontents = styled.div`
   border-bottom: 1px solid black;
 `;
 
-const BoardColumnTitle = styled.div`
+export const BoardColumnTitle = styled.div`
   display: grid;
   width: 100%;
   height: 100%;
@@ -73,7 +70,7 @@ const BoardColumnTitle = styled.div`
   grid-template-rows: 1fr;
 `;
 
-const ColumnTitle = styled.div`
+export const ColumnTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -82,7 +79,7 @@ const ColumnTitle = styled.div`
   font-weight: 600;
 `;
 
-const BoardColumnContent = styled.div`
+export const BoardColumnContent = styled.div`
   display: grid;
   width: 100%;
   height: 100%;
@@ -90,7 +87,7 @@ const BoardColumnContent = styled.div`
   grid-template-rows: 1fr;
 `;
 
-const CoulumnContent = styled.div`
+export const CoulumnContent = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -100,7 +97,7 @@ const CoulumnContent = styled.div`
   border-top: 1px solid #bdbdbd;
 `;
 
-const MenuTitleBox = styled.div`
+export const MenuTitleBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -109,7 +106,7 @@ const MenuTitleBox = styled.div`
   height: 100%;
 `;
 
-const MenuTitle = styled.div`
+export const MenuTitle = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -121,23 +118,18 @@ const MenuTitle = styled.div`
 
   :hover {
     font-weight: 800;
-    border-bottom: 2px solid orange;
-  }
-
-  :active {
-    font-weight: 800;
-    border-bottom: 2px solid orange;
+    border-bottom: 4px solid orange;
   }
 `;
 
-const LineBox = styled.div`
+export const LineBox = styled.div`
   display: flex;
   height: 20px;
   border: 1px solid #bdbdbd;
   margin: 0 20px;
 `;
 
-const SearchBox = styled.div`
+export const SearchBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -146,7 +138,7 @@ const SearchBox = styled.div`
   gap: 20px;
 `;
 
-const Searchbar = styled.div`
+export const Searchbar = styled.div`
   width: 400px;
   height: 50px;
   border-radius: 15px;
@@ -157,7 +149,7 @@ const Searchbar = styled.div`
   align-items: center;
 `;
 
-const Search = styled(SearchOutlined)`
+export const Search = styled(SearchOutlined)`
   color: #5729ff;
   font-size: 30px;
   cursor: pointer;
@@ -167,7 +159,7 @@ const Search = styled(SearchOutlined)`
   }
 `;
 
-const SearchbarInput = styled.input`
+export const SearchbarInput = styled.input`
   width: 100%;
   height: 100%;
   border: none;
@@ -179,7 +171,7 @@ const SearchbarInput = styled.input`
   margin: 0px 20px;
 `;
 
-const SearchBtn = styled.button`
+export const SearchBtn = styled.button`
   width: 100px;
   height: 50px;
 
@@ -191,56 +183,7 @@ const SearchBtn = styled.button`
   cursor: pointer;
 `;
 
-const BlankBox = styled.div`
+export const BlankBox = styled.div`
   position: relative;
   height: 100%;
 `;
-
-export default function MyPageBoard(): JSX.Element {
-  return (
-    <>
-      <Wrapper>
-        <BlankBox>
-          <FloatingMyPage></FloatingMyPage>
-        </BlankBox>
-        <BoardBox>
-          <BoardMenu>
-            <MenuTitleBox>
-              <MenuTitle>나의상품</MenuTitle>
-              <LineBox />
-              <MenuTitle>마이찜</MenuTitle>
-            </MenuTitleBox>
-            <SearchBox>
-              <Searchbar>
-                <Search />
-                <SearchbarInput placeholder="검색어를 입력해 주세요." />
-              </Searchbar>
-              <SearchBtn>검색</SearchBtn>
-            </SearchBox>
-          </BoardMenu>
-          <Boardcontents>
-            <BoardColumnTitle>
-              <ColumnTitle>번호</ColumnTitle>
-              <ColumnTitle>상품명</ColumnTitle>
-              <ColumnTitle>판매여부</ColumnTitle>
-              <ColumnTitle>판매가격</ColumnTitle>
-              <ColumnTitle>날짜</ColumnTitle>
-            </BoardColumnTitle>
-            {new Array(10).fill("").map((el, index) => (
-              <BoardColumnContent key={uuidv4()}>
-                <CoulumnContent>{index + 1}</CoulumnContent>
-                <CoulumnContent>아이폰팝니다.</CoulumnContent>
-                <CoulumnContent>판매완료</CoulumnContent>
-                <CoulumnContent>100,000원</CoulumnContent>
-                <CoulumnContent>2022.09.25</CoulumnContent>
-              </BoardColumnContent>
-            ))}
-          </Boardcontents>
-          <PaginationBox>
-            <Paginations01 />
-          </PaginationBox>
-        </BoardBox>
-      </Wrapper>
-    </>
-  );
-}

@@ -119,7 +119,7 @@ const Menu = styled.div`
 
 const IconImg = styled.img``;
 
-export default function FloatingMyPage(): JSX.Element {
+export default function Info(): JSX.Element {
   return (
     <FloatingMenuBox>
       <FloatingMenuTitle>MyPage</FloatingMenuTitle>
