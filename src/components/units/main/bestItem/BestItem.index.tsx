@@ -23,12 +23,9 @@ export default function BestItem(): JSX.Element {
   const { data } =
     useQuery<Pick<IQuery, "fetchUseditemsOfTheBest">>(FETCH_USED_ITEM_BEST);
 
-  console.log("data::", data?.fetchUseditemsOfTheBest);
   const onClickMoved = (useditemId: string) => () => {
     void router.push(`/market/${useditemId}`);
   };
-
-  console.log("best::", data);
 
   return (
     <>

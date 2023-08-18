@@ -84,23 +84,16 @@ export function useCreateUsedItem(props: IProps) {
     const newFileRealUrls = [...fileRealUrls];
     // 파일 업로드
     for (let i = 0; i < files.length; i++) {
-      console.log(...fileRealUrls);
       try {
         const result = await uploadFile({ variables: { file: files[i] } });
         if (result.data?.uploadFile.url)
           newFileRealUrls[i] = result.data?.uploadFile.url;
-        console.log(
-          "result.data?.uploadFile.url::",
-          result.data?.uploadFile.url,
-        );
-        console.log("newFileRealUrls::", newFileRealUrls);
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
       }
     }
 
     if (!router.asPath.includes("/edit")) {
-      console.log("data::", data);
       //게시글 작성
       try {
         const result = await createUsedItem({

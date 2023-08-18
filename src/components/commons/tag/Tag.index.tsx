@@ -5,7 +5,6 @@ import { type KeyboardEvent } from "react";
 export default function Tags(props: IProps) {
   const onKeyPressEnter = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      console.log("??:", event.currentTarget.value);
       const newTags = [...props.tags];
 
       const findTag = newTags.filter((el) => el === event.currentTarget.value);

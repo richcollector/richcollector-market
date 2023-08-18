@@ -11,7 +11,6 @@ export const useLogin = () => {
   const [loginUser] = useMutationLoginUser();
 
   const onClickSubmit = async (data: IFormData) => {
-    console.log(data);
     try {
       const result = await loginUser({
         variables: {

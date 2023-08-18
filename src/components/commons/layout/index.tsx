@@ -31,8 +31,6 @@ const HIDDEN = ["/login", "/signup"];
 
 export default function Layout(props: ILayoutProps): JSX.Element {
   const router = useRouter();
-  console.log("router asPath::", router.asPath);
-  console.log("includes", HIDDEN.includes(router.asPath));
 
   const isHidden = HIDDEN.includes(router.asPath);
   return (

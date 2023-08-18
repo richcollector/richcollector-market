@@ -17,7 +17,6 @@ export function useDetailUsedItem() {
       const result = await deleteUsedItem({
         variables: { useditemId: String(router.query.board_id) },
       });
-      console.log(result);
       refetch();
       void router.push("/");
     } catch (error) {
@@ -31,7 +30,6 @@ export function useDetailUsedItem() {
         variables: { useditemId: String(router.query.board_id) },
       });
       refetch();
-      console.log("result::", result);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }

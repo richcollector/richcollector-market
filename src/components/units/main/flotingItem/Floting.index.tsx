@@ -25,8 +25,6 @@ export default function FlotiongItem() {
     void router.push(`/market/${useditemId}`);
   };
 
-  console.log("flao::", data);
-
   return (
     <>
       {data[0] !== null && (

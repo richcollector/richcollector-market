@@ -20,8 +20,6 @@ export default function SellItem(): JSX.Element {
     refetch,
   } = useSellItem({ menu });
 
-  console.log("data::", data);
-
   return (
     <>
       <S.SellTitleBox>

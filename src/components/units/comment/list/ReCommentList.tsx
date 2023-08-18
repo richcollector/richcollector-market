@@ -42,10 +42,6 @@ export default function ReCommentList({
   const { answer, onClickDelete, onLoadMore, refetch, onClickUpdate } =
     useReCommentList({ useditemQuestionId, setUpdate });
 
-  console.log("useditemQuestionId::", useditemQuestionId);
-  console.log("answerWrite::", answerWrite);
-  console.log("answer::", answer);
-
   useEffect(() => {
     if (update === "") {
       setValue("contents", "");

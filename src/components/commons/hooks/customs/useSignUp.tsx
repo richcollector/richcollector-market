@@ -8,7 +8,6 @@ export const useSignUp = () => {
   const router = useRouter();
 
   const onClickSubmit = async (data: IFormData) => {
-    console.log(data);
     try {
       const result = await createUser({
         variables: {
@@ -19,7 +18,6 @@ export const useSignUp = () => {
           },
         },
       });
-      console.log(result.data?.createUser);
       void router.push("/login");
     } catch (error) {
       if (error instanceof Error) {
