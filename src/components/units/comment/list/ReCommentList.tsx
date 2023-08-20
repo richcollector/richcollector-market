@@ -1,4 +1,10 @@
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useState,
+  Fragment,
+} from "react";
 import styled from "@emotion/styled";
 import * as S from "./Comment.styles";
 import { v4 as uuidv4 } from "uuid";
@@ -61,8 +67,8 @@ export default function ReCommentList({
           <ItemWrapper>
             <S.FlexWrapper>
               {answer?.fetchUseditemQuestionAnswers.map((el, index) => (
-                <>
-                  <S.QuestionAnswerBox key={uuidv4()}>
+                <Fragment key={uuidv4()}>
+                  <S.QuestionAnswerBox>
                     <S.Arrow src="/icon/arrow_right.svg" />
                     <S.Avatar src="/icon/user.svg" />
                     <S.MainWrapper>
@@ -121,7 +127,7 @@ export default function ReCommentList({
                       ""
                     )}
                   </S.QuestionAnswerBox>
-                </>
+                </Fragment>
               ))}
             </S.FlexWrapper>
           </ItemWrapper>

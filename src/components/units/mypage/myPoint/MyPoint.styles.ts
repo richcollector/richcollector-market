@@ -66,7 +66,7 @@ export const BoardColumnTitle = styled.div`
   display: grid;
   width: 100%;
   height: 100%;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
 `;
 
@@ -83,7 +83,7 @@ export const BoardColumnContent = styled.div`
   display: grid;
   width: 100%;
   height: 100%;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
 `;
 

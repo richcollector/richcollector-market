@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./CommentList.validation";
@@ -58,8 +58,8 @@ export default function CommentList({ useditemId, writerId }: IProps) {
         <ItemWrapper>
           <S.FlexWrapper>
             {questions?.fetchUseditemQuestions.map((el) => (
-              <>
-                <S.QuestionAnswerBox key={uuidv4()}>
+              <Fragment key={uuidv4()}>
+                <S.QuestionAnswerBox>
                   <S.Avatar src="/icon/user.svg" />
                   <S.MainWrapper>
                     <S.WriterWrapper>
@@ -132,7 +132,7 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   setAnswerWrite={setAnswerWrite}
                   writerId={writerId}
                 />
-              </>
+              </Fragment>
             ))}
           </S.FlexWrapper>
         </ItemWrapper>

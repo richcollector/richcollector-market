@@ -82,7 +82,7 @@ export default function CommentWrite(props: IProps): JSX.Element {
         <span>문의하기</span>
       </>
       <S.InputWrapper>
-        <S.Input disabled defaultValue={info} />
+        <S.Input disabled defaultValue={info[0]?.name} />
       </S.InputWrapper>
       <S.ContentsWrapper>
         <S.Contents

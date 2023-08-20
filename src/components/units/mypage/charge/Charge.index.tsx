@@ -1,6 +1,5 @@
 import React, { type ChangeEvent, useState } from "react";
 import { Modal } from "antd";
-import styled from "@emotion/styled";
 import { gql, useMutation } from "@apollo/client";
 import type {
   IMutation,
@@ -8,46 +7,7 @@ import type {
 } from "../../../../commons/types/generated/types";
 import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
-
-const ChargeBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  gap: 20px;
-`;
-const Select = styled.select`
-  width: 100%;
-  border: none;
-  border-bottom: 3px solid #bdbdbd;
-  padding-bottom: 10px;
-
-  font-size: 20px;
-`;
-
-const Option = styled.option``;
-
-const ModalBtn = styled.button`
-  width: 140px;
-  height: 30px;
-  border: none;
-  border-radius: 10px;
-
-  font-size: 15px;
-
-  background-color: #ffd600;
-`;
-
-const Btn = styled.button`
-  width: 100%;
-  height: 50px;
-  font-size: 20px;
-  border-radius: 10px;
-  border: none;
-
-  cursor: pointer;
-`;
+import * as S from "./Charge.styles";
 
 const CREATE_POINT_LOADING = gql`
   mutation createPointTransactionOfLoading($impUid: ID!) {
@@ -62,7 +22,7 @@ declare const window: typeof globalThis & {
   IMP: any;
 };
 
-export default function ChargeModal(): JSX.Element {
+export default function ChargeModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [info, setInfo] = useRecoilState(userInfomation);
   const [money, setMoney] = useState(0);
@@ -89,8 +49,8 @@ export default function ChargeModal(): JSX.Element {
         pg: "kakaopay",
         pay_method: "card",
         // merchant_uid: "ORD20180131-0000011",
-        name: "포인트 충전",
-        amount: 100, // 숫자 타입
+        name: "충전",
+        amount: money, // 숫자 타입
         buyer_email: info[0].email,
         buyer_name: info[0].name,
         m_redirect_url: "http://localhost:3000/mypage",
@@ -120,21 +80,21 @@ export default function ChargeModal(): JSX.Element {
   return (
     <>
       <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-      <ModalBtn onClick={showModal}>포인트 충전하기</ModalBtn>
+      <S.ModalBtn onClick={showModal}>포인트 충전하기</S.ModalBtn>
       <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
-        <ChargeBox>
+        <S.ChargeBox>
           <img src="/icon/charge.svg" />
           <h2>충전하실 금액을 선택해주세요!</h2>
-          <Select defaultValue="포인트 선택" onChange={onChangeMoney}>
-            <Option disabled>포인트 선택</Option>
-            <Option>100</Option>
-            <Option>500</Option>
-            <Option>1,000</Option>
-            <Option>3,000</Option>
-            <Option>5,000</Option>
-          </Select>
-          <Btn onClick={onClickPayment}>충전하기</Btn>
-        </ChargeBox>
+          <S.Select defaultValue="포인트 선택" onChange={onChangeMoney}>
+            <S.Option disabled>포인트 선택</S.Option>
+            <S.Option>100</S.Option>
+            <S.Option>500</S.Option>
+            <S.Option>1,000</S.Option>
+            <S.Option>3,000</S.Option>
+            <S.Option>5,000</S.Option>
+          </S.Select>
+          <S.Btn onClick={onClickPayment}>충전하기</S.Btn>
+        </S.ChargeBox>
       </Modal>
     </>
   );

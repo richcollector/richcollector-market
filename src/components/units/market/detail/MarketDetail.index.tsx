@@ -28,7 +28,7 @@ export default function MarketDetail(): JSX.Element {
   };
   const [info, setInfo] = useRecoilState(userInfomation);
 
-  const { data, onClickDelete, onClickPick, onClickUpdate } =
+  const { data, onClickDelete, onClickPick, onClickUpdate, onClickBuying } =
     useDetailUsedItem();
 
   useEffect(() => {
@@ -160,7 +160,7 @@ export default function MarketDetail(): JSX.Element {
             <S.ListBtn>목록으로</S.ListBtn>
           </Link>
           {info[0]?.email === String(data?.fetchUseditem.seller?.email) || (
-            <S.PurchaseBtn>구매하기</S.PurchaseBtn>
+            <S.PurchaseBtn onClick={onClickBuying}>구매하기</S.PurchaseBtn>
           )}
           {info[0]?.email === String(data?.fetchUseditem.seller?.email) && (
             <S.DeleteBtn onClick={onClickDelete}>삭제하기</S.DeleteBtn>

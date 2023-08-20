@@ -1,9 +1,9 @@
-import MyItem from "../../src/components/units/mypage/myItem/MyItem.index";
+import { My } from "../../src/components/units/mypage/index";
 
 export default function MyPage(): JSX.Element {
   return (
     <>
-      <MyItem />
+      <My />
     </>
   );
 }

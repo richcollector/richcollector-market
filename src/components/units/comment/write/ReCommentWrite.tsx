@@ -86,7 +86,7 @@ export default function ReCommentWrite(props: IProps): JSX.Element {
         <span>답글달기</span>
       </>
       <S.InputWrapper>
-        <S.Input disabled defaultValue={info} />
+        <S.Input disabled defaultValue={info[0]?.name} />
       </S.InputWrapper>
       <S.ContentsWrapper>
         <S.Contents
