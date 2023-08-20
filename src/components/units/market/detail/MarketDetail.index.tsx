@@ -159,13 +159,13 @@ export default function MarketDetail(): JSX.Element {
           <Link href={"/"}>
             <S.ListBtn>목록으로</S.ListBtn>
           </Link>
-          {info === String(data?.fetchUseditem.seller?.email) || (
+          {info[0]?.email === String(data?.fetchUseditem.seller?.email) || (
             <S.PurchaseBtn>구매하기</S.PurchaseBtn>
           )}
-          {info === String(data?.fetchUseditem.seller?.email) && (
+          {info[0]?.email === String(data?.fetchUseditem.seller?.email) && (
             <S.DeleteBtn onClick={onClickDelete}>삭제하기</S.DeleteBtn>
           )}
-          {info === String(data?.fetchUseditem.seller?.email) && (
+          {info[0]?.email === String(data?.fetchUseditem.seller?.email) && (
             <S.UpdateBtn
               onClick={onClickUpdate(String(data?.fetchUseditem._id))}
             >

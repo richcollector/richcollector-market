@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
 import ChargeModal from "../charge";
+import { useRecoilState } from "recoil";
+import { userInfomation } from "../../../../commons/store";
+import { useState } from "react";
 
 const breakpoints = [768, 1024];
 
@@ -110,36 +113,51 @@ const Menu = styled.div`
     color: #000000;
     font-weight: 800;
   }
-
-  :active {
-    color: #000000;
-    font-weight: 800;
-  }
 `;
-
+const activeStyle = {
+  color: "#000000",
+  fontWeight: 800,
+};
 const IconImg = styled.img``;
 
 export default function Info(): JSX.Element {
+  const [bigMenu, setBigMenu] = useState("1");
+  const [info, setInfo] = useRecoilState(userInfomation);
+
   return (
     <FloatingMenuBox>
       <FloatingMenuTitle>MyPage</FloatingMenuTitle>
       <UserInfoBox>
         <MenuImage src="/taewan.jpg" />
-        <UserName>로건</UserName>
+        <UserName>{info[0]?.name}</UserName>
         <Money>
           <IconImg src="/icon/money.svg" />
-          100,000원
+          {info[0]?.userPoint?.amount}원
         </Money>
       </UserInfoBox>
       <MenuBox>
-        <Menu>
+        <Menu
+          style={bigMenu === "1" ? activeStyle : {}}
+          onClick={() => {
+            setBigMenu("1");
+          }}
+        >
           <IconImg src="/icon/cart.svg" />내 장터
         </Menu>
-        <Menu>
+        <Menu
+          style={bigMenu === "2" ? activeStyle : {}}
+          onClick={() => {
+            setBigMenu("2");
+          }}
+        >
           <IconImg src="/icon/money.svg" />내 포인트
         </Menu>
-
-        <Menu>
+        <Menu
+          style={bigMenu === "3" ? activeStyle : {}}
+          onClick={() => {
+            setBigMenu("3");
+          }}
+        >
           <IconImg src="/icon/profile.svg" />내 프로필
         </Menu>
         <Menu>

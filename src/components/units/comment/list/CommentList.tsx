@@ -100,7 +100,7 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   </S.MainWrapper>
                   {update === el._id ? (
                     ""
-                  ) : info === el.user.email ? (
+                  ) : info[0]?.email === el.user.email ? (
                     <S.OptionWrapper>
                       <S.Icon
                         onClick={() => {
@@ -116,7 +116,8 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   ) : (
                     ""
                   )}
-                  {(info === writerId || info === el.user.email) && (
+                  {(info[0]?.email === writerId ||
+                    info[0]?.email === el.user.email) && (
                     <S.Icon
                       src="/icon/question.svg"
                       onClick={() => {

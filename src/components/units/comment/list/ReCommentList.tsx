@@ -104,7 +104,7 @@ export default function ReCommentList({
                     </S.MainWrapper>
                     {update === el._id ? (
                       ""
-                    ) : info === el.user.email ? (
+                    ) : info[0]?.email === el.user.email ? (
                       <S.OptionWrapper>
                         <S.Icon
                           onClick={() => {

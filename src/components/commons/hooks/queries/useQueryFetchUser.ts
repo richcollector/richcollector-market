@@ -8,6 +8,7 @@ const FETCH_USER = gql`
       email
       name
       picture
+
       userPoint {
         _id
         amount
