@@ -63,6 +63,7 @@ export function useSellItem(props: IProps) {
   const onChangeSearch = (event: ChangeEvent<HTMLInputElement>): void => {
     getDebounce(event.currentTarget.value);
   };
+
   return {
     onClickMoved,
     data,

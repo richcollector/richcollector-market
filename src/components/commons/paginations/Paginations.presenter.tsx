@@ -1,9 +1,7 @@
-import { Page } from "./Paginations01.styles";
-import type { IPaginations01UIProps } from "./Paginations01.types";
+import { Page } from "./Paginations.styles";
+import type { IPaginationsUIProps } from "./Paginations.types";
 
-export default function Paginations01UI(
-  props: IPaginations01UIProps
-): JSX.Element {
+export default function PaginationsUI(props: IPaginationsUIProps): JSX.Element {
   return (
     <div>
       <Page onClick={props.onClickPrevPage}>{`<`}</Page>
@@ -18,7 +16,7 @@ export default function Paginations01UI(
             >
               {props.startPage + index}
             </Page>
-          )
+          ),
       )}
       <Page onClick={props.onClickNextPage}>{`>`}</Page>
     </div>

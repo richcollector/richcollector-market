@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
-import ChargeModal from "../charge";
 
-const breakpoints = [768, 1024];
+export const breakpoints = [768, 1024];
 
-const [Phone, Monitor] = breakpoints;
+export const [Phone, Monitor] = breakpoints;
 
-const FloatingMenuBox = styled.div`
+export const FloatingMenuBox = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 70px 200px 1fr;
@@ -18,7 +17,7 @@ const FloatingMenuBox = styled.div`
   border-right: 1px solid #bdbdbd;
 `;
 
-const FloatingMenuTitle = styled.div`
+export const FloatingMenuTitle = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -30,7 +29,7 @@ const FloatingMenuTitle = styled.div`
   font-weight: 600;
 `;
 
-const UserInfoBox = styled.div`
+export const UserInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,19 +41,16 @@ const UserInfoBox = styled.div`
   margin-top: 30px;
 `;
 
-const MenuImage = styled.img`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
+export const MenuImage = styled.img`
   width: 100px;
   height: 100px;
+
+  object-fit: cover;
 
   border-radius: 50%;
 `;
 
-const UserName = styled.div`
+export const UserName = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,7 +63,7 @@ const UserName = styled.div`
   font-weight: 600;
 `;
 
-const Money = styled.div`
+export const Money = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -81,7 +77,7 @@ const Money = styled.div`
   gap: 10px;
 `;
 
-const MenuBox = styled.div`
+export const MenuBox = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -91,7 +87,7 @@ const MenuBox = styled.div`
   margin-top: 100px;
 `;
 
-const Menu = styled.div`
+export const Menu = styled.div`
   width: 100%;
   height: 50px;
   display: flex;
@@ -110,42 +106,10 @@ const Menu = styled.div`
     color: #000000;
     font-weight: 800;
   }
-
-  :active {
-    color: #000000;
-    font-weight: 800;
-  }
 `;
+export const activeStyle = {
+  color: "#000000",
+  fontWeight: 800,
+};
 
-const IconImg = styled.img``;
-
-export default function FloatingMyPage(): JSX.Element {
-  return (
-    <FloatingMenuBox>
-      <FloatingMenuTitle>MyPage</FloatingMenuTitle>
-      <UserInfoBox>
-        <MenuImage src="/taewan.jpg" />
-        <UserName>로건</UserName>
-        <Money>
-          <IconImg src="/icon/money.svg" />
-          100,000원
-        </Money>
-      </UserInfoBox>
-      <MenuBox>
-        <Menu>
-          <IconImg src="/icon/cart.svg" />내 장터
-        </Menu>
-        <Menu>
-          <IconImg src="/icon/money.svg" />내 포인트
-        </Menu>
-
-        <Menu>
-          <IconImg src="/icon/profile.svg" />내 프로필
-        </Menu>
-        <Menu>
-          <ChargeModal />
-        </Menu>
-      </MenuBox>
-    </FloatingMenuBox>
-  );
-}
+export const IconImg = styled.img``;

@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
 import type { SetStateAction } from "react";
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 1220px;
   height: 100%;
   margin-left: 100px;
@@ -86,7 +86,7 @@ export default function ReCommentWrite(props: IProps): JSX.Element {
         <span>답글달기</span>
       </>
       <S.InputWrapper>
-        <S.Input disabled defaultValue={info} />
+        <S.Input disabled defaultValue={info[0]?.name} />
       </S.InputWrapper>
       <S.ContentsWrapper>
         <S.Contents

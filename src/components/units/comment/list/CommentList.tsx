@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./CommentList.validation";
@@ -8,7 +8,7 @@ import BoardCommentWriteUI from "../write/CommentWrite";
 import { v4 as uuidv4 } from "uuid";
 import InfiniteScroll from "react-infinite-scroller";
 import { useRecoilState } from "recoil";
-import { userInfomation } from "../../../../commons/store";
+import { userInfomation, accessTokenState } from "../../../../commons/store";
 import ReCommentList from "./ReCommentList";
 import { useCommentList } from "../../../commons/hooks/customs/useCommentList";
 import { getDate } from "../../../../commons/libraries/utils";
@@ -27,6 +27,7 @@ interface IProps {
 
 export default function CommentList({ useditemId, writerId }: IProps) {
   const [info] = useRecoilState(userInfomation);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [update, setUpdate] = useState("");
   const [answerWrite, setAnswerWrite] = useState("");
   const { handleSubmit, register, setValue, trigger, formState } = useForm({
@@ -53,13 +54,15 @@ export default function CommentList({ useditemId, writerId }: IProps) {
 
   return (
     <>
-      <BoardCommentWriteUI useditemId={useditemId} refetch={refetch} />
+      {accessToken && (
+        <BoardCommentWriteUI useditemId={useditemId} refetch={refetch} />
+      )}
       <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true}>
         <ItemWrapper>
           <S.FlexWrapper>
             {questions?.fetchUseditemQuestions.map((el) => (
-              <>
-                <S.QuestionAnswerBox key={uuidv4()}>
+              <Fragment key={uuidv4()}>
+                <S.QuestionAnswerBox>
                   <S.Avatar src="/icon/user.svg" />
                   <S.MainWrapper>
                     <S.WriterWrapper>
@@ -100,7 +103,7 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   </S.MainWrapper>
                   {update === el._id ? (
                     ""
-                  ) : info === el.user.email ? (
+                  ) : info[0]?.email === el.user.email ? (
                     <S.OptionWrapper>
                       <S.Icon
                         onClick={() => {
@@ -116,7 +119,8 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   ) : (
                     ""
                   )}
-                  {(info === writerId || info === el.user.email) && (
+                  {(info[0]?.email === writerId ||
+                    info[0]?.email === el.user.email) && (
                     <S.Icon
                       src="/icon/question.svg"
                       onClick={() => {
@@ -131,7 +135,7 @@ export default function CommentList({ useditemId, writerId }: IProps) {
                   setAnswerWrite={setAnswerWrite}
                   writerId={writerId}
                 />
-              </>
+              </Fragment>
             ))}
           </S.FlexWrapper>
         </ItemWrapper>
