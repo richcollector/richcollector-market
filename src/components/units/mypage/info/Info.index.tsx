@@ -11,12 +11,18 @@ interface IProps {
 
 export default function Info({ bigMenu, setBigMenu }: IProps) {
   const [info, setInfo] = useRecoilState(userInfomation);
-
+  console.log("info::", info);
   return (
     <S.FloatingMenuBox>
       <S.FloatingMenuTitle>MyPage</S.FloatingMenuTitle>
       <S.UserInfoBox>
-        <S.MenuImage src="/taewan.jpg" />
+        <S.MenuImage
+          src={`${
+            info[0]?.picture
+              ? `http://storage.googleapis.com/${info[0]?.picture}`
+              : "./icon/user.svg"
+          }`}
+        />
         <S.UserName>{info[0]?.name}</S.UserName>
         <S.Money>
           <S.IconImg src="/icon/money.svg" />

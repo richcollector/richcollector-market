@@ -8,7 +8,6 @@ const FETCH_USER = gql`
       email
       name
       picture
-
       userPoint {
         _id
         amount
@@ -19,6 +18,5 @@ const FETCH_USER = gql`
 
 export const useQueryFetchUser = () => {
   const query = useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER);
-
   return query;
 };

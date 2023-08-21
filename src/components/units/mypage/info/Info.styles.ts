@@ -42,13 +42,10 @@ export const UserInfoBox = styled.div`
 `;
 
 export const MenuImage = styled.img`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
   width: 100px;
   height: 100px;
+
+  object-fit: cover;
 
   border-radius: 50%;
 `;

@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { userInfomation } from "../../../../commons/store";
 import type { SetStateAction } from "react";
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 1220px;
   height: 100%;
   margin-left: 100px;

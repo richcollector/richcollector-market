@@ -12,6 +12,7 @@ import Tags from "../../../commons/tag/Tag.index";
 import { v4 as uuidv4 } from "uuid";
 import { useCreateUsedItem } from "../../../commons/hooks/customs/useCreateUsedItem";
 import { useRouter } from "next/router";
+import { useAuthCheck } from "../../../commons/hooks/customs/useAuthCheck";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,
@@ -22,6 +23,7 @@ declare const window: typeof globalThis & {
 };
 
 export default function MarketWrite() {
+  useAuthCheck();
   const [input, setInput] = useState({
     address: "",
     addressDetail: "",

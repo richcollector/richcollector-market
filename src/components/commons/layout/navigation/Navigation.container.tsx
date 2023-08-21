@@ -2,6 +2,9 @@ import { Fragment, type MouseEvent } from "react";
 import styled from "@emotion/styled";
 import { MenuOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { accessTokenState } from "../../../../commons/store";
+import { useAuthCheck } from "../../hooks/customs/useAuthCheck";
 
 const breakpoints = [768, 1024];
 
@@ -153,16 +156,17 @@ const NAVIGATION_MENUS = [
 ];
 
 export default function LayoutNavigation(): JSX.Element {
-  const Router = useRouter();
+  const router = useRouter();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   const onClickMenu = (event: MouseEvent<HTMLDivElement>): void => {
     event.preventDefault();
-    void Router.push(event.currentTarget.id);
+    void router.push(event.currentTarget.id);
   };
 
   const onClickRegister = (event: MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
-    void Router.push(event.currentTarget.id);
+    void router.push(event.currentTarget.id);
   };
 
   return (

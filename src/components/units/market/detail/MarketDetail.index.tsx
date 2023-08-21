@@ -7,7 +7,7 @@ import Link from "next/link";
 import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { userInfomation } from "../../../../commons/store";
+import { userInfomation, accessTokenState } from "../../../../commons/store";
 import { useDetailUsedItem } from "../../../commons/hooks/customs/useDetailUsedItem";
 import { Tooltip } from "antd";
 import { getDate } from "../../../../commons/libraries/utils";
@@ -27,6 +27,7 @@ export default function MarketDetail(): JSX.Element {
     slidesToScroll: 1,
   };
   const [info, setInfo] = useRecoilState(userInfomation);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
   const { data, onClickDelete, onClickPick, onClickUpdate, onClickBuying } =
     useDetailUsedItem();
@@ -159,9 +160,10 @@ export default function MarketDetail(): JSX.Element {
           <Link href={"/"}>
             <S.ListBtn>목록으로</S.ListBtn>
           </Link>
-          {info[0]?.email === String(data?.fetchUseditem.seller?.email) || (
-            <S.PurchaseBtn onClick={onClickBuying}>구매하기</S.PurchaseBtn>
-          )}
+          {info[0]?.email === String(data?.fetchUseditem.seller?.email) ||
+            !accessToken || (
+              <S.PurchaseBtn onClick={onClickBuying}>구매하기</S.PurchaseBtn>
+            )}
           {info[0]?.email === String(data?.fetchUseditem.seller?.email) && (
             <S.DeleteBtn onClick={onClickDelete}>삭제하기</S.DeleteBtn>
           )}

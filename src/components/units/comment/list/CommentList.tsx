@@ -8,7 +8,7 @@ import BoardCommentWriteUI from "../write/CommentWrite";
 import { v4 as uuidv4 } from "uuid";
 import InfiniteScroll from "react-infinite-scroller";
 import { useRecoilState } from "recoil";
-import { userInfomation } from "../../../../commons/store";
+import { userInfomation, accessTokenState } from "../../../../commons/store";
 import ReCommentList from "./ReCommentList";
 import { useCommentList } from "../../../commons/hooks/customs/useCommentList";
 import { getDate } from "../../../../commons/libraries/utils";
@@ -27,6 +27,7 @@ interface IProps {
 
 export default function CommentList({ useditemId, writerId }: IProps) {
   const [info] = useRecoilState(userInfomation);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [update, setUpdate] = useState("");
   const [answerWrite, setAnswerWrite] = useState("");
   const { handleSubmit, register, setValue, trigger, formState } = useForm({
@@ -53,7 +54,9 @@ export default function CommentList({ useditemId, writerId }: IProps) {
 
   return (
     <>
-      <BoardCommentWriteUI useditemId={useditemId} refetch={refetch} />
+      {accessToken && (
+        <BoardCommentWriteUI useditemId={useditemId} refetch={refetch} />
+      )}
       <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true}>
         <ItemWrapper>
           <S.FlexWrapper>
