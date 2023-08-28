@@ -1,14 +1,24 @@
 import styled from '@emotion/styled';
-import { Phone } from '../../../../commons/styles/globalStyles';
+
+export const breakpoints = [768, 1024];
+
+export const [Phone, Monitor] = breakpoints;
 
 export const Wrapper = styled.div`
-	display: flex;
+	display: none;
+
 	flex-direction: row;
 	justify-content: center;
 	align-items: flex-start;
 
 	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
-	background: #2f4e7c;
+	background: #ffd600;
+	@media screen and (max-width: ${Phone - 1}px) {
+		display: flex;
+	}
+	@media screen and (min-width: ${Phone}px) and (max-width: ${Monitor - 1}px) {
+		display: flex;
+	}
 `;
 
 export const Header = styled.div`
@@ -38,8 +48,13 @@ export const HeaderTextBox = styled.div`
 
 export const HeaderText = styled.div`
 	font-size: 20px;
-	color: #ececec;
+	color: #ffffff;
 	padding: 0 10px;
 
 	cursor: pointer;
 `;
+
+export const activeStyle = {
+	color: '#000000',
+	fontWeight: 800,
+};
