@@ -11,10 +11,7 @@ import { userInfomation, accessTokenState } from '../../../../commons/store';
 import { useDetailUsedItem } from '../../../commons/hooks/customs/useDetailUsedItem';
 import { Tooltip } from 'antd';
 import { getDate } from '../../../../commons/libraries/utils';
-
-declare const window: typeof globalThis & {
-	kakao: any;
-};
+import { useDetailKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
 
 export default function MarketDetail(): JSX.Element {
 	const settings = {
@@ -26,44 +23,13 @@ export default function MarketDetail(): JSX.Element {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-	const [info, setInfo] = useRecoilState(userInfomation);
-	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+
+	const [info] = useRecoilState(userInfomation);
+	const [accessToken] = useRecoilState(accessTokenState);
 
 	const { data, onClickDelete, onClickPick, onClickUpdate, onClickBuying } = useDetailUsedItem();
 
-	useEffect(() => {
-		if (data?.fetchUseditem.useditemAddress?.lat) {
-			const script = document.createElement('script');
-			script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
-			document.head.appendChild(script);
-			script.onload = () => {
-				window.kakao.maps.load(function () {
-					const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-					const options = {
-						//지도를 생성할 때 필요한 기본 옵션
-						center: new window.kakao.maps.LatLng(
-							data?.fetchUseditem.useditemAddress?.lat ?? 37.4485371374725,
-							data?.fetchUseditem.useditemAddress?.lng ?? 127.055036215823,
-						), //지도의 중심좌표.
-						level: 3, //지도의 레벨(확대, 축소 정도)
-					};
-
-					const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-					// 마커가 표시될 위치입니다
-					const markerPosition = new window.kakao.maps.LatLng(
-						data?.fetchUseditem.useditemAddress?.lat ?? 37.4485371374725,
-						data?.fetchUseditem.useditemAddress?.lng ?? 127.055036215823,
-					);
-					// 마커를 생성합니다
-					const marker = new window.kakao.maps.Marker({
-						position: markerPosition,
-					});
-					// 마커가 지도 위에 표시되도록 설정합니다
-					marker.setMap(map);
-				});
-			};
-		}
-	}, [data?.fetchUseditem.useditemAddress?.lat]);
+	useDetailKakaoMapPage(data);
 
 	useEffect(() => {
 		const todayItem: any[] = JSON.parse(localStorage.getItem('toadyItem') ?? '[]');

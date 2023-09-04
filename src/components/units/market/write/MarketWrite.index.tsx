@@ -13,58 +13,26 @@ import { v4 as uuidv4 } from 'uuid';
 import { useCreateUsedItem } from '../../../commons/hooks/customs/useCreateUsedItem';
 import { useRouter } from 'next/router';
 import { useAuthCheck } from '../../../commons/hooks/customs/useAuthCheck';
+import { useWriteKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
 
 const ReactQuill = dynamic(async () => await import('react-quill'), {
 	ssr: false,
 });
 
-declare const window: typeof globalThis & {
-	kakao: any;
-};
-
 export default function MarketWrite() {
 	useAuthCheck();
+
 	const [input, setInput] = useState({
 		address: '',
 		addressDetail: '',
 		lat: 0,
 		lng: 0,
 	});
+	useWriteKakaoMapPage({ input });
+
 	const [tags, setTags] = useState(['']);
 	const [update, setUpdate] = useState(false);
 	const router = useRouter();
-
-	useEffect(() => {
-		const script = document.createElement('script');
-		script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
-		document.head.appendChild(script);
-		script.onload = () => {
-			window.kakao.maps.load(function () {
-				const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-				const options = {
-					//지도를 생성할 때 필요한 기본 옵션
-					center: new window.kakao.maps.LatLng(
-						input.lat === 0 ? 37.4485371374725 : input.lat,
-						input.lng === 0 ? 127.055036215823 : input.lng,
-					), //지도의 중심좌표.
-					level: 3, //지도의 레벨(확대, 축소 정도)
-				};
-
-				const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-				// 마커가 표시될 위치입니다
-				const markerPosition = new window.kakao.maps.LatLng(
-					input.lat === 0 ? 37.4485371374725 : input.lat,
-					input.lng === 0 ? 127.055036215823 : input.lng,
-				);
-				// 마커를 생성합니다
-				const marker = new window.kakao.maps.Marker({
-					position: markerPosition,
-				});
-				// 마커가 지도 위에 표시되도록 설정합니다
-				marker.setMap(map);
-			});
-		};
-	}, [input.lat]);
 
 	const { handleSubmit, register, setValue, trigger, formState, setError } = useForm({
 		resolver: yupResolver(schema),
