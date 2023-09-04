@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import * as S from './MarketWrite.styles';
 import SearchAddress from '../../../commons/address/SearchAddress';
 import { useForm } from 'react-hook-form';
@@ -14,14 +13,10 @@ import { useCreateUsedItem } from '../../../commons/hooks/customs/useCreateUsedI
 import { useRouter } from 'next/router';
 import { useAuthCheck } from '../../../commons/hooks/customs/useAuthCheck';
 import { useWriteKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
-
-const ReactQuill = dynamic(async () => await import('react-quill'), {
-	ssr: false,
-});
+import { WriteQuill } from '../../../commons/quill/quill.index';
 
 export default function MarketWrite() {
 	useAuthCheck();
-
 	const [input, setInput] = useState({
 		address: '',
 		addressDetail: '',
@@ -102,11 +97,7 @@ export default function MarketWrite() {
 				</S.InputBox>
 				<S.ExplainBox>
 					<S.Label placeholder="상품을 설명해주세요.">상품설명</S.Label>
-					<ReactQuill
-						onChange={onChangeContents}
-						placeholder="상품을 자세히 설명해주세요."
-						style={{ height: '850px', fontSize: '20px' }}
-					/>
+					<WriteQuill onChangeContents={onChangeContents} />
 					<S.ErrorBox>{formState.errors.contents?.message}</S.ErrorBox>
 				</S.ExplainBox>
 				<S.InputBox>
