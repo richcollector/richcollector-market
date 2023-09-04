@@ -1,7 +1,3 @@
-import * as S from './MarketDetail.styles';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import BoardCommentListUIItem from '../../comment/list/CommentList';
 import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,18 +8,10 @@ import { useDetailUsedItem } from '../../../commons/hooks/customs/useDetailUsedI
 import { Tooltip } from 'antd';
 import { getDate } from '../../../../commons/libraries/utils';
 import { useDetailKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
+import { MySlider } from '../../../commons/slice/slice.index';
+import * as S from './MarketDetail.styles';
 
 export default function MarketDetail(): JSX.Element {
-	const settings = {
-		dots: true,
-		infinite: true,
-		autoplay: true,
-		speed: 500,
-		autoplaySpeed: 5000,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-	};
-
 	const [info] = useRecoilState(userInfomation);
 	const [accessToken] = useRecoilState(accessTokenState);
 
@@ -76,7 +64,7 @@ export default function MarketDetail(): JSX.Element {
 					</S.ProductInfoBox>
 					<S.ProductCarousellBox>
 						<S.Carousell>
-							<Slider {...settings}>
+							<MySlider>
 								{data?.fetchUseditem.images?.map(el => (
 									<div key={uuidv4()}>
 										<S.SliderItem
@@ -88,7 +76,7 @@ export default function MarketDetail(): JSX.Element {
 										/>
 									</div>
 								))}
-							</Slider>
+							</MySlider>
 						</S.Carousell>
 						<S.ProductImages>
 							{data?.fetchUseditem.images?.map(el => (
