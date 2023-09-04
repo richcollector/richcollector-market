@@ -19,7 +19,6 @@ export const useLogin = () => {
 					password: data.password,
 				},
 			});
-			console.log('access:::', result.data?.loginUser.accessToken);
 			setAccessToken(result.data?.loginUser.accessToken ?? '');
 			void router.push('/');
 		} catch (error) {

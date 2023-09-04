@@ -8,10 +8,10 @@ import { schema } from './CommentList.validation';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRecoilState } from 'recoil';
 import { userInfomation } from '../../../../commons/store';
-import ReCommentWrite from '../write/ReCommentWrite';
 import { useReCommentList } from '../../../commons/hooks/customs/useRecommentList';
 import { getDate } from '../../../../commons/libraries/utils';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
+import ReCommentWrite from '../write/ReCommentWrite';
 
 export const ItemWrapper = styled.div`
 	width: 1320px;

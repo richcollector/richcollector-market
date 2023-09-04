@@ -12,7 +12,6 @@ export const useAuthComponent = (Component: any) => (props: any) => {
 		const checkAuth = async () => {
 			try {
 				const accessToken = await auth.toPromise();
-				console.log('!!', accessToken);
 				if (!accessToken) {
 					Modal.warning({
 						title: 'This is a warning message',
@@ -43,7 +42,6 @@ export function useAuthCheck() {
 		const checkAuth = async () => {
 			try {
 				const accessToken = await auth.toPromise();
-				console.log('!!', accessToken);
 				if (!accessToken) {
 					Modal.warning({
 						title: 'This is a warning message',

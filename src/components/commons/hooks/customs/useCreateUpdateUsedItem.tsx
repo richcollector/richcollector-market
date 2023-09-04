@@ -66,7 +66,6 @@ export function useCreateUpdateUsedItem() {
 	}, []);
 
 	const onClickSubmit = async () => {
-		console.log(productInfoInput);
 		const newFileRealUrls = [];
 		// 파일 업로드
 		for (let i = 0; i < productInfoInput.files.length; i++) {

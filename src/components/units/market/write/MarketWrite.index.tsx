@@ -44,8 +44,6 @@ export default function MarketWrite() {
 
 	useWriteKakaoMapPage({ sellerLocationInput });
 
-	console.log(errorMessage);
-
 	return (
 		<>
 			<S.Wrapper>

@@ -1,7 +1,5 @@
 import { type Dispatch, type SetStateAction } from 'react';
 import * as S from './Header.styles';
-import { useRecoilState } from 'recoil';
-import { userInfomation } from '../../../../commons/store';
 
 interface IProps {
 	bigMenu: string;
@@ -9,7 +7,6 @@ interface IProps {
 }
 
 export default function LayoutHeader({ bigMenu, setBigMenu }: IProps) {
-	const [info, setInfo] = useRecoilState(userInfomation);
 	return (
 		<>
 			<S.Wrapper>

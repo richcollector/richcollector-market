@@ -30,8 +30,6 @@ export function useFileUpload(props: IProps) {
 		const result = URL.createObjectURL(file);
 		onChangeFileUrls(result, props.props.index);
 
-		console.log(result);
-
 		props.props.setErrorMessage(prev => ({
 			...prev,
 			image: isValidImage(result),

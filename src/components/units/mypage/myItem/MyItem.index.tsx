@@ -1,17 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import Paginations from '../../../commons/paginations/Paginations.index';
-import Info from '../info/Info.index';
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { getDate } from '../../../../commons/libraries/utils';
 import * as S from './MyItem.styles';
 import { useMuItem } from '../../../commons/hooks/customs/useMyItem';
 import _ from 'lodash';
 
-interface IProps {
-	bigMenu: string;
-}
-
-export default function MyItemPage({ bigMenu }: IProps) {
+export default function MyItemPage({ bigMenu }: any) {
 	const [menu, setMenu] = useState('1');
 	const [count, setCount] = useState(1);
 	const { data, pickCount, pickData, refetch, pickRefetch, soldCount } = useMuItem();

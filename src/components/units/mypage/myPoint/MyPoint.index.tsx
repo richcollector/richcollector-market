@@ -1,15 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import Paginations from '../../../commons/paginations/Paginations.index';
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDate } from '../../../../commons/libraries/utils';
-import * as S from './MyPoint.styles';
 import { useFetchPoint } from '../../../commons/hooks/customs/useFetchPoint';
+import Paginations from '../../../commons/paginations/Paginations.index';
+import * as S from './MyPoint.styles';
 
-interface IProps {
-	bigMenu: string;
-}
-
-export default function MyPointPage({ bigMenu }: IProps) {
+export default function MyPointPage({ bigMenu }: any) {
 	const [menu, setMenu] = useState('1');
 	const [count, setCount] = useState(1);
 	const {
@@ -42,7 +38,6 @@ export default function MyPointPage({ bigMenu }: IProps) {
 			setCount(sellingCount?.fetchPointTransactionsCountOfSelling ?? 1);
 		}
 	}, [data, loadingCount, buyingCount, sellingCount, menu]);
-	console.log('data', data);
 
 	return (
 		<>

@@ -1,5 +1,3 @@
-import styled from '@emotion/styled';
-import * as S from './CommentWrite.styles';
 import { type ApolloQueryResult, gql, useMutation } from '@apollo/client';
 import type {
 	IMutation,
@@ -14,6 +12,8 @@ import { useRecoilState } from 'recoil';
 import { userInfomation } from '../../../../commons/store';
 import type { SetStateAction } from 'react';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
+import styled from '@emotion/styled';
+import * as S from './CommentWrite.styles';
 
 const Wrapper = styled.div`
 	width: 1320px;

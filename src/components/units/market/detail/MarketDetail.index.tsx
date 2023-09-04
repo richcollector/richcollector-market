@@ -1,5 +1,3 @@
-import BoardCommentListUIItem from '../../comment/list/CommentList';
-import Link from 'next/link';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
@@ -9,6 +7,8 @@ import { Tooltip } from 'antd';
 import { getDate } from '../../../../commons/libraries/utils';
 import { useDetailKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
 import { MySlider } from '../../../commons/slice/slice.index';
+import BoardCommentListUIItem from '../../comment/list/CommentList';
+import Link from 'next/link';
 import * as S from './MarketDetail.styles';
 
 export default function MarketDetail(): JSX.Element {
