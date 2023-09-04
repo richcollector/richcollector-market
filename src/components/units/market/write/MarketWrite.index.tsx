@@ -1,83 +1,50 @@
-import { useEffect, useState } from 'react';
-import * as S from './MarketWrite.styles';
-import SearchAddress from '../../../commons/address/SearchAddress';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './MarketWrite.validation';
-import Link from 'next/link';
-import 'react-quill/dist/quill.snow.css';
-import Uploads from '../../../commons/uploads/Uploads.index';
-import Tags from '../../../commons/tag/Tag.index';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useCreateUsedItem } from '../../../commons/hooks/customs/useCreateUsedItem';
-import { useRouter } from 'next/router';
+import { useCreateUpdateUsedItem } from '../../../commons/hooks/customs/useCreateUpdateUsedItem';
 import { useAuthCheck } from '../../../commons/hooks/customs/useAuthCheck';
 import { useWriteKakaoMapPage } from '../../../commons/hooks/map/useKakaoMap';
 import { WriteQuill } from '../../../commons/quill/quill.index';
+import {
+	isValidContents,
+	isValidImage,
+	isValidName,
+	isValidPrice,
+	isValidRemarks,
+	isValidTag,
+} from './MarketWrite.validation';
+import SearchAddress from '../../../commons/address/SearchAddress';
+import Link from 'next/link';
+import Uploads from '../../../commons/uploads/Uploads.index';
+import Tags from '../../../commons/tag/Tag.index';
+import * as S from './MarketWrite.styles';
 
 export default function MarketWrite() {
 	useAuthCheck();
-	const [input, setInput] = useState({
-		address: '',
-		addressDetail: '',
-		lat: 0,
-		lng: 0,
-	});
-	useWriteKakaoMapPage({ input });
 
-	const [tags, setTags] = useState(['']);
-	const [update, setUpdate] = useState(false);
-	const router = useRouter();
-
-	const { handleSubmit, register, setValue, trigger, formState, setError } = useForm({
-		resolver: yupResolver(schema),
-		mode: 'onChange',
+	const [errorMessage, setErrorMessage] = useState({
+		name: false,
+		remarks: false,
+		contents: false,
+		price: false,
+		tag: false,
+		image: false,
 	});
 
 	const {
-		data,
-		files,
-		setFiles,
+		productInfoInput,
+		sellerLocationInput,
 		fileUrls,
+		update,
 		setFileUrls,
-		onChangeAddress,
-		onChangeContents,
+		onChangeInput,
 		onClickSubmit,
-	} = useCreateUsedItem({ setValue, trigger, setInput, input, tags });
+		setProductInfoInput,
+		setSellerLocationInput,
+	} = useCreateUpdateUsedItem();
 
-	useEffect(() => {
-		if (router.asPath.includes('/edit')) {
-			setUpdate(true);
-			if (data?.fetchUseditem.name) {
-				setValue('name', String(data?.fetchUseditem.name));
-			}
+	useWriteKakaoMapPage({ sellerLocationInput });
 
-			if (data?.fetchUseditem.remarks) {
-				setValue('remarks', String(data?.fetchUseditem.remarks));
-			}
-
-			if (data?.fetchUseditem.contents) {
-				setValue('contents', String(data?.fetchUseditem.contents));
-			}
-
-			if (data?.fetchUseditem.price) {
-				setValue('price', Number(data?.fetchUseditem.price));
-			}
-
-			if (data?.fetchUseditem.tags) {
-				setTags(prev => (data?.fetchUseditem.tags ? [...data?.fetchUseditem.tags] : [...prev]));
-				setValue('tags', String(data?.fetchUseditem.tags));
-			}
-
-			setInput(prev => ({
-				...prev,
-				address: data?.fetchUseditem.useditemAddress?.address ?? '',
-				addressDetail: data?.fetchUseditem.useditemAddress?.addressDetail ?? '',
-				lat: Number(data?.fetchUseditem.useditemAddress?.lat ?? null),
-				lng: Number(data?.fetchUseditem.useditemAddress?.lng ?? null),
-			}));
-		}
-	}, []);
+	console.log(errorMessage);
 
 	return (
 		<>
@@ -87,42 +54,73 @@ export default function MarketWrite() {
 				</S.TitleBox>
 				<S.InputBox>
 					<S.Label>상품명</S.Label>
-					<S.Input placeholder="상품명을 입력해주세요." {...register('name')} />
-					<S.ErrorBox>{formState.errors.name}</S.ErrorBox>
+					<S.Input
+						id="name"
+						placeholder="상품명을 입력해주세요."
+						value={productInfoInput.name}
+						onChange={onChangeInput}
+						onBlur={() => {
+							setErrorMessage(prev => ({ ...prev, name: isValidName(productInfoInput.name) }));
+						}}
+					/>
+					<S.ErrorBox>{errorMessage.name && '상품명을 입력해주세요.'}</S.ErrorBox>
 				</S.InputBox>
 				<S.InputBox>
 					<S.Label>한줄요약</S.Label>
-					<S.Input placeholder="상품을 간단히 표현해주세요." {...register('remarks')} />
-					<S.ErrorBox>{formState.errors.remarks?.message}</S.ErrorBox>
+					<S.Input
+						id="remarks"
+						placeholder="상품을 간단히 표현해주세요."
+						value={productInfoInput.remarks}
+						onChange={onChangeInput}
+						onBlur={() => {
+							setErrorMessage(prev => ({
+								...prev,
+								remarks: isValidRemarks(productInfoInput.remarks),
+							}));
+						}}
+					/>
+					<S.ErrorBox>{errorMessage.remarks && '한줄요약을 입력해주세요.'}</S.ErrorBox>
 				</S.InputBox>
 				<S.ExplainBox>
 					<S.Label placeholder="상품을 설명해주세요.">상품설명</S.Label>
-					<WriteQuill onChangeContents={onChangeContents} />
-					<S.ErrorBox>{formState.errors.contents?.message}</S.ErrorBox>
+					<WriteQuill
+						contents={productInfoInput.contents}
+						setProductInfoInput={setProductInfoInput}
+						setErrorMessage={setErrorMessage}
+					/>
+					<S.ErrorBox>{errorMessage.contents && '상품 설명을 입력해주세요.'}</S.ErrorBox>
 				</S.ExplainBox>
 				<S.InputBox>
 					<S.Label>판매가격</S.Label>
-					<S.Input placeholder="상품의 판매가격을 입력해주세요." {...register('price')} />
-					<S.ErrorBox>{formState.errors.price?.message}</S.ErrorBox>
+					<S.Input
+						id="price"
+						placeholder="상품의 판매가격을 입력해주세요."
+						value={productInfoInput.price}
+						onChange={onChangeInput}
+						onBlur={() => {
+							setErrorMessage(prev => ({
+								...prev,
+								price: isValidPrice(productInfoInput.price),
+							}));
+						}}
+					/>
+					<S.ErrorBox>{errorMessage.price && '상품 가격을 입력해주세요.'}</S.ErrorBox>
 				</S.InputBox>
 				<S.InputBox>
 					<S.Label>태그입력</S.Label>
 					<S.TagsBox>
-						{tags.map((el, index) => (
+						{productInfoInput.tags.map((el, index) => (
 							<Tags
 								key={uuidv4()}
 								tag={el}
 								index={index}
-								register={register('tags')}
-								tags={tags}
-								setTags={setTags}
-								trigger={trigger}
-								setValue={setValue}
-								setError={setError}
+								productInfoInput={productInfoInput}
+								setProductInfoInput={setProductInfoInput}
+								setErrorMessage={setErrorMessage}
 							/>
 						))}
 					</S.TagsBox>
-					<S.ErrorBox>{formState.errors.tags?.message}</S.ErrorBox>
+					<S.ErrorBox>{errorMessage.tag && '태그를 입력해주세요.'}</S.ErrorBox>
 				</S.InputBox>
 				<S.LocationBox>
 					<S.AreaBox>
@@ -133,36 +131,40 @@ export default function MarketWrite() {
 						<S.GpsBox>
 							<S.Label>GPS</S.Label>
 							<S.InputMap
+								id="lat"
 								disabled={true}
 								placeholder="위도(LAT)"
-								value={input.lat === 0 ? '' : input.lat}
-								onChange={onChangeAddress}
+								value={sellerLocationInput.lat === 0 ? '' : sellerLocationInput.lat}
+								onChange={onChangeInput}
 							/>
 							<S.IconImg src="/icon/location.svg" />
 							<S.InputMap
+								id="lng"
 								disabled={true}
 								placeholder="경도(LNG)"
-								value={input.lng === 0 ? '' : input.lng}
-								onChange={onChangeAddress}
+								value={sellerLocationInput.lng === 0 ? '' : sellerLocationInput.lng}
+								onChange={onChangeInput}
 							/>
 						</S.GpsBox>
 						<S.AdressBox>
 							<S.Label>
-								주소 <SearchAddress setInput={setInput} />
+								주소 <SearchAddress setSellerLocationInput={setSellerLocationInput} />
 							</S.Label>
 
 							<S.AddressInput>
 								<S.Input
+									id="address"
 									disabled={true}
 									placeholder="주소"
-									value={input.address}
-									onChange={onChangeAddress}
+									value={sellerLocationInput.address}
+									onChange={onChangeInput}
 								/>
 								<S.Input
+									id="addressDetail"
 									disabled={true}
 									placeholder="상세주소"
-									value={input.addressDetail}
-									onChange={onChangeAddress}
+									value={sellerLocationInput.addressDetail}
+									onChange={onChangeInput}
 								/>
 							</S.AddressInput>
 						</S.AdressBox>
@@ -178,21 +180,36 @@ export default function MarketWrite() {
 								fileUrl={el}
 								fileUrls={fileUrls}
 								setFileUrls={setFileUrls}
-								files={files}
-								setFiles={setFiles}
-								register={register('image')}
-								trigger={trigger}
-								setValue={setValue}
+								productInfoInput={productInfoInput}
+								setProductInfoInput={setProductInfoInput}
+								setErrorMessage={setErrorMessage}
 							/>
 						))}
 					</S.ImgDivideBox>
-					<S.ErrorBox>{formState.errors.image?.message}</S.ErrorBox>
+					<S.ErrorBox>{errorMessage.image && '이미지를 입력해주세요'}</S.ErrorBox>
 				</S.ImgUploadBox>
 				<S.BtnBox>
 					<S.Btn
-						onClick={handleSubmit(onClickSubmit)}
-						disabled={!formState.isValid}
-						style={{ backgroundColor: formState.isValid ? 'yellow' : '' }}
+						onClick={onClickSubmit}
+						disabled={
+							isValidName(productInfoInput.name) ||
+							isValidContents(productInfoInput.contents) ||
+							isValidRemarks(productInfoInput.remarks) ||
+							isValidPrice(productInfoInput.price) ||
+							isValidTag(productInfoInput.tags[0]) ||
+							isValidImage(fileUrls[0])
+						}
+						style={{
+							backgroundColor:
+								!isValidName(productInfoInput.name) &&
+								!isValidContents(productInfoInput.contents) &&
+								!isValidRemarks(productInfoInput.remarks) &&
+								!isValidPrice(productInfoInput.price) &&
+								!isValidTag(productInfoInput.tags[0]) &&
+								!isValidImage(fileUrls[0])
+									? 'yellow'
+									: '',
+						}}
 					>
 						{update ? '상품수정하기' : '상품등록하기'}
 					</S.Btn>

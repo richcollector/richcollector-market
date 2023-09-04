@@ -6,7 +6,7 @@ declare const window: typeof globalThis & {
 };
 
 interface IPropsWrite {
-	input: {
+	sellerLocationInput: {
 		address: string;
 		addressDetail: string;
 		lat: number;
@@ -14,7 +14,7 @@ interface IPropsWrite {
 	};
 }
 
-export function useWriteKakaoMapPage({ input }: IPropsWrite) {
+export function useWriteKakaoMapPage({ sellerLocationInput }: IPropsWrite) {
 	useEffect(() => {
 		const script = document.createElement('script');
 		script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.NEXT_PUBLIC_KAKAO_JAVASCRIPT}`;
@@ -25,8 +25,8 @@ export function useWriteKakaoMapPage({ input }: IPropsWrite) {
 				const options = {
 					//지도를 생성할 때 필요한 기본 옵션
 					center: new window.kakao.maps.LatLng(
-						input.lat === 0 ? 37.4485371374725 : input.lat,
-						input.lng === 0 ? 127.055036215823 : input.lng,
+						sellerLocationInput.lat === 0 ? 37.4485371374725 : sellerLocationInput.lat,
+						sellerLocationInput.lng === 0 ? 127.055036215823 : sellerLocationInput.lng,
 					), //지도의 중심좌표.
 					level: 3, //지도의 레벨(확대, 축소 정도)
 				};
@@ -34,8 +34,8 @@ export function useWriteKakaoMapPage({ input }: IPropsWrite) {
 				const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 				// 마커가 표시될 위치입니다
 				const markerPosition = new window.kakao.maps.LatLng(
-					input.lat === 0 ? 37.4485371374725 : input.lat,
-					input.lng === 0 ? 127.055036215823 : input.lng,
+					sellerLocationInput.lat === 0 ? 37.4485371374725 : sellerLocationInput.lat,
+					sellerLocationInput.lng === 0 ? 127.055036215823 : sellerLocationInput.lng,
 				);
 				// 마커를 생성합니다
 				const marker = new window.kakao.maps.Marker({
@@ -45,7 +45,7 @@ export function useWriteKakaoMapPage({ input }: IPropsWrite) {
 				marker.setMap(map);
 			});
 		};
-	}, [input.lat]);
+	}, [sellerLocationInput.lat]);
 }
 
 export function useDetailKakaoMapPage(data: Pick<IQuery, 'fetchUseditem'> | undefined) {

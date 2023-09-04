@@ -1,43 +1,39 @@
-import type { ChangeEventHandler, Dispatch, SetStateAction } from "react";
-
-import type {
-  UseFormRegisterReturn,
-  UseFormTrigger,
-  UseFormSetValue,
-} from "react-hook-form";
+import type { Dispatch, SetStateAction } from 'react';
 
 export interface IUploadsProps {
-  index: number;
-  files: File[];
-  fileUrl: string;
-  fileUrls: string[];
-  defaultFileUrl?: string;
+	index: number;
+	fileUrl: string;
+	fileUrls: string[];
+	setFileUrls: Dispatch<SetStateAction<string[]>>;
 
-  register: UseFormRegisterReturn;
-  setFileUrls: Dispatch<SetStateAction<string[]>>;
-  setFiles: Dispatch<SetStateAction<File[]>>;
-  trigger: UseFormTrigger<{
-    name: string;
-    remarks: string;
-    contents: string;
-    price: number;
-    tags: string;
-    image: string;
-    address: string | undefined;
-    addressDetail: string | undefined;
-    lat: number | undefined;
-    lng: number | undefined;
-  }>;
-  setValue: UseFormSetValue<{
-    name: string;
-    remarks: string;
-    contents: string;
-    price: number;
-    tags: string;
-    image: string;
-    address: string | undefined;
-    addressDetail: string | undefined;
-    lat: number | undefined;
-    lng: number | undefined;
-  }>;
+	productInfoInput: {
+		name: string;
+		remarks: string;
+		contents: string;
+		price: number;
+		tags: string[];
+		files: File[];
+	};
+
+	setProductInfoInput: Dispatch<
+		SetStateAction<{
+			name: string;
+			remarks: string;
+			contents: string;
+			price: number;
+			tags: string[];
+			files: File[];
+		}>
+	>;
+
+	setErrorMessage: Dispatch<
+		SetStateAction<{
+			name: boolean;
+			remarks: boolean;
+			contents: boolean;
+			price: boolean;
+			tag: boolean;
+			image: boolean;
+		}>
+	>;
 }

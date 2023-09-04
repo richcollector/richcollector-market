@@ -1,51 +1,37 @@
-import { type Dispatch, type SetStateAction } from "react";
-import type {
-  UseFormTrigger,
-  UseFormRegisterReturn,
-  UseFormSetValue,
-  UseFormSetError,
-} from "react-hook-form";
+import { type Dispatch, type SetStateAction } from 'react';
 
 export interface IProps {
-  register: UseFormRegisterReturn;
-  tags: string[];
-  tag: string;
-  index: number;
-  setTags: Dispatch<SetStateAction<string[]>>;
-  trigger: UseFormTrigger<{
-    name: string;
-    remarks: string;
-    contents: string;
-    price: number;
-    tags: string;
-    image: string;
-    address: string | undefined;
-    addressDetail: string | undefined;
-    lat: number | undefined;
-    lng: number | undefined;
-  }>;
-  setValue: UseFormSetValue<{
-    name: string;
-    remarks: string;
-    contents: string;
-    price: number;
-    tags: string;
-    image: string;
-    address: string | undefined;
-    addressDetail: string | undefined;
-    lat: number | undefined;
-    lng: number | undefined;
-  }>;
-  setError: UseFormSetError<{
-    name: string;
-    remarks: string;
-    contents: string;
-    price: number;
-    tags: string;
-    image: string;
-    address: string | undefined;
-    addressDetail: string | undefined;
-    lat: number | undefined;
-    lng: number | undefined;
-  }>;
+	tag: string;
+	index: number;
+
+	productInfoInput: {
+		name: string;
+		remarks: string;
+		contents: string;
+		price: number;
+		tags: string[];
+		files: File[];
+	};
+
+	setProductInfoInput: Dispatch<
+		SetStateAction<{
+			name: string;
+			remarks: string;
+			contents: string;
+			price: number;
+			tags: string[];
+			files: File[];
+		}>
+	>;
+
+	setErrorMessage: Dispatch<
+		SetStateAction<{
+			name: boolean;
+			remarks: boolean;
+			contents: boolean;
+			price: boolean;
+			tag: boolean;
+			image: boolean;
+		}>
+	>;
 }
