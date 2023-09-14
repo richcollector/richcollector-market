@@ -2,17 +2,17 @@ import { Fragment, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './CommentList.validation';
-import styled from '@emotion/styled';
-import * as S from './Comment.styles';
-import BoardCommentWriteUI from '../write/CommentWrite';
 import { v4 as uuidv4 } from 'uuid';
-import InfiniteScroll from 'react-infinite-scroller';
 import { useRecoilState } from 'recoil';
 import { userInfomation, accessTokenState } from '../../../../commons/store';
-import ReCommentList from './ReCommentList';
 import { useCommentList } from '../../../commons/hooks/customs/useCommentList';
 import { getDate } from '../../../../commons/libraries/utils';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
+import BoardCommentWriteUI from '../write/CommentWrite';
+import ReCommentList from './ReCommentList';
+import InfiniteScroll from 'react-infinite-scroller';
+import styled from '@emotion/styled';
+import * as S from './Comment.styles';
 
 export const ItemWrapper = styled.div`
 	width: 1320px;
@@ -55,8 +55,6 @@ export default function CommentList({ useditemId, writerId }: IProps) {
 			trigger('contents');
 		}
 	}, [update]);
-
-	console.log('Questions::', questions);
 
 	return (
 		<>

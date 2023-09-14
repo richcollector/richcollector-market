@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import * as S from './Login.styles';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './Login.validation';
 import { useLogin } from '../../../commons/hooks/customs/useLogin';
+import * as S from './Login.styles';
 
 export default function Sign() {
 	const { register, handleSubmit, formState } = useForm({

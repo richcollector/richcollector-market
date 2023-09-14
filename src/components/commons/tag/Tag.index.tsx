@@ -1,58 +1,54 @@
-import * as S from "./Tag.styles";
-import { type IProps } from "./Tag.types";
-import { type KeyboardEvent } from "react";
+import * as S from './Tag.styles';
+import { type IProps } from './Tag.types';
+import { type FocusEvent, type KeyboardEvent } from 'react';
+import { isValidTag } from '../../units/market/write/MarketWrite.validation';
 
 export default function Tags(props: IProps) {
-  const onKeyPressEnter = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      const newTags = [...props.tags];
+	const onKeyPressEnter = (event: KeyboardEvent<HTMLInputElement>) => {
+		if (event.key === 'Enter') {
+			const newTags = [...props.productInfoInput.tags];
+			const findTag = props.productInfoInput.tags.filter(el => el === event.currentTarget.value);
 
-      const findTag = newTags.filter((el) => el === event.currentTarget.value);
+			if (findTag.length >= 1) alert('같은 태그가 있습니다.');
+			newTags[props.index] = event.currentTarget.value;
 
-      if (findTag.length >= 1) {
-        props.setError("tags", {
-          type: "manual",
-          message: "이미 같은 태그가 존재합니다.",
-        });
-        return;
-      }
+			if (props.index < 4) {
+				props.setProductInfoInput(prev => ({ ...prev, tags: newTags }));
+				newTags[props.index + 1] = '';
+			} else if (props.index >= 4) {
+				props.setProductInfoInput(prev => ({ ...prev, tags: newTags }));
+			}
+		}
+	};
 
-      newTags[props.index] = event.currentTarget.value;
+	const onBlurTag = (event: FocusEvent<HTMLInputElement>) => {
+		props.setErrorMessage(prev => ({ ...prev, tag: isValidTag(event.currentTarget?.value) }));
+	};
 
-      props.setTags(newTags);
-      const result = event.currentTarget.value;
+	const onClickDelete = () => {
+		const newTags = [...props.productInfoInput.tags];
 
-      props.setValue("tags", result);
-      void props.trigger("tags");
+		props.setProductInfoInput(prev => ({
+			...prev,
+			tags: newTags.filter(el => el !== newTags[props.index]),
+		}));
 
-      if (props.index < 4) {
-        props.setValue("tags", "");
-        newTags[props.index + 1] = "";
-      }
-    }
-  };
+		if (props.productInfoInput.tags.length === 1)
+			props.setProductInfoInput(prev => ({ ...prev, tags: [''] }));
+	};
 
-  const onClickDelete = () => {
-    const newTags = [...props.tags];
-    props.setTags(newTags.filter((el) => el !== newTags[props.index]));
-    if (props.tags.length === 1) props.setTags([""]);
-  };
-  return (
-    <>
-      {props.tag !== "" ? (
-        <S.TagsBox>
-          <S.Input defaultValue={props.tag} disabled={props.tag !== ""} />
-          <S.CloseImg src="/icon/close.svg" onClick={onClickDelete} />
-        </S.TagsBox>
-      ) : (
-        <S.TagsBox>
-          <S.Input
-            {...props.register}
-            placeholder="태그 입력"
-            onKeyPress={onKeyPressEnter}
-          />
-        </S.TagsBox>
-      )}
-    </>
-  );
+	return (
+		<>
+			{props.tag !== '' ? (
+				<S.TagsBox>
+					<S.Input defaultValue={props.tag} disabled={props.tag !== ''} />
+					<S.CloseImg src="/icon/close.svg" onClick={onClickDelete} />
+				</S.TagsBox>
+			) : (
+				<S.TagsBox>
+					<S.Input placeholder="태그 입력" onKeyPress={onKeyPressEnter} onBlur={onBlurTag} />
+				</S.TagsBox>
+			)}
+		</>
+	);
 }

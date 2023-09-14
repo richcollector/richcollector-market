@@ -6,7 +6,6 @@ import Myprofile from './myProfile/MyProfile.index';
 import * as S from './index.styles';
 import { useState } from 'react';
 import { useAuthComponent } from '../../commons/hooks/customs/useAuthCheck';
-import { Phone } from '../../../commons/styles/globalStyles';
 
 function My() {
 	const [bigMenu, setBigMenu] = useState('1');

@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
+import { MySlider } from '../../slice/slice.index';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -30,26 +28,16 @@ const SliderItem = styled.img`
 `;
 
 export default function LayoutBannerUI(): JSX.Element {
-	const settings = {
-		dots: false,
-		infinite: true,
-		autoplay: true,
-		speed: 500,
-		autoplaySpeed: 5000,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-	};
-
 	return (
 		<Wrapper>
-			<Slider {...settings}>
+			<MySlider>
 				<div>
 					<SliderItem src="/shoes.jpg" />
 				</div>
 				<div>
 					<SliderItem src="/sports.jpg" />
 				</div>
-			</Slider>
+			</MySlider>
 		</Wrapper>
 	);
 }

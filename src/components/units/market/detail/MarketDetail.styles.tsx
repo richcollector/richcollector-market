@@ -44,8 +44,15 @@ export const InfoIconBox = styled.div`
 `;
 
 export const IconImg = styled.img`
-	width: 50px;
 	cursor: pointer;
+	border-radius: 10%;
+
+	@media screen and (max-width: ${Phone - 1}px) {
+		width: 100px;
+	}
+	@media screen and (min-width: ${Phone}px) and (max-width: ${Monitor - 1}px) {
+		width: 150px;
+	}
 `;
 
 export const InfoNameBox = styled.div`

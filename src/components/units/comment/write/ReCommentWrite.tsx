@@ -1,5 +1,3 @@
-import styled from '@emotion/styled';
-import * as S from './CommentWrite.styles';
 import { type ApolloQueryResult, gql, useMutation } from '@apollo/client';
 import type {
 	IMutation,
@@ -14,6 +12,8 @@ import { useRecoilState } from 'recoil';
 import { userInfomation } from '../../../../commons/store';
 import type { SetStateAction } from 'react';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
+import styled from '@emotion/styled';
+import * as S from './CommentWrite.styles';
 
 const Wrapper = styled.div`
 	width: 1320px;
@@ -57,7 +57,7 @@ interface IProps {
 
 export default function ReCommentWrite(props: IProps): JSX.Element {
 	const [info] = useRecoilState(userInfomation);
-	const { handleSubmit, register, setValue, trigger, formState } = useForm({
+	const { handleSubmit, register, setValue, formState } = useForm({
 		resolver: yupResolver(schema),
 		mode: 'onChange',
 	});
@@ -69,7 +69,7 @@ export default function ReCommentWrite(props: IProps): JSX.Element {
 
 	const onClickCreate = async (data: any) => {
 		try {
-			const result = await createAnswer({
+			await createAnswer({
 				variables: {
 					createUseditemQuestionAnswerInput: {
 						contents: data.contents,
@@ -81,7 +81,7 @@ export default function ReCommentWrite(props: IProps): JSX.Element {
 			props.setAnswerWrite('');
 			props.refetch();
 		} catch (error) {
-			if (error instanceof Error) console.log('error::', error.message);
+			if (error instanceof Error) console.error('error::', error.message);
 		}
 	};
 
