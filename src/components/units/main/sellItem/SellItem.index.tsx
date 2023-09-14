@@ -3,22 +3,18 @@ import { v4 as uuidv4 } from 'uuid';
 import * as S from './SellITem.styles';
 import { useSellItem } from '../../../commons/hooks/customs/useSellItem';
 
-const activeStyle = {
-	fontWeight: 800,
-	borderBottom: '4px solid orange',
-};
-
 export default function SellItem(): JSX.Element {
 	const [menu, setMenu] = useState(false);
-	const { data, handleScroll, onChangeSearch, onClickMoved, onClickRegister, onLoadMore, refetch } =
-		useSellItem({ menu });
+	const { data, handleScroll, onChangeSearch, onClickMoved, onClickRegister } = useSellItem({
+		menu,
+	});
 
 	return (
 		<>
 			<S.SellTitleBox>
 				<S.SellTitle>
 					<S.TitleText
-						style={menu ? {} : activeStyle}
+						style={menu ? {} : S.activeStyle}
 						onClick={() => {
 							setMenu(false);
 						}}
@@ -26,7 +22,7 @@ export default function SellItem(): JSX.Element {
 						판매중상품
 					</S.TitleText>
 					<S.TitleText
-						style={menu ? activeStyle : {}}
+						style={menu ? S.activeStyle : {}}
 						onClick={() => {
 							setMenu(true);
 						}}

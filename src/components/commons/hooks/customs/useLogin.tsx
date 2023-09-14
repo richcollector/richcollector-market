@@ -1,14 +1,13 @@
 import { Modal } from 'antd';
-import { type IFormData } from '../../../units/sign/login/Login.types';
+import type { IFormData } from '../../../units/sign/login/Login.types';
 import { useMutationLoginUser } from '../mutation/useMutationLoginUser';
 import { useRouter } from 'next/router';
 import { accessTokenState } from '../../../../commons/store';
 import { useRecoilState } from 'recoil';
-import { getAccessToken } from '../../../../commons/libraries/getAccessToken';
 
 export const useLogin = () => {
 	const router = useRouter();
-	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+	const [, setAccessToken] = useRecoilState(accessTokenState);
 	const [loginUser] = useMutationLoginUser();
 
 	const onClickSubmit = async (data: IFormData) => {

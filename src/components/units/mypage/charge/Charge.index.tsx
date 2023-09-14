@@ -59,8 +59,8 @@ export default function ChargeModal() {
 					.then(res => {
 						setIsModalOpen(false);
 					})
-					.catch(e => {
-						console.log('e::', e);
+					.catch(error => {
+						console.error('error::', error);
 					});
 			},
 		);

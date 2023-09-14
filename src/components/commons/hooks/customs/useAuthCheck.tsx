@@ -1,12 +1,13 @@
 import { Modal } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useRecoilValueLoadable } from 'recoil';
-import { restoreAccessTokenLoadable } from '../../../../commons/store';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { accessTokenState, restoreAccessTokenLoadable } from '../../../../commons/store';
 
 export const useAuthComponent = (Component: any) => (props: any) => {
 	const router = useRouter();
 	const auth = useRecoilValueLoadable(restoreAccessTokenLoadable);
+	const [accesssToken, setAccessToken] = useRecoilState(accessTokenState);
 
 	useEffect(() => {
 		const checkAuth = async () => {
@@ -18,13 +19,15 @@ export const useAuthComponent = (Component: any) => (props: any) => {
 						content: '로그인을 하셔야 이용하실 수 있습니다.',
 					});
 					router.push('/login');
+				} else if (accessToken) {
+					setAccessToken(accessToken);
 				}
 			} catch (error) {
 				console.error('Error checking auth:', error);
 			}
 		};
 
-		checkAuth();
+		if (!accesssToken) checkAuth();
 	}, []);
 
 	return (
@@ -37,6 +40,7 @@ export const useAuthComponent = (Component: any) => (props: any) => {
 export function useAuthCheck() {
 	const router = useRouter();
 	const auth = useRecoilValueLoadable(restoreAccessTokenLoadable);
+	const [accesssToken, setAccessToken] = useRecoilState(accessTokenState);
 
 	useEffect(() => {
 		const checkAuth = async () => {
@@ -48,12 +52,14 @@ export function useAuthCheck() {
 						content: '로그인을 하셔야 이용하실 수 있습니다.',
 					});
 					router.push('/login');
+				} else if (accessToken) {
+					setAccessToken(accessToken);
 				}
 			} catch (error) {
 				console.error('Error checking auth:', error);
 			}
 		};
 
-		checkAuth();
+		if (!accesssToken) checkAuth();
 	}, []);
 }

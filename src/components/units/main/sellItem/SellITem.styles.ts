@@ -2,6 +2,11 @@ import styled from '@emotion/styled';
 import { HeartFilled, SearchOutlined } from '@ant-design/icons';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
 
+export const activeStyle = {
+	fontWeight: 800,
+	borderBottom: '4px solid orange',
+};
+
 export const SellTitleBox = styled.div`
 	display: flex;
 	flex-direction: row;

@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import * as S from './SignUp.styles';
-import type { IFormData } from './SignUp.types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './SignUp.validation';
 import { useSignUp } from '../../../commons/hooks/customs/useSignUp';
+import type { IFormData } from './SignUp.types';
+import * as S from './SignUp.styles';
 
 export default function Sign() {
 	const { register, handleSubmit, formState } = useForm<IFormData>({

@@ -78,7 +78,7 @@ export default function CommentWrite(props: IProps): JSX.Element {
 			setValue('contents', '');
 			props.refetch();
 		} catch (error) {
-			if (error instanceof Error) console.log('error::', error.message);
+			if (error instanceof Error) console.error('error::', error.message);
 		}
 	};
 

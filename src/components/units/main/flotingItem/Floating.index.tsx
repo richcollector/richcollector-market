@@ -1,16 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import type { IData } from './Floating.types';
 import * as S from './Floating.styles';
-
-interface IData {
-	_id: string;
-	images: string[];
-	name: string;
-	remarks: string;
-	price: number;
-	pickedCount: number;
-}
 
 export default function FlotiongItem() {
 	const [data, setData] = useState([]);
