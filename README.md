@@ -17,7 +17,7 @@
 
 - 중고마켓 사용법이 궁금해요. 👉 [Manual 바로가기](https://github.com/richcollector/richcollector-market/wiki/Manual)
 - 사용한 기술이 궁금해요. 👉 [Technical Stack 바로가기](https://github.com/richcollector/richcollector-market/wiki/Technical-Stack)
-- 프로젝트를 직접 설치하고 싶어요. 👉 [Installation Guide 바로가기](https://github.com/richcollector/richcollector-market/wiki/Technical-Stack)
+- 프로젝트를 직접 설치하고 싶어요. 👉 [Installation Guide 바로가기](https://github.com/richcollector/richcollector-market/wiki/Installation-Guide)
 
 <details>
 <summary>최적화 내용이 궁금해요.</summary>
@@ -25,7 +25,6 @@
   
 - 성능 체크 👉 [Performance check 바로가기](https://github.com/richcollector/richcollector-market/wiki/Performance-check)
 - 디바운스 👉 [Debounce 바로가기](https://github.com/richcollector/richcollector-market/wiki/Debounce)
-- 검색 👉 [Search 바로가기](https://github.com/richcollector/richcollector-market/wiki/Search)
 - 메모이제이션 👉 [Memoization 바로가기](https://github.com/richcollector/richcollector-market/wiki/Memoization)
 - 코드스플리팅 👉 [Code Splitting 바로가기](https://github.com/richcollector/richcollector-market/wiki/Code-Splitting)
 - 옵티미스틱UI 👉 [Optimistic UI 바로가기](https://github.com/richcollector/richcollector-market/wiki/Optimistic-UI)
