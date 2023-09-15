@@ -4,22 +4,21 @@ import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
 
 export const Wrapper = styled.div`
 	display: grid;
-	width: 100%;
 	max-width: 1320px;
 	border-radius: 10px;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(4, 315px);
 	grid-template-rows: 400px;
 	grid-gap: 20px;
 	padding: 5px;
 	margin-bottom: 10px;
 
 	@media screen and (max-width: ${Phone - 1}px) {
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
+		grid-template-columns: 400px;
+		grid-template-rows: repeat(4, 400px);
 	}
 	@media screen and (min-width: ${Phone}px) and (max-width: ${Monitor - 1}px) {
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: 400px;
+		grid-template-columns: repeat(2, 400px);
+		grid-template-rows: repeat(2, 400px);
 	}
 `;
 

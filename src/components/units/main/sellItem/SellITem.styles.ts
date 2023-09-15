@@ -133,14 +133,16 @@ export const Wrapper = styled.div`
 `;
 
 export const ItemBox = styled.div`
-	display: grid;
-	grid-template-columns: 1fr calc(100% - 400px) 1fr;
-	grid-template-rows: 1fr;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
 	grid-gap: 20px;
 
-	width: 100%;
-	max-width: 1320px;
+	width: 1320px;
 	height: 200px;
+
 	padding: 10px 10px;
 	border-bottom: 1px solid #bdbdbd;
 

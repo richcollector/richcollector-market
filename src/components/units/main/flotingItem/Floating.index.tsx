@@ -19,7 +19,7 @@ export default function FlotiongItem() {
 
 	return (
 		<>
-			{data[0] !== null && (
+			{data[0] !== null ? (
 				<S.Container>
 					<S.Wrapper>
 						<S.ItemName>
@@ -49,6 +49,8 @@ export default function FlotiongItem() {
 						))}
 					</S.Wrapper>
 				</S.Container>
+			) : (
+				<S.Container style={{ backgroundColor: 'red' }} />
 			)}
 		</>
 	);

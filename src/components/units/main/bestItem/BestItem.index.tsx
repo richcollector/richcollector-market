@@ -14,6 +14,7 @@ const FETCH_USED_ITEM_BEST = gql`
 			price
 			remarks
 			pickedCount
+			images
 		}
 	}
 `;
@@ -32,32 +33,38 @@ export default function BestItem(): JSX.Element {
 				<S.Title>Best Item</S.Title>
 			</S.TitleBox>
 			<S.Wrapper>
-				{data?.fetchUseditemsOfTheBest.map(el => (
-					<Fragment key={uuidv4()}>
-						<S.Item onClick={onClickMoved(el._id)}>
-							<S.ImageBox>
-								<S.Image
-									src={
-										el.images?.[0]?.includes('codecamp-file-storage')
-											? `http://storage.googleapis.com/${el.images?.[0]}`
-											: '/no_image.png'
-									}
-								/>
-							</S.ImageBox>
-							<S.TextWrapper>
-								<S.TextBox>
-									<S.TextTitle>{el.name}</S.TextTitle>
-									<S.TextContents>{el.remarks}</S.TextContents>
-									<S.TextPrice>{el.price}원</S.TextPrice>
-								</S.TextBox>
-								<S.HeartBox>
-									<S.Heart />
-									<S.HeartNum>{el.pickedCount}</S.HeartNum>
-								</S.HeartBox>
-							</S.TextWrapper>
-						</S.Item>
-					</Fragment>
-				))}
+				{data
+					? data?.fetchUseditemsOfTheBest.map(el => (
+							<Fragment key={uuidv4()}>
+								<S.Item onClick={onClickMoved(el._id)}>
+									<S.ImageBox>
+										<S.Image
+											src={
+												el.images?.[0]?.includes('codecamp-file-storage')
+													? `http://storage.googleapis.com/${el.images?.[0]}`
+													: '/no_image.png'
+											}
+										/>
+									</S.ImageBox>
+									<S.TextWrapper>
+										<S.TextBox>
+											<S.TextTitle>{el.name}</S.TextTitle>
+											<S.TextContents>{el.remarks}</S.TextContents>
+											<S.TextPrice>{el.price}원</S.TextPrice>
+										</S.TextBox>
+										<S.HeartBox>
+											<S.Heart />
+											<S.HeartNum>{el.pickedCount}</S.HeartNum>
+										</S.HeartBox>
+									</S.TextWrapper>
+								</S.Item>
+							</Fragment>
+					  ))
+					: new Array(4).fill('').map(el => (
+							<Fragment key={uuidv4()}>
+								<S.Item style={{ backgroundColor: 'red' }} />
+							</Fragment>
+					  ))}
 			</S.Wrapper>
 		</>
 	);

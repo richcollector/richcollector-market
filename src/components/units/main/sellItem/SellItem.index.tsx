@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as S from './SellITem.styles';
 import { useSellItem } from '../../../commons/hooks/customs/useSellItem';
@@ -39,38 +39,44 @@ export default function SellItem(): JSX.Element {
 			</S.SellTitleBox>
 
 			<S.Wrapper onScroll={handleScroll}>
-				{data?.fetchUseditems.map(el => (
-					<S.ItemBox onClick={onClickMoved(el._id)} key={uuidv4()}>
-						<S.ImageBox>
-							<S.Image
-								src={
-									el.images?.[0]?.includes('codecamp-file-storage')
-										? `http://storage.googleapis.com/${el.images?.[0]}`
-										: '/no_image.png'
-								}
-							/>
-						</S.ImageBox>
-						<S.ContentsBox>
-							<S.ContentsTitle>{el.name}</S.ContentsTitle>
+				{data
+					? data?.fetchUseditems.map(el => (
+							<S.ItemBox onClick={onClickMoved(el._id)} key={uuidv4()}>
+								<S.ImageBox>
+									<S.Image
+										src={
+											el.images?.[0]?.includes('codecamp-file-storage')
+												? `http://storage.googleapis.com/${el.images?.[0]}`
+												: '/no_image.png'
+										}
+									/>
+								</S.ImageBox>
+								<S.ContentsBox>
+									<S.ContentsTitle>{el.name}</S.ContentsTitle>
 
-							<S.ContentsEx>{el.remarks}</S.ContentsEx>
+									<S.ContentsEx>{el.remarks}</S.ContentsEx>
 
-							<S.ContentsHash>
-								{el.tags?.map(tag => <S.Tag key={uuidv4()}>{tag}</S.Tag>)}
-							</S.ContentsHash>
+									<S.ContentsHash>
+										{el.tags?.map(tag => <S.Tag key={uuidv4()}>{tag}</S.Tag>)}
+									</S.ContentsHash>
 
-							<S.IconBox>
-								<S.UserImg src="/icon/User.svg" />
-								<S.IconText>{el.seller?.name}</S.IconText>
-								<S.Heart />
-								<S.IconText>{el.pickedCount}</S.IconText>
-							</S.IconBox>
-						</S.ContentsBox>
-						<S.PriceBox>
-							<h2>{el.price}원</h2>
-						</S.PriceBox>
-					</S.ItemBox>
-				))}
+									<S.IconBox>
+										<S.UserImg src="/icon/User.svg" />
+										<S.IconText>{el.seller?.name}</S.IconText>
+										<S.Heart />
+										<S.IconText>{el.pickedCount}</S.IconText>
+									</S.IconBox>
+								</S.ContentsBox>
+								<S.PriceBox>
+									<h2>{el.price}원</h2>
+								</S.PriceBox>
+							</S.ItemBox>
+					  ))
+					: new Array(5).fill('').map(el => (
+							<Fragment key={uuidv4()}>
+								<S.ItemBox style={{ backgroundColor: 'red' }} />
+							</Fragment>
+					  ))}
 			</S.Wrapper>
 
 			<S.ButtonBox>
