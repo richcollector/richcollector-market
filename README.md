@@ -9,13 +9,20 @@
 - 안전한 거래 시스템
 >안전한 거래를 위한 기능들을 추가하여 사용자들이 신뢰하고 안전하게 거래를 할 수 있도록 지원했습니다.
 
-## 🚀 동작 영상
+## 🚀 Richcollector Used Market 동작 영상
 
-업로드 예정
+|            메인페이지    |       상품 검색     |
+| :-------------------------: | :-----------------------------------------------: |
+| <img width="600" alt="main" src="https://github.com/richcollector/richcollector-market/assets/104312779/72be2402-cfd5-4142-aa53-6885a44a25a6" /> | <img width="600" alt="search" src="https://github.com/richcollector/richcollector-market/assets/104312779/b0a61cd2-a77d-4bd4-a2bc-89806ad9019e" />| 
 
-## 🗂 더 알아보고 싶으시다면?
+|            상품등록    |       상품 상세 페이지   |
+| :-------------------------: | :-----------------------------------------------: |
+| <img width="600" alt="write" src="https://github.com/richcollector/richcollector-market/assets/104312779/1618e628-6b53-4401-ab90-04b697fc5a04" /> | <img width="600" alt="detail" src="https://github.com/richcollector/richcollector-market/assets/104312779/2c4495d5-04fc-46db-a113-09fe556a99a2" />|
 
-- 중고마켓 사용법이 궁금해요. 👉 [Manual 바로가기](https://github.com/richcollector/richcollector-market/wiki/Manual)
+- 더 많은 동작 영상이 궁금하다면 👉 [Manual 바로가기](https://github.com/richcollector/richcollector-market/wiki/Manual)
+
+## 🗂 Richcollector Used Market 세부사항
+
 - 사용한 기술이 궁금해요. 👉 [Technical Stack 바로가기](https://github.com/richcollector/richcollector-market/wiki/Technical-Stack)
 - 프로젝트를 직접 설치하고 싶어요. 👉 [Installation Guide 바로가기](https://github.com/richcollector/richcollector-market/wiki/Installation-Guide)
 
