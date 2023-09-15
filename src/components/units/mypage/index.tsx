@@ -7,6 +7,10 @@ import * as S from './index.styles';
 import { useState } from 'react';
 import { useAuthComponent } from '../../commons/hooks/customs/useAuthCheck';
 
+declare const window: typeof globalThis & {
+	IMP: any;
+};
+
 function My() {
 	const [bigMenu, setBigMenu] = useState('1');
 

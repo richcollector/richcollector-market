@@ -7,7 +7,7 @@ export const Container = styled.div`
 	left: 20px;
 
 	width: 200px;
-	height: 400px;
+	height: 100%;
 	padding-left: 10px;
 
 	z-index: 99;

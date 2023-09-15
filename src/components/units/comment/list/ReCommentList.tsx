@@ -1,5 +1,4 @@
-import { type Dispatch, type SetStateAction, useEffect, useState, Fragment } from 'react';
-import styled from '@emotion/styled';
+import { type Dispatch, type SetStateAction, useEffect, useState, Fragment, memo } from 'react';
 import * as S from './Comment.styles';
 import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
@@ -12,6 +11,7 @@ import { useReCommentList } from '../../../commons/hooks/customs/useRecommentLis
 import { getDate } from '../../../../commons/libraries/utils';
 import { Phone, Monitor } from '../../../../commons/styles/globalStyles';
 import ReCommentWrite from '../write/ReCommentWrite';
+import styled from '@emotion/styled';
 
 export const ItemWrapper = styled.div`
 	width: 1320px;
@@ -32,12 +32,7 @@ interface IProps {
 	writerId: string | undefined;
 }
 
-export default function ReCommentList({
-	useditemQuestionId,
-	answerWrite,
-	setAnswerWrite,
-	writerId,
-}: IProps) {
+function ReCommentList({ useditemQuestionId, answerWrite, setAnswerWrite, writerId }: IProps) {
 	const [info] = useRecoilState(userInfomation);
 	const [update, setUpdate] = useState('');
 	const { handleSubmit, register, setValue, trigger, formState } = useForm({
@@ -142,3 +137,5 @@ export default function ReCommentList({
 		</>
 	);
 }
+
+export default memo(ReCommentList);

@@ -33,7 +33,7 @@ interface IProps {
 
 export default function CommentList({ useditemId, writerId }: IProps) {
 	const [info] = useRecoilState(userInfomation);
-	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+	const [accessToken] = useRecoilState(accessTokenState);
 	const [update, setUpdate] = useState('');
 	const [answerWrite, setAnswerWrite] = useState('');
 	const { handleSubmit, register, setValue, trigger, formState } = useForm({

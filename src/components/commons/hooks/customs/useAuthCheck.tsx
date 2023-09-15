@@ -1,4 +1,3 @@
-import { Modal } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
@@ -14,6 +13,7 @@ export const useAuthComponent = (Component: any) => (props: any) => {
 			try {
 				const accessToken = await auth.toPromise();
 				if (!accessToken) {
+					const { Modal } = await import('antd');
 					Modal.warning({
 						title: 'This is a warning message',
 						content: '로그인을 하셔야 이용하실 수 있습니다.',
@@ -47,6 +47,7 @@ export function useAuthCheck() {
 			try {
 				const accessToken = await auth.toPromise();
 				if (!accessToken) {
+					const { Modal } = await import('antd');
 					Modal.warning({
 						title: 'This is a warning message',
 						content: '로그인을 하셔야 이용하실 수 있습니다.',
@@ -59,7 +60,6 @@ export function useAuthCheck() {
 				console.error('Error checking auth:', error);
 			}
 		};
-
 		if (!accesssToken) checkAuth();
 	}, []);
 }

@@ -104,14 +104,6 @@ export const Arrow = styled(DoubleRightOutlined)`
 	transition: all 0.3s ease-in-out;
 `;
 
-export const MainLogo = styled.a`
-	text-decoration: none;
-
-	:visited {
-		color: black;
-	}
-`;
-
 export const Logo = styled.img`
 	height: 40px;
 

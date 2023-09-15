@@ -8,6 +8,7 @@ import type {
 import { useRecoilState } from 'recoil';
 import { userInfomation } from '../../../../commons/store';
 import * as S from './Charge.styles';
+import { useRouter } from 'next/router';
 
 const CREATE_POINT_LOADING = gql`
 	mutation createPointTransactionOfLoading($impUid: ID!) {
@@ -23,6 +24,7 @@ declare const window: typeof globalThis & {
 };
 
 export default function ChargeModal() {
+	const router = useRouter();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [info] = useRecoilState(userInfomation);
 	const [money, setMoney] = useState(0);
@@ -58,6 +60,7 @@ export default function ChargeModal() {
 				createPointLoading({ variables: { impUid: rsp.imp_uid } })
 					.then(res => {
 						setIsModalOpen(false);
+						router.push('/');
 					})
 					.catch(error => {
 						console.error('error::', error);
@@ -69,7 +72,6 @@ export default function ChargeModal() {
 	const onChangeMoney = (event: ChangeEvent<HTMLSelectElement>) => {
 		setMoney(Number(event.currentTarget.value));
 	};
-
 	return (
 		<>
 			<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -82,9 +84,6 @@ export default function ChargeModal() {
 						<S.Option disabled>포인트 선택</S.Option>
 						<S.Option>100</S.Option>
 						<S.Option>500</S.Option>
-						<S.Option>1,000</S.Option>
-						<S.Option>3,000</S.Option>
-						<S.Option>5,000</S.Option>
 					</S.Select>
 					<S.Btn onClick={onClickPayment}>충전하기</S.Btn>
 				</S.ChargeBox>

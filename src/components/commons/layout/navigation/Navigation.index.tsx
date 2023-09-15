@@ -1,8 +1,6 @@
 import { Fragment, type MouseEvent } from 'react';
 import { MenuOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { accessTokenState } from '../../../../commons/store';
 import * as S from './Navigation.styles';
 
 const NAVIGATION_MENUS = [
@@ -12,7 +10,6 @@ const NAVIGATION_MENUS = [
 
 export default function LayoutNavigation(): JSX.Element {
 	const router = useRouter();
-	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 
 	const onClickMenu = (event: MouseEvent<HTMLDivElement>): void => {
 		event.preventDefault();
@@ -33,9 +30,9 @@ export default function LayoutNavigation(): JSX.Element {
 							<MenuOutlined />
 						</S.MenuIcon>
 						<S.MainMenuDiv>
-							<S.MainLogo href="/">
+							<S.MenuLink id={NAVIGATION_MENUS[0].page} onClick={onClickMenu}>
 								<S.Logo src="/RichCollector.png"></S.Logo>
-							</S.MainLogo>
+							</S.MenuLink>
 						</S.MainMenuDiv>
 						{NAVIGATION_MENUS.map(el => (
 							<Fragment key={el.page}>

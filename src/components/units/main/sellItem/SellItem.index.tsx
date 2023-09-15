@@ -1,13 +1,18 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as S from './SellITem.styles';
 import { useSellItem } from '../../../commons/hooks/customs/useSellItem';
 
 export default function SellItem(): JSX.Element {
 	const [menu, setMenu] = useState(false);
-	const { data, handleScroll, onChangeSearch, onClickMoved, onClickRegister } = useSellItem({
-		menu,
-	});
+	const { data, handleScroll, onChangeSearch, onClickMoved, onClickRegister, refetch } =
+		useSellItem({
+			menu,
+		});
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<>

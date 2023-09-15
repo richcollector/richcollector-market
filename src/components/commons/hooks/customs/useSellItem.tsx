@@ -27,7 +27,6 @@ export function useSellItem(props: IProps) {
 
 	const handleScroll = (event: UIEvent<HTMLElement>) => {
 		const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-		console.log('Scroll Event');
 
 		if (clientHeight + scrollTop >= scrollHeight) {
 			onLoadMore();
@@ -65,5 +64,6 @@ export function useSellItem(props: IProps) {
 		onClickRegister,
 		handleScroll,
 		onChangeSearch,
+		refetch,
 	};
 }
