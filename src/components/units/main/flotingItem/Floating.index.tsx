@@ -9,9 +9,11 @@ export default function FlotiongItem() {
 	const router = useRouter();
 
 	useEffect(() => {
-		const todayItem = JSON.parse(localStorage.getItem('todayItem') ?? '[]');
-		setData(todayItem);
-	}, []);
+		if (data[0] === undefined || data[0] === null) {
+			const todayItem = JSON.parse(localStorage.getItem('todayItem') ?? '[]');
+			setData(todayItem);
+		}
+	});
 
 	const onClickMoved = (useditemId: string) => () => {
 		void router.push(`/market/${useditemId}`);

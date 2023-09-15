@@ -34,7 +34,7 @@ export default function MarketDetail(): JSX.Element {
 							src={`${
 								data?.fetchUseditem.seller?.picture
 									? `http://storage.googleapis.com/${data?.fetchUseditem.seller?.picture}`
-									: './icon/User.svg'
+									: '/icon/User.svg'
 							}`}
 						/>
 					</S.InfoIconBox>
