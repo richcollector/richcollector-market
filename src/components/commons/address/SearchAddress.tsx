@@ -53,6 +53,7 @@ export default function SearchAddress(props: IProps) {
 			}
 		});
 	};
+
 	const handleClick = () => {
 		open({ onComplete: handleComplete });
 	};

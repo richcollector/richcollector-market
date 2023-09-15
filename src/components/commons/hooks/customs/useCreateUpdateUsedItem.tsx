@@ -66,21 +66,23 @@ export function useCreateUpdateUsedItem() {
 	}, []);
 
 	const onClickSubmit = async () => {
-		const newFileRealUrls = [];
+		const newFileRealUrls: string[] = [];
 		// 파일 업로드
-		for (let i = 0; i < productInfoInput.files.length; i++) {
-			try {
-				const result = await uploadFile({ variables: { file: productInfoInput.files[i] } });
-				if (result.data?.uploadFile.url) newFileRealUrls[i] = result.data?.uploadFile.url;
-			} catch (error) {
-				if (error instanceof Error) Modal.error({ content: error.message });
-			}
-		}
+		await Promise.all(
+			productInfoInput.files.map(async (file, index) => {
+				try {
+					const result = await uploadFile({ variables: { file } });
+					newFileRealUrls[index] = result.data?.uploadFile.url ?? '';
+				} catch (error) {
+					if (error instanceof Error) Modal.error({ content: error.message });
+				}
+			}),
+		);
 
 		if (!router.asPath.includes('/edit')) {
 			//게시글 작성
 			try {
-				const result = await createUsedItem({
+				await createUsedItem({
 					variables: {
 						createUseditemInput: {
 							name: productInfoInput.name,
@@ -105,7 +107,7 @@ export function useCreateUpdateUsedItem() {
 			}
 		} else if (router.asPath.includes('/edit')) {
 			try {
-				const result = await updateUsedITem({
+				await updateUsedITem({
 					variables: {
 						updateUseditemInput: {
 							name: productInfoInput.name,

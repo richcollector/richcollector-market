@@ -24,5 +24,6 @@ module.exports = {
 		'@typescript-eslint/consistent-indexed-object-style': 'off',
 		'@typescript-eslint/no-misused-promises': 'off',
 		'react/display-name': 'off',
+		'n/no-callback-literal': 'off',
 	},
 };

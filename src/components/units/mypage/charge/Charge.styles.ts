@@ -29,6 +29,7 @@ export const ModalBtn = styled.button`
 	font-size: 15px;
 
 	background-color: #ffd600;
+	cursor: pointer;
 `;
 
 export const Btn = styled.button`

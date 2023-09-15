@@ -6,7 +6,7 @@ export const Container = styled.div`
 	position: absolute;
 	left: 20px;
 
-	width: 100%;
+	width: 200px;
 	height: 100%;
 	padding-left: 10px;
 

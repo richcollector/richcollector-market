@@ -3,8 +3,8 @@ import LayoutHeader from './header/Header.index';
 import LayoutNavigation from './navigation/Navigation.index';
 import LayoutBannerUI from './ad';
 import FlotiongItem from '../../units/main/flotingItem/Floating.index';
-import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
 
 interface ILayoutProps {
 	children: JSX.Element;
@@ -31,11 +31,10 @@ const HIDDEN = ['/login', '/signup'];
 
 export default function Layout(props: ILayoutProps): JSX.Element {
 	const router = useRouter();
-
 	const isHidden = HIDDEN.includes(router.asPath);
 	return (
 		<>
-			<LayoutHeader />
+			{!isHidden && <LayoutHeader />}
 			{!isHidden && <LayoutNavigation />}
 			{!isHidden && <LayoutBannerUI />}
 			<Wrapper>
